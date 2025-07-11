@@ -26,4 +26,6 @@
 #include "SceneMgr.h"
 #include "SoundMgr.h"
 #include "Framework.h"
+#include "UI.h"
+#include "UiMgr.h"
 

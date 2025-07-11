@@ -9,12 +9,12 @@ SceneDev2::SceneDev2() : Scene(SceneIds::Dev2)
 
 void SceneDev2::Init()
 {
-	texIds.push_back("graphics/sprite_sheet.png");
+	texIds.push_back("graphics/player.png");
 	fontIds.push_back("fonts/DS-DIGIT.ttf");
 
-	ANI_CLIP_MGR.Load("animations/idle.csv");
-	ANI_CLIP_MGR.Load("animations/run.csv");
-	ANI_CLIP_MGR.Load("animations/jump.csv");
+	ANI_CLIP_MGR.Load("animations/player_idle.csv");
+	ANI_CLIP_MGR.Load("animations/player_run.csv");
+	//ANI_CLIP_MGR.Load("animations/jump.csv");
 
 	TextGo* go = new TextGo("fonts/DS-DIGIT.ttf");
 	go->SetString("Dev 2");

@@ -67,7 +67,7 @@ void AniPlayer::Reset()
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
 
-	animator.Play("animations/idle.csv");
+	animator.Play("animations/player_idle.csv");
 	SetOrigin(Origins::BC);
 }
 
@@ -110,27 +110,27 @@ void AniPlayer::Update(float dt)
 	{
 		if (h != 0.f)
 		{
-			animator.Play("animations/run.csv");
+			animator.Play("animations/player_run.csv");
 		}
 	}
 	else if (animator.GetCurrentClipId() == "Run")
 	{
 		if (h == 0.f)
 		{
-			animator.Play("animations/idle.csv");
+			animator.Play("animations/player_idle.csv");
 		}
 	}
-	else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
-	{
-		if (h == 0.f)
-		{
-			animator.Play("animations/idle.csv");
-		}
-		else
-		{
-			animator.Play("animations/run.csv");
-		}
-	}
+	//else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
+	//{
+	//	if (h == 0.f)
+	//	{
+	//		animator.Play("animations/idle.csv");
+	//	}
+	//	else
+	//	{
+	//		animator.Play("animations/run.csv");
+	//	}
+	//}
 }
 
 void AniPlayer::Draw(sf::RenderWindow& window)
