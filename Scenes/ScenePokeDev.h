@@ -2,10 +2,12 @@
 #include "Scene.h"
 
 class Button;
+class Text;
 class ScenePokeDev : public Scene
 {
 protected:
 	Button* button = nullptr;
+	Text* text = nullptr;
 public:
 	ScenePokeDev();
 	~ScenePokeDev() = default;

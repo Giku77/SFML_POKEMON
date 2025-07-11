@@ -102,16 +102,18 @@ void Button::Update(float dt)
 	bool isMouseOver = Utils::PointInTransformBounds(box, box.getLocalBounds(), mouseWorldPos);
 
 	if (isMouseOver) {
-		if (buttonColor == MouseOverbuttonColor) {
-			MouseOverbuttonColor.r -= 10;
-			MouseOverbuttonColor.g -= 10;
-			MouseOverbuttonColor.b -= 10;
-			MouseOverbuttonColor.a = 100;
+		if (isMouseOverColor) {
+			if (buttonColor == MouseOverbuttonColor) {
+				MouseOverbuttonColor.r -= 10;
+				MouseOverbuttonColor.g -= 10;
+				MouseOverbuttonColor.b -= 10;
+				MouseOverbuttonColor.a = 100;
+			}
+			box.setFillColor(MouseOverbuttonColor);
 		}
-		box.setFillColor(MouseOverbuttonColor);
 		if (InputMgr::GetMouseButtonDown(sf::Mouse::Left)) {
 			std::cout << "버튼 클릭 : " << GetName() << std::endl;
-			onClick;
+			onClick();
 		}
 	}
 	else ButtonSetFillColor(buttonColor);

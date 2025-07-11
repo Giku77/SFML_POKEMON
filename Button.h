@@ -13,7 +13,10 @@ protected:
 
 	std::function<void()> onClick;
 
+
 public:
+	bool isMouseOverColor = false;
+
 	Button(const std::string& name = "");
 	virtual ~Button() = default;
 

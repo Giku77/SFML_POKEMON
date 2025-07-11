@@ -4,8 +4,6 @@ class Text : public UI
 {
 protected:
 	sf::Sprite bg;
-	sf::Texture tex;
-
 	sf::Text text;
 	std::string texId;
 	std::string fontId;
@@ -28,6 +26,8 @@ public:
 	const sf::Text& GetText() const { return text; }
 
 	void SetBackGround(const std::string& tx);
+
+	void AddText(const std::string& fontId, const sf::String& text, unsigned int size, const sf::Vector2f& v);
 
 	void SetPosition(const sf::Vector2f& pos) override;
 
