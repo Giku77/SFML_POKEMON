@@ -33,6 +33,14 @@ void Text::SetBackGround(const std::string& tx)
 	texId = tx;
 }
 
+void Text::SetBackGround(const std::string& tx, const sf::IntRect& i, float w, float h)
+{
+	isBg = true;
+	texId = tx;
+	intrt = i;
+	bg.setScale(w, h);
+}
+
 void Text::AddText(const std::string& fontId, const sf::String& text, unsigned int size, const sf::Vector2f& v)
 {
 	this->fontId = fontId;
@@ -64,6 +72,7 @@ void Text::Reset()
 	//isBg = false;
 	text.setFont(FONT_MGR.Get(fontId));
 	bg.setTexture(TEXTURE_MGR.Get(texId));
+	if (intrt.width != 0 && intrt.height != 0) bg.setTextureRect(intrt);
 	Utils::SetOrigin(text, Origins::MC);
 	Utils::SetOrigin(bg, Origins::MC);
 }

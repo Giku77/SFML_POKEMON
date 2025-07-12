@@ -25,10 +25,14 @@ private:
 
 	static std::unordered_map<Axis, AxisInfo> axisInfoMap;
 	static sf::Vector2i mousePosition;
+	static std::wstring inputBuffer;
 
 public:
+	static bool isInputBuffer;
 	static void Init();
 	static void Clear();
+
+	static void HandleTextInput(const sf::Event& event);
 
 	static void UpdateEvent(const sf::Event& ev);
 	static void Update(float dt);
@@ -36,6 +40,7 @@ public:
 	static bool GetKeyDown(sf::Keyboard::Key key);
 	static bool GetKeyUp(sf::Keyboard::Key key);
 	static bool GetKey(sf::Keyboard::Key key);
+	static std::wstring& GetinputBuffer();
 
 	static bool Contains(const std::list<int>& list, int key);
 	static void Remove(std::list<int>& list, int key);

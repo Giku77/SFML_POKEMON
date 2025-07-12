@@ -5,6 +5,7 @@ class Text : public UI
 protected:
 	sf::Sprite bg;
 	sf::Text text;
+	sf::IntRect intrt;
 	std::string texId;
 	std::string fontId;
 
@@ -26,6 +27,7 @@ public:
 	const sf::Text& GetText() const { return text; }
 
 	void SetBackGround(const std::string& tx);
+	void SetBackGround(const std::string& tx, const sf::IntRect& i, float w, float h);
 
 	void AddText(const std::string& fontId, const sf::String& text, unsigned int size, const sf::Vector2f& v);
 

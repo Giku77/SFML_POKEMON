@@ -5,6 +5,8 @@ std::list<int> InputMgr::downKeys;
 std::list<int> InputMgr::heldKeys;
 std::list<int> InputMgr::upKeys;
 
+std::wstring InputMgr::inputBuffer;
+bool InputMgr::isInputBuffer = false;
 std::unordered_map<Axis, AxisInfo> InputMgr::axisInfoMap;
 
 sf::Vector2i InputMgr::mousePosition;
@@ -35,6 +37,7 @@ void InputMgr::Clear()
 
 void InputMgr::UpdateEvent(const sf::Event& ev) 
 {
+	if(isInputBuffer) HandleTextInput(ev);
 	switch (ev.type)
 	{
 	case sf::Event::KeyPressed:
@@ -91,6 +94,21 @@ void InputMgr::Update(float dt)
 		}
 	}
 
+
+}
+
+void InputMgr::HandleTextInput(const sf::Event& event) {
+    if (event.type == sf::Event::TextEntered) {
+        wchar_t c = event.text.unicode;
+
+        if (c == 8) { 
+            if (!inputBuffer.empty())
+                inputBuffer.pop_back();
+        }
+        else if (c >= 32 && c < 127 || c >= 0xAC00) { 
+            inputBuffer += c;
+        }
+    }
 }
 
 bool InputMgr::GetKeyDown(sf::Keyboard::Key key)
@@ -106,6 +124,11 @@ bool InputMgr::GetKeyUp(sf::Keyboard::Key key)
 bool InputMgr::GetKey(sf::Keyboard::Key key)
 {
 	return Contains(heldKeys, key);
+}
+
+std::wstring& InputMgr::GetinputBuffer()
+{
+	return inputBuffer;
 }
 
 bool InputMgr::Contains(const std::list<int>& list, int key)

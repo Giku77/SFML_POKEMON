@@ -37,3 +37,21 @@ enum class Sides
 	Right,
 	None,
 };
+
+struct Move {
+	std::wstring name;
+	int power;
+	int accuracy;
+	std::wstring type;
+};
+
+struct Pokemon {
+	int id;
+	std::wstring name;
+	int level;
+	int experience;
+	int hp;
+	int attack;
+	int defense;
+	std::vector<Move> moves;
+};

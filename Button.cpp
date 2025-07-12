@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Button.h"
+#include "TextWriter.h"
 
-Button::Button(const std::string& name)
-	: UI(name)
+Button::Button(const std::string& name, bool b)
+	: UI(name), isWriter(b)
 {
 }
 
@@ -40,6 +41,12 @@ void Button::SetButton(const sf::Vector2f& v, const sf::Color& c, const std::str
 
 void Button::AddButton(const sf::String& str, unsigned int size, const sf::Color& color)
 {
+	if (writer)
+	{
+		delete writer;
+		writer = nullptr;
+	}
+	writer = new TextWriter(&text, str);
 	SetString(str);
 	SetCharacterSize(size);
 	TextSetFillColor(color);
@@ -54,16 +61,28 @@ void Button::SetPosition(const sf::Vector2f& pos)
 {
 	UI::SetPosition(pos);
 	box.setPosition(pos);
+	bg.setPosition(pos);
 	sf::Vector2f p;
 	p.x = pos.x - text.getCharacterSize() / 4.f;
 	p.y = pos.y - text.getCharacterSize() / 4.f;
 	text.setPosition(p);
 }
 
+void Button::TextSetPosition(const sf::Vector2f& pos)
+{
+	text.setPosition(pos);
+}
+
 void Button::SetString(const sf::String& str)
 {
-	text.setString(str);
-	Utils::SetOrigin(text, Origins::MC);
+	if (writer)
+	{
+		delete writer;
+		writer = nullptr;
+		writer = new TextWriter(&text, str);
+	}
+	else text.setString(str);
+	Utils::SetOrigin(text, Origins::ML);
 }
 
 void Button::SetCharacterSize(unsigned int size)
@@ -92,14 +111,18 @@ void Button::Release()
 void Button::Reset()
 {
 	text.setFont(FONT_MGR.Get(fontId));
-	Utils::SetOrigin(text, Origins::MC);
+	bg.setTexture(TEXTURE_MGR.Get(texId));
+	Utils::SetOrigin(bg, Origins::MC);
+	Utils::SetOrigin(text, Origins::ML);
 	Utils::SetOrigin(box, Origins::MC);
 }
 
 void Button::Update(float dt)
 {
 	sf::Vector2f mouseWorldPos = FRAMEWORK.GetWindow().mapPixelToCoords(sf::Mouse::getPosition(FRAMEWORK.GetWindow()));
-	bool isMouseOver = Utils::PointInTransformBounds(box, box.getLocalBounds(), mouseWorldPos);
+	bool isMouseOver = false;
+	if(isBg) isMouseOver = Utils::PointInTransformBounds(bg, bg.getLocalBounds(), mouseWorldPos);
+	else isMouseOver = Utils::PointInTransformBounds(box, box.getLocalBounds(), mouseWorldPos);
 
 	if (isMouseOver) {
 		if (isMouseOverColor) {
@@ -117,12 +140,17 @@ void Button::Update(float dt)
 		}
 	}
 	else ButtonSetFillColor(buttonColor);
+
+	if (isWriter) {
+		writer->Update(dt);
+	}
 }
 
 void Button::Draw(sf::RenderWindow& window)
 {
 	if (GetActive()) {
-		window.draw(box);
+		if(isBg) window.draw(bg);
+		else window.draw(box);
 		window.draw(text);
 	}
 }

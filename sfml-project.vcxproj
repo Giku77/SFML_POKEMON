@@ -151,6 +151,8 @@
     <ClCompile Include="Framework\SpriteGo.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MessageMgr.cpp" />
+    <ClCompile Include="PokemonManager.cpp" />
     <ClCompile Include="Scenes\ScenePokeDev.cpp" />
     <ClCompile Include="Scenes\SceneEnd.cpp" />
     <ClCompile Include="Scenes\SceneBattle.cpp" />
@@ -160,6 +162,7 @@
     <ClCompile Include="Scenes\SceneDev2.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
+    <ClCompile Include="SpriteAnimator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -168,6 +171,8 @@
     <ClCompile Include="Framework\Variables.cpp" />
     <ClCompile Include="Framework\Text.cpp" />
     <ClCompile Include="Framework\UI.cpp" />
+    <ClCompile Include="StoryPlayer.cpp" />
+    <ClCompile Include="TextWriter.cpp" />
     <ClCompile Include="UiMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,11 +185,14 @@
     <ClInclude Include="Framework\GameObject.h" />
     <ClInclude Include="Framework\HitBox.h" />
     <ClInclude Include="Framework\InputMgr.h" />
+    <ClInclude Include="Framework\json.hpp" />
     <ClInclude Include="Framework\rapidcsv.h" />
     <ClInclude Include="Framework\ResourceMgr.h" />
     <ClInclude Include="Framework\Singleton.h" />
     <ClInclude Include="Framework\SpriteGo.h" />
     <ClInclude Include="Framework\Scene.h" />
+    <ClInclude Include="MessageMgr.h" />
+    <ClInclude Include="PokemonManager.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
     <ClInclude Include="Scenes\SceneEnd.h" />
     <ClInclude Include="Scenes\SceneBattle.h" />
@@ -194,12 +202,15 @@
     <ClInclude Include="Scenes\SceneDev2.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
+    <ClInclude Include="SpriteAnimator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />
     <ClInclude Include="Framework\Variables.h" />
     <ClInclude Include="Framework\Text.h" />
     <ClInclude Include="Framework\UI.h" />
+    <ClInclude Include="StoryPlayer.h" />
+    <ClInclude Include="TextWriter.h" />
     <ClInclude Include="UiMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

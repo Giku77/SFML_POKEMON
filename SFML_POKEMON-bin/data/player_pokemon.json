@@ -1,0 +1,22 @@
+{
+    "player": "dafdaf",
+    "pokemons": [
+        {
+            "attack": 52,
+            "defense": 43,
+            "experience": 0,
+            "hp": 39,
+            "id": 4,
+            "level": 5,
+            "moves": [
+                {
+                    "accuracy": 100,
+                    "name": "할퀴기",
+                    "power": 40,
+                    "type": "노말"
+                }
+            ],
+            "name": "파이리"
+        }
+    ]
+}
