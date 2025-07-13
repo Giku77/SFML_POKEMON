@@ -46,14 +46,14 @@ void AniPlayer::Init()
 	animator.AddEvent("Idle", 0,
 		[]()
 		{
-			std::cout << "!!" << std::endl;
+			//std::cout << "!!" << std::endl;
 		}
 	);
 
 	animator.AddEvent("Idle", 0,
 		[]()
 		{
-			std::cout << "??" << std::endl;
+			//std::cout << "??" << std::endl;
 		}
 	);
 }
@@ -67,6 +67,9 @@ void AniPlayer::Reset()
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
 
+	SetPosition({ 500.f, 1100.f });
+	SetScale({ 0.5f, 0.5f });
+
 	animator.Play("animations/player_idle.csv");
 	SetOrigin(Origins::BC);
 }
@@ -75,65 +78,46 @@ void AniPlayer::Update(float dt)
 {
 	animator.Update(dt);
 
-	float h = 0.f;
+	sf::Vector2f dir = InputMgr::GetPriorityDirection();
+
 	if (isGrounded)
 	{
-		h = InputMgr::GetAxis(Axis::Horizontal);
-		velocity.x = h * speed;
-	}
-	if (isGrounded && InputMgr::GetKeyDown(sf::Keyboard::Space))
-	{
-		isGrounded = false;
-		velocity.y = -250.f;
-		animator.Play("animations/jump.csv");
+		velocity = dir * speed;
 	}
 	if (!isGrounded)
 	{
 		velocity += gravity * dt;
 	}
 	position += velocity * dt;
-	if (position.y > 0.f)
-	{
-		velocity.y = 0.f;
-		position.y = 0.f;
-		isGrounded = true;
-	}
 	SetPosition(position);
 
-	if (h != 0.f)
+	if (dir.x != 0.f)
 	{
-		SetScale(h > 0.f ? sf::Vector2f(1.0f, 1.0) : sf::Vector2f(- 1.f, 1.0f));
+		SetScale({ 0.5f * (dir.x > 0.f ? 1.f : -1.f), 0.5f });
 	}
 
-	// Ani
-	if (animator.GetCurrentClipId() == "Idle")
+	std::string current = animator.GetCurrentClipId();
+	if (dir.x != 0.f && current != "Run")
 	{
-		if (h != 0.f)
-		{
-			animator.Play("animations/player_run.csv");
-		}
+		animator.Play("animations/player_run.csv");
 	}
-	else if (animator.GetCurrentClipId() == "Run")
+	else if (dir.y < 0.f && current != "Up")
 	{
-		if (h == 0.f)
-		{
-			animator.Play("animations/player_idle.csv");
-		}
+		animator.Play("animations/player_Up.csv");
 	}
-	//else if (animator.GetCurrentClipId() == "Jump" && isGrounded)
-	//{
-	//	if (h == 0.f)
-	//	{
-	//		animator.Play("animations/idle.csv");
-	//	}
-	//	else
-	//	{
-	//		animator.Play("animations/run.csv");
-	//	}
-	//}
+	else if (dir.y > 0.f && current != "Down")
+	{
+		animator.Play("animations/player_Down.csv");
+	}
+	else if (dir == sf::Vector2f(0.f, 0.f) &&
+		(current == "Run" || current == "Up" || current == "Down"))
+	{
+		animator.Play("animations/player_idle.csv");
+	}
 }
 
 void AniPlayer::Draw(sf::RenderWindow& window)
 {
+	//std::cout << "[AniPlayer] Draw: " << position.x << ", " << position.y << std::endl;
 	window.draw(body);
 }

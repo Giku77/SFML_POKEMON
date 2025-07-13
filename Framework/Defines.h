@@ -55,3 +55,18 @@ struct Pokemon {
 	int defense;
 	std::vector<Move> moves;
 };
+
+enum class TileType {
+	Empty = -1,
+	Grass,
+	Wall,
+	Water,
+	BuildingEntrance,
+};
+
+struct Tile {
+	TileType type;
+	sf::Sprite sprite;
+	bool isCollidable = false;
+	bool isEnterable = false;
+};

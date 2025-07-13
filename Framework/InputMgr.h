@@ -53,5 +53,22 @@ public:
 	static bool GetMouseButton(sf::Mouse::Button key);
 
 	static sf::Vector2i GetMousePosition();
+
+	static sf::Vector2f GetPriorityDirection()
+	{
+		for (auto it = heldKeys.rbegin(); it != heldKeys.rend(); ++it)
+		{
+			int code = *it;
+			if (code == sf::Keyboard::W || code == sf::Keyboard::Up)
+				return { 0.f, -1.f };
+			if (code == sf::Keyboard::S || code == sf::Keyboard::Down)
+				return { 0.f, 1.f };
+			if (code == sf::Keyboard::A || code == sf::Keyboard::Left)
+				return { -1.f, 0.f };
+			if (code == sf::Keyboard::D || code == sf::Keyboard::Right)
+				return { 1.f, 0.f };
+		}
+		return { 0.f, 0.f };  
+	}
 };
 

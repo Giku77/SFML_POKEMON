@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Building.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Framework\AnimationClip.cpp" />
     <ClCompile Include="Framework\Animator.cpp" />
@@ -150,8 +151,10 @@
     <ClCompile Include="Framework\InputMgr.cpp" />
     <ClCompile Include="Framework\SpriteGo.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
+    <ClCompile Include="Framework\tinyxml2.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageMgr.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PokemonManager.cpp" />
     <ClCompile Include="Scenes\ScenePokeDev.cpp" />
     <ClCompile Include="Scenes\SceneEnd.cpp" />
@@ -173,9 +176,12 @@
     <ClCompile Include="Framework\UI.cpp" />
     <ClCompile Include="StoryPlayer.cpp" />
     <ClCompile Include="TextWriter.cpp" />
+    <ClCompile Include="TileMap.cpp" />
+    <ClCompile Include="TileMapGameObject.cpp" />
     <ClCompile Include="UiMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Building.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Framework\AnimationClip.h" />
     <ClInclude Include="Framework\Animator.h" />
@@ -191,7 +197,9 @@
     <ClInclude Include="Framework\Singleton.h" />
     <ClInclude Include="Framework\SpriteGo.h" />
     <ClInclude Include="Framework\Scene.h" />
+    <ClInclude Include="Framework\tinyxml2.h" />
     <ClInclude Include="MessageMgr.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PokemonManager.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
     <ClInclude Include="Scenes\SceneEnd.h" />
@@ -211,6 +219,8 @@
     <ClInclude Include="Framework\UI.h" />
     <ClInclude Include="StoryPlayer.h" />
     <ClInclude Include="TextWriter.h" />
+    <ClInclude Include="TileMap.h" />
+    <ClInclude Include="TileMapGameObject.h" />
     <ClInclude Include="UiMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

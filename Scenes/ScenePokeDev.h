@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 
+class Background;
 class Button;
 class Text;
 class SpriteAnimator;
@@ -14,6 +15,7 @@ protected:
 	Button* button = nullptr;
 	Text* text = nullptr;
 	SpriteAnimator* anim = nullptr;
+	Background* bg = nullptr;
 
 	sf::Sprite backGround;
 	sf::Texture bGTex;

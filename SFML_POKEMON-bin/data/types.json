@@ -1,145 +1,327 @@
-[{
+[
+    {
         "english": "Normal",
+        "korean": "노말",
         "chinese": "一般",
         "japanese": "ノーマル",
         "effective": [],
-        "ineffective": ["Rock", "Steel"],
-        "no_effect": ["Ghost"]
+        "ineffective": [
+            "바위",
+            "강철"
+        ],
+        "no_effect": [
+            "고스트"
+        ]
     },
     {
         "english": "Fighting",
+        "korean": "격투",
         "chinese": "格斗",
         "japanese": "かくとう",
-        "effective": ["Normal", "Ice", "Rock", "Dark", "Steel"],
-        "ineffective": ["Poison", "Flying", "Psychic", "Bug", "Fairy"],
-        "no_effect": ["Ghost"]
+        "effective": [
+            "노말",
+            "얼음",
+            "바위",
+            "악",
+            "강철"
+        ],
+        "ineffective": [
+            "독",
+            "비행",
+            "에스퍼",
+            "벌레",
+            "페어리"
+        ],
+        "no_effect": [
+            "고스트"
+        ]
     },
     {
         "english": "Flying",
+        "korean": "비행",
         "chinese": "飞行",
         "japanese": "ひこう",
-        "effective": ["Grass", "Fighting", "Bug"],
-        "ineffective": ["Electric", "Rock", "Steel"],
+        "effective": [
+            "풀",
+            "격투",
+            "벌레"
+        ],
+        "ineffective": [
+            "전기",
+            "바위",
+            "강철"
+        ],
         "no_effect": []
     },
     {
         "english": "Poison",
+        "korean": "독",
         "chinese": "毒",
         "japanese": "どく",
-        "effective": ["Grass", "Fairy"],
-        "ineffective": ["Poison", "Ground", "Rock", "Ghost"],
-        "no_effect": ["Steel"]
+        "effective": [
+            "풀",
+            "페어리"
+        ],
+        "ineffective": [
+            "독",
+            "땅",
+            "바위",
+            "고스트"
+        ],
+        "no_effect": [
+            "강철"
+        ]
     },
     {
         "english": "Ground",
+        "korean": "땅",
         "chinese": "地上",
         "japanese": "じめん",
-        "effective": ["Fire", "Electric", "Poison", "Rock", "Steel"],
-        "ineffective": ["Grass", "Bug"],
-        "no_effect": ["Flying"]
+        "effective": [
+            "불꽃",
+            "전기",
+            "독",
+            "바위",
+            "강철"
+        ],
+        "ineffective": [
+            "풀",
+            "벌레"
+        ],
+        "no_effect": [
+            "비행"
+        ]
     },
     {
         "english": "Rock",
+        "korean": "바위",
         "chinese": "岩石",
         "japanese": "いわ",
-        "effective": ["Fire", "Ice", "Flying", "Bug"],
-        "ineffective": ["Fighting", "Ground", "Steel"],
+        "effective": [
+            "불꽃",
+            "얼음",
+            "비행",
+            "벌레"
+        ],
+        "ineffective": [
+            "격투",
+            "땅",
+            "강철"
+        ],
         "no_effect": []
     },
     {
         "english": "Bug",
+        "korean": "벌레",
         "chinese": "虫",
         "japanese": "むし",
-        "effective": ["Grass", "Psychic", "Dark"],
-        "ineffective": ["Fire", "Fighting", "Poison", "Flying", "Ghost", "Steel", "Fairy"],
+        "effective": [
+            "풀",
+            "에스퍼",
+            "악"
+        ],
+        "ineffective": [
+            "불꽃",
+            "격투",
+            "독",
+            "비행",
+            "고스트",
+            "강철",
+            "페어리"
+        ],
         "no_effect": []
     },
     {
         "english": "Ghost",
+        "korean": "고스트",
         "chinese": "幽灵",
         "japanese": "ゴースト",
-        "effective": ["Psychic", "Ghost"],
-        "ineffective": ["Dark"],
-        "no_effect": ["Normal"]
+        "effective": [
+            "에스퍼",
+            "고스트"
+        ],
+        "ineffective": [
+            "악"
+        ],
+        "no_effect": [
+            "노말"
+        ]
     },
     {
         "english": "Steel",
+        "korean": "강철",
         "chinese": "钢",
         "japanese": "はがね",
-        "effective": ["Ice", "Rock", "Fairy"],
-        "ineffective": ["Fire", "Water", "Electric", "Steel"],
+        "effective": [
+            "얼음",
+            "바위",
+            "페어리"
+        ],
+        "ineffective": [
+            "불꽃",
+            "물",
+            "전기",
+            "강철"
+        ],
         "no_effect": []
     },
     {
         "english": "Fire",
+        "korean": "불꽃",
         "chinese": "炎",
         "japanese": "ほのお",
-        "effective": ["Grass", "Ice", "Bug", "Steel"],
-        "ineffective": ["Fire", "Water", "Rock", "Dragon"],
+        "effective": [
+            "풀",
+            "얼음",
+            "벌레",
+            "강철"
+        ],
+        "ineffective": [
+            "불꽃",
+            "물",
+            "바위",
+            "드래곤"
+        ],
         "no_effect": []
     },
     {
         "english": "Water",
+        "korean": "물",
         "chinese": "水",
         "japanese": "みず",
-        "effective": ["Fire", "Ground", "Rock"],
-        "ineffective": ["Water", "Grass", "Dragon"],
+        "effective": [
+            "불꽃",
+            "땅",
+            "바위"
+        ],
+        "ineffective": [
+            "물",
+            "풀",
+            "드래곤"
+        ],
         "no_effect": []
     },
     {
         "english": "Grass",
+        "korean": "풀",
         "chinese": "草",
         "japanese": "くさ",
-        "effective": ["Water", "Ground", "Rock"],
-        "ineffective": ["Fire", "Grass", "Poison", "Flying", "Bug", "Dragon", "Steel"],
+        "effective": [
+            "물",
+            "땅",
+            "바위"
+        ],
+        "ineffective": [
+            "불꽃",
+            "풀",
+            "독",
+            "비행",
+            "벌레",
+            "드래곤",
+            "강철"
+        ],
         "no_effect": []
     },
     {
         "english": "Electric",
+        "korean": "전기",
         "chinese": "电",
         "japanese": "でんき",
-        "effective": ["Water", "Flying"],
-        "ineffective": ["Electric", "Grass", "Dragon"],
-        "no_effect": ["Ground"]
+        "effective": [
+            "물",
+            "비행"
+        ],
+        "ineffective": [
+            "전기",
+            "풀",
+            "드래곤"
+        ],
+        "no_effect": [
+            "땅"
+        ]
     },
     {
         "english": "Psychic",
+        "korean": "에스퍼",
         "chinese": "超能",
         "japanese": "エスパー",
-        "effective": ["Fighting", "Poison"],
-        "ineffective": ["Psychic", "Steel"],
-        "no_effect": ["Dark"]
+        "effective": [
+            "격투",
+            "독"
+        ],
+        "ineffective": [
+            "에스퍼",
+            "강철"
+        ],
+        "no_effect": [
+            "악"
+        ]
     },
     {
         "english": "Ice",
+        "korean": "얼음",
         "chinese": "冰",
         "japanese": "こおり",
-        "effective": ["Grass", "Ground", "Flying", "Dragon"],
-        "ineffective": ["Fire", "Water", "Ice", "Steel"],
+        "effective": [
+            "풀",
+            "땅",
+            "비행",
+            "드래곤"
+        ],
+        "ineffective": [
+            "불꽃",
+            "물",
+            "얼음",
+            "강철"
+        ],
         "no_effect": []
     },
     {
         "english": "Dragon",
+        "korean": "드래곤",
         "chinese": "龙",
         "japanese": "ドラゴン",
-        "effective": ["Dragon"],
-        "ineffective": ["Steel"],
-        "no_effect": ["Fairy"]
+        "effective": [
+            "드래곤"
+        ],
+        "ineffective": [
+            "강철"
+        ],
+        "no_effect": [
+            "페어리"
+        ]
     },
     {
         "english": "Dark",
+        "korean": "악",
         "chinese": "恶",
         "japanese": "あく",
-        "effective": ["Psychic", "Ghost"],
-        "ineffective": ["Fighting", "Dark", "Fairy"],
+        "effective": [
+            "에스퍼",
+            "고스트"
+        ],
+        "ineffective": [
+            "격투",
+            "악",
+            "페어리"
+        ],
         "no_effect": []
     },
     {
         "english": "Fairy",
+        "korean": "페어리",
         "chinese": "妖精",
         "japanese": "フェアリー",
-        "effective": ["Fighting", "Dragon", "Dark"],
-        "ineffective": ["Fire", "Poison", "Steel"],
+        "effective": [
+            "격투",
+            "드래곤",
+            "악"
+        ],
+        "ineffective": [
+            "불꽃",
+            "독",
+            "강철"
+        ],
         "no_effect": []
     }
 ]

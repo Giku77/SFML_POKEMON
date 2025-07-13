@@ -1,0 +1,7 @@
+ID,FPS,"LoopType (0: Single, 1: Loop)",,,
+Down,10,1,,,
+,,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT,"FLIPX (0:Fale, 1:True)"
+graphics/player.png,0,0,125,123,0
+graphics/player.png,125,0,125,123,0
+graphics/player.png,250,0,125,123,0
