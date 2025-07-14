@@ -28,11 +28,11 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
             }
             if (tile.contains("properties")) {
                 for (const auto& prop : tile["properties"]) {
-                    if (prop.contains("name") && prop["name"] == "isEnter" &&
+                    if (prop.contains("name") && prop["name"] == "isCenterEnter" &&
                         prop.contains("type") && prop["type"] == "bool" &&
                         prop.contains("value") && prop["value"] == true)
                     {
-                        outTs.enterLocalIds.insert(localId); 
+                        outTs.enterCenterLocalIds.insert(localId);
                     }
                 }
             }
@@ -56,16 +56,15 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
 
 bool TileMap::load(const std::string& jsonPath)
 {
-
     std::cout << "[DBG] load " << jsonPath << '\n';
     std::ifstream in(jsonPath);
     if (!in.is_open()) { std::cerr << "맵 열기 실패: " << jsonPath << '\n'; return false; }
 
     nlohmann::json j;  in >> j;
 
-    std::cout << "──── json dump ────\n"
+    /*std::cout << "──── json dump ────\n"
         << j.dump(2) << '\n'
-        << "──────────────────\n";
+        << "──────────────────\n";*/
 
     mapWidth = j["width"];
     mapHeight = j["height"];
@@ -109,8 +108,13 @@ bool TileMap::load(const std::string& jsonPath)
             t.sprite.setTexture(ts->texture);
             t.sprite.setTextureRect({ col * tileW, row * tileH, tileW, tileH });
             t.isCollidable = ts->collidableLocalIds.count(local) > 0;
-            t.isEnterable = ts->enterLocalIds.count(local) > 0;
-            
+            //t.isEnterable = ts->enterLocalIds.count(local) > 0;
+            t.isCenterEnter = ts->enterCenterLocalIds.count(local) > 0;
+
+            for (int y = 0; y < mapHeight; ++y)
+                for (int x = 0; x < mapWidth; ++x)
+                    if (isEnterable(x, y))
+                        std::cout << "isCenterEnter at (" << x << ", " << y << ")\n";
 
             int x = idx % mapWidth;
             int y = idx / mapWidth;
@@ -154,8 +158,10 @@ bool TileMap::isEnterable(int x, int y) const
     if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return false;
     int idx = y * mapWidth + x;
     for (const auto& layer : layers)
-        if (idx < layer.tiles.size() && layer.tiles[idx].isEnterable)
+        if (idx < layer.tiles.size() && layer.tiles[idx].isCenterEnter) {
+            std::cout << "저장됨" << std::endl;
             return true;
+        }
     return false;
 }
 

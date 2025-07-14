@@ -4,6 +4,8 @@ struct TileInfo {
     sf::Sprite sprite;
     bool isCollidable = false;
     bool isEnterable = false;
+    bool isCenterEnter = false;
+    bool isShopEnter = false;
 };
 struct TileLayer {
     std::vector<TileInfo> tiles;   // width * height
@@ -13,7 +15,8 @@ struct TilesetInfo {
     int columns = 0;
     sf::Texture  texture;
     std::unordered_set<int> collidableLocalIds;
-    std::unordered_set<bool> enterLocalIds;
+    std::unordered_set<int> enterCenterLocalIds;
+    std::unordered_set<int> enterShopLocalIds;
 };
 
 class TileMap {

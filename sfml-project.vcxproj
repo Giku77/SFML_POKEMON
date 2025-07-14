@@ -141,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Building.cpp" />
-    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Framework\Button.cpp" />
     <ClCompile Include="Framework\AnimationClip.cpp" />
     <ClCompile Include="Framework\Animator.cpp" />
     <ClCompile Include="AniPlayer.cpp" />
@@ -153,9 +153,9 @@
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\tinyxml2.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MessageMgr.cpp" />
+    <ClCompile Include="Framework\MessageMgr.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PokemonManager.cpp" />
+    <ClCompile Include="Framework\PokemonManager.cpp" />
     <ClCompile Include="Scenes\ScenePokeDev.cpp" />
     <ClCompile Include="Scenes\SceneEnd.cpp" />
     <ClCompile Include="Scenes\SceneBattle.cpp" />
@@ -165,7 +165,7 @@
     <ClCompile Include="Scenes\SceneDev2.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
-    <ClCompile Include="SpriteAnimator.cpp" />
+    <ClCompile Include="Framework\SpriteAnimator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -174,15 +174,15 @@
     <ClCompile Include="Framework\Variables.cpp" />
     <ClCompile Include="Framework\Text.cpp" />
     <ClCompile Include="Framework\UI.cpp" />
-    <ClCompile Include="StoryPlayer.cpp" />
-    <ClCompile Include="TextWriter.cpp" />
-    <ClCompile Include="TileMap.cpp" />
-    <ClCompile Include="TileMapGameObject.cpp" />
-    <ClCompile Include="UiMgr.cpp" />
+    <ClCompile Include="Framework\StoryPlayer.cpp" />
+    <ClCompile Include="Framework\TextWriter.cpp" />
+    <ClCompile Include="Framework\TileMap.cpp" />
+    <ClCompile Include="Framework\TileMapGameObject.cpp" />
+    <ClCompile Include="Framework\UiMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Building.h" />
-    <ClInclude Include="Button.h" />
+    <ClInclude Include="Framework\Button.h" />
     <ClInclude Include="Framework\AnimationClip.h" />
     <ClInclude Include="Framework\Animator.h" />
     <ClInclude Include="AniPlayer.h" />
@@ -198,9 +198,9 @@
     <ClInclude Include="Framework\SpriteGo.h" />
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\tinyxml2.h" />
-    <ClInclude Include="MessageMgr.h" />
+    <ClInclude Include="Framework\MessageMgr.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PokemonManager.h" />
+    <ClInclude Include="Framework\PokemonManager.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
     <ClInclude Include="Scenes\SceneEnd.h" />
     <ClInclude Include="Scenes\SceneBattle.h" />
@@ -210,18 +210,18 @@
     <ClInclude Include="Scenes\SceneDev2.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
-    <ClInclude Include="SpriteAnimator.h" />
+    <ClInclude Include="Framework\SpriteAnimator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />
     <ClInclude Include="Framework\Variables.h" />
     <ClInclude Include="Framework\Text.h" />
     <ClInclude Include="Framework\UI.h" />
-    <ClInclude Include="StoryPlayer.h" />
-    <ClInclude Include="TextWriter.h" />
-    <ClInclude Include="TileMap.h" />
-    <ClInclude Include="TileMapGameObject.h" />
-    <ClInclude Include="UiMgr.h" />
+    <ClInclude Include="Framework\StoryPlayer.h" />
+    <ClInclude Include="Framework\TextWriter.h" />
+    <ClInclude Include="Framework\TileMap.h" />
+    <ClInclude Include="Framework\TileMapGameObject.h" />
+    <ClInclude Include="Framework\UiMgr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

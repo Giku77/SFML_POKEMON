@@ -1,5 +1,5 @@
 {
-    "player": "dafd",
+    "player": "",
     "pokemons": [
         {
             "attack": 52,
@@ -16,7 +16,7 @@
                     "type": "노말"
                 }
             ],
-            "name": "이상해씨"
+            "name": "꼬부기"
         }
     ]
 }

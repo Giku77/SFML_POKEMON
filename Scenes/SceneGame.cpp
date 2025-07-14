@@ -101,6 +101,9 @@ void SceneGame::Update(float dt)
 			//std::cout << "충돌" << std::endl;
 			playerPos = player->getPrevPos();
 		}
+
+		tileX = static_cast<int>(playerPos.x) / tileMapObj->getTileW();
+		tileY = static_cast<int>(playerPos.y) / tileMapObj->getTileH();
 		if (tileMapObj->isEnterable(tileX, tileY)) {
 			std::cout << "입장" << std::endl;
 			ani->setIndex(0);

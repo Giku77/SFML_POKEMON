@@ -1751,7 +1751,7 @@
                     },
                  "properties":[
                         {
-                         "name":"isEnter",
+                         "name":"isCenterEnter",
                          "type":"bool",
                          "value":true
                         }]
@@ -1809,7 +1809,7 @@
                     },
                  "properties":[
                         {
-                         "name":"isEnter",
+                         "name":"isShopEnter",
                          "type":"bool",
                          "value":true
                         }]
