@@ -96,19 +96,20 @@ void SceneGame::Update(float dt)
 
 		int tileX = static_cast<int>(playerPos.x) / tileMapObj->getTileW();
 		int tileY = static_cast<int>(playerPos.y) / tileMapObj->getTileH();
+		if (tileMapObj->isEnterable(tileX, tileY)) {
+			std::cout << "입장" << std::endl;
+			ani->setIndex(0);
+			isCenterEnter = true;
+		}
 
 		if (tileMapObj->isCollidable(tileX, tileY)) {
 			//std::cout << "충돌" << std::endl;
 			playerPos = player->getPrevPos();
 		}
 
-		tileX = static_cast<int>(playerPos.x) / tileMapObj->getTileW();
-		tileY = static_cast<int>(playerPos.y) / tileMapObj->getTileH();
-		if (tileMapObj->isEnterable(tileX, tileY)) {
-			std::cout << "입장" << std::endl;
-			ani->setIndex(0);
-			isCenterEnter = true;
-		}
+		//tileX = static_cast<int>(playerPos.x) / tileMapObj->getTileW();
+		//tileY = static_cast<int>(playerPos.y) / tileMapObj->getTileH();
+		//std::cout << "x : " << tileX << "y : " << tileY << std::endl;
 		player->SetPosition(playerPos);
 
 		playerPos.x = Utils::Clamp(playerPos.x, halfSize.x, mapSize.x - halfSize.x);
