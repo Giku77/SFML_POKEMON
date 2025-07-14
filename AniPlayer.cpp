@@ -95,6 +95,8 @@ void AniPlayer::Update(float dt)
 	if (dir.x != 0.f)
 	{
 		SetScale({ 0.5f * (dir.x > 0.f ? 1.f : -1.f), 0.5f });
+		if (dir.x > 0.f) isRight = true;
+		else isRight = false;
 	}
 
 	std::string current = animator.GetCurrentClipId();
@@ -113,7 +115,9 @@ void AniPlayer::Update(float dt)
 	else if (dir == sf::Vector2f(0.f, 0.f) &&
 		(current == "Run" || current == "Up" || current == "Down"))
 	{
-		animator.Play("animations/player_idle.csv");
+		if (current == "Down") animator.Play("animations/player_idle.csv");
+		if (current == "Up") animator.Play("animations/player_idle_Up.csv");
+		if (current == "Run") animator.Play("animations/player_idle_Right.csv");
 	}
 }
 

@@ -26,6 +26,16 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
             if (tile.contains("objectgroup")) {
                 outTs.collidableLocalIds.insert(localId);
             }
+            if (tile.contains("properties")) {
+                for (const auto& prop : tile["properties"]) {
+                    if (prop.contains("name") && prop["name"] == "isEnter" &&
+                        prop.contains("type") && prop["type"] == "bool" &&
+                        prop.contains("value") && prop["value"] == true)
+                    {
+                        outTs.enterLocalIds.insert(localId); 
+                    }
+                }
+            }
         }
     }
     std::string imgRel = tsJson["image"];                 
@@ -99,6 +109,8 @@ bool TileMap::load(const std::string& jsonPath)
             t.sprite.setTexture(ts->texture);
             t.sprite.setTextureRect({ col * tileW, row * tileH, tileW, tileH });
             t.isCollidable = ts->collidableLocalIds.count(local) > 0;
+            t.isEnterable = ts->enterLocalIds.count(local) > 0;
+            
 
             int x = idx % mapWidth;
             int y = idx / mapWidth;
@@ -136,3 +148,14 @@ bool TileMap::isCollidable(int x, int y) const
             return true;
     return false;
 }
+
+bool TileMap::isEnterable(int x, int y) const
+{
+    if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return false;
+    int idx = y * mapWidth + x;
+    for (const auto& layer : layers)
+        if (idx < layer.tiles.size() && layer.tiles[idx].isEnterable)
+            return true;
+    return false;
+}
+

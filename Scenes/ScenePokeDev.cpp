@@ -24,6 +24,13 @@ ScenePokeDev::~ScenePokeDev()
 	anim = nullptr;
 }
 
+void ScenePokeDev::SetAnimateScreen(sf::Sprite& s, int a)
+{
+	sf::Color c = s.getColor();
+	c.a = a;
+	s.setColor(c);
+}
+
 void ScenePokeDev::SetBackground(const std::string& path, const sf::IntRect& rect, sf::Sprite& s, sf::Texture& t, const Type& type, const sf::Vector2f& v)
 {
 	if (!t.loadFromFile(path)) {
@@ -90,7 +97,7 @@ void ScenePokeDev::Init()
 				break;
 			}
 			button->SetString(s);
-			//std::cout << "ÀÎµ¦½º : " << story.getIndex() << std::endl;
+			std::cout << "ÀÎµ¦½º : " << story.getIndex() << std::endl;
 		}
 		});
 	button->SetButton({ FRAMEWORK.GetWindowSize().x / 2.f + 200.f, 300.f }, sf::Color::Black, "fonts/pokemon-dppt.otf");
@@ -188,6 +195,14 @@ void ScenePokeDev::Update(float dt)
 	}
 
 	anim->Update(dt, true);
+	if (story.IsFinished()) {
+		SceneAnimateTime += dt;
+		//std::cout << SceneAnimateTime << std::endl;
+		SetAnimateScreen(backGround, 255 - (SceneAnimateTime * 100.f));
+		SetAnimateScreen(backGround2, 255 - (SceneAnimateTime * 100.f));
+
+		if(SceneAnimateTime > 2.f )SCENE_MGR.ChangeScene(SceneIds::Game);
+	}
 }
 
 void ScenePokeDev::Draw(sf::RenderWindow& window)

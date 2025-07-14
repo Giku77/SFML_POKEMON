@@ -30,10 +30,12 @@ protected:
 	bool isChoosePokemon = false;
 
 	sf::String RandPokemon;
+	float SceneAnimateTime = 0.f;
 public:
 	ScenePokeDev();
 	~ScenePokeDev() override;
 
+	void SetAnimateScreen(sf::Sprite& s, int a);
 	void SetBackground(const std::string& path, const sf::IntRect& rect, sf::Sprite& s, sf::Texture& t, const Type& type, const sf::Vector2f& v = {1.f, 1.f});
 	void Init() override;
 	void Enter() override;

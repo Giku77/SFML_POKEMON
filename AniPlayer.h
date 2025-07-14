@@ -11,7 +11,8 @@ protected:
 	sf::Vector2f velocity = { 0.f, 0.f };
 	sf::Vector2f prevPos = { 0.f, 0.f };
 	bool isGrounded = true;
-	float speed = 500.f;
+	float speed = 300.f;
+	bool isRight = true;
 
 public:
 	AniPlayer(const std::string& name = "");

@@ -3,15 +3,23 @@
 
 class TileMapGameObject;
 class AniPlayer;
+class SpriteAnimator;
 class SceneGame : public Scene
 {
 protected:
 	TileMapGameObject* tileMapObj;
 	AniPlayer* player = nullptr;
+	SpriteAnimator* ani = nullptr;
+
+	sf::Sprite newScreen;
+	sf::Texture newTex;
+
+	bool isCenterEnter = false;
+	float aniCenterTime = 0.f;
 
 public:
 	SceneGame();
-	~SceneGame() = default;
+	~SceneGame() override;
 
 	void Init() override;
 	void Enter() override;

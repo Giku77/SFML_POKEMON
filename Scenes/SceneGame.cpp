@@ -2,6 +2,7 @@
 #include "SceneGame.h"
 #include "AniPlayer.h"
 #include "TileMapGameObject.h"
+#include "SpriteAnimator.h"
 
 
 SceneGame::SceneGame()
@@ -9,9 +10,18 @@ SceneGame::SceneGame()
 {
 }
 
+SceneGame::~SceneGame()
+{
+	delete ani;
+	ani = nullptr;
+}
+
 void SceneGame::Init()
 {
 	ANI_CLIP_MGR.Load("animations/player_idle.csv");
+	ANI_CLIP_MGR.Load("animations/player_idle_Up.csv");
+	ANI_CLIP_MGR.Load("animations/player_idle_Right.csv");
+	ANI_CLIP_MGR.Load("animations/player_idle_Left.csv");
 	ANI_CLIP_MGR.Load("animations/player_run.csv");
 	ANI_CLIP_MGR.Load("animations/player_Up.csv");
 	ANI_CLIP_MGR.Load("animations/player_Down.csv");
@@ -22,12 +32,20 @@ void SceneGame::Init()
 	tileMapObj = (TileMapGameObject*)AddGameObject(new TileMapGameObject("TileMap"));
 
 	player = (AniPlayer*)AddGameObject(new AniPlayer("Player"));
-	std::cout << player->GetPosition().x << " / " << player->GetPosition().y << std::endl;
 	/*if (!tileMap.load("data/world.tmj"))
 		std::cerr << "맵 로드 실패!\n";*/
-
+	
 	//worldView.setCenter(500.f, 1100.f);
 	//worldView.setCenter(tileMap.GetMapPixelSize() * 0.5f);
+
+	newTex.loadFromFile("graphics/EnterPokeCenter.png");
+	newScreen.setTexture(newTex);
+	sf::Vector2f pos = { 0.f,  0.f };
+	newScreen.setPosition(ScreenToUi((sf::Vector2i)pos));
+	newScreen.setScale(0.8f, 0.8f);
+
+	ani = new SpriteAnimator(&newScreen, newTex, 540.f, 411.f, 0.03f);
+
 	Scene::Init();
 }
 
@@ -45,7 +63,13 @@ void SceneGame::Enter()
 
 void SceneGame::Update(float dt)
 {
+	if (isCenterEnter) aniCenterTime += dt;
+	if (aniCenterTime > 4.f) {
+		aniCenterTime = 0.f;
+		isCenterEnter = false;
+	}
 	Scene::Update(dt);
+	ani->Update(dt, true);
 	//player->SetScale({ 0.5f, 0.5f });
 	/*const float moveSpeed = 400.f;
 
@@ -77,6 +101,11 @@ void SceneGame::Update(float dt)
 			//std::cout << "충돌" << std::endl;
 			playerPos = player->getPrevPos();
 		}
+		if (tileMapObj->isEnterable(tileX, tileY)) {
+			std::cout << "입장" << std::endl;
+			ani->setIndex(0);
+			isCenterEnter = true;
+		}
 		player->SetPosition(playerPos);
 
 		playerPos.x = Utils::Clamp(playerPos.x, halfSize.x, mapSize.x - halfSize.x);
@@ -89,8 +118,8 @@ void SceneGame::Update(float dt)
 
 void SceneGame::Draw(sf::RenderWindow& window)
 {
-	//window.setView(worldView);
-	//tileMap.draw(window);  
-
 	Scene::Draw(window);
+	window.setView(window.getDefaultView());
+	if(isCenterEnter) window.draw(newScreen);
+	//window.draw(newScreen);
 }

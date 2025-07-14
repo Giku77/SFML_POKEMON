@@ -6,7 +6,7 @@ private:
     float interval;                   
     float timer = 0.f;
     size_t index = 0;
-    bool playing = false;             
+    bool playing = false;      
 
 public:
     SpriteAnimator(sf::Sprite* spr,
@@ -16,6 +16,33 @@ public:
         if (!frames.empty())
             target->setTextureRect(frames[0]);
     }
+    SpriteAnimator(sf::Sprite* spr,
+        const sf::Texture& tex,
+        int frameWidth,
+        int frameHeight,
+        float speed = 0.1f)
+        : target(spr), interval(speed)
+    {
+        int texWidth = tex.getSize().x;
+        int texHeight = tex.getSize().y;
+
+        int cols = texWidth / frameWidth;
+        int rows = texHeight / frameHeight;
+
+        for (int y = 0; y < rows; ++y) {
+            for (int x = 0; x < cols; ++x) {
+                sf::IntRect rect(x * frameWidth, y * frameHeight, frameWidth, frameHeight);
+                frames.push_back(rect);
+            }
+        }
+
+        if (!frames.empty())
+            target->setTextureRect(frames[0]);
+    }
+    void setPlaying(bool b) { playing = b; }
+    const bool& getPlaying() const { return playing; }
+
+    void setIndex(int i) { index = i; }
 
     void Update(float dt, bool hover) {
         if (!hover) {       

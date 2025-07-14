@@ -28,6 +28,9 @@ public:
 	bool isCollidable(int x, int y) const {
 		return tileMap.isCollidable(x, y);
 	}
+	bool isEnterable(int x, int y) const {
+		return tileMap.isEnterable(x, y);
+	}
 	int getTileW() const { return tileMap.getTileW(); }
 	int getTileH() const { return tileMap.getTileH(); }
 };
