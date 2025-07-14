@@ -15,12 +15,12 @@ SceneGame::~SceneGame()
 {
 	delete ani;
 	ani = nullptr;
-	delete shopUi;
+	/*delete shopUi;
 	shopUi = nullptr;
 	delete tileMapObj;
 	tileMapObj = nullptr;
 	delete player;
-	player = nullptr;
+	player = nullptr;*/
 }
 
 void SceneGame::Init()
@@ -36,6 +36,7 @@ void SceneGame::Init()
 
 	texIds.push_back("graphics/player.png");
 
+	fontIds.push_back("fonts/pokemon-dppt.otf");
 	tileMapObj = (TileMapGameObject*)AddGameObject(new TileMapGameObject("TileMap"));
 
 	player = (AniPlayer*)AddGameObject(new AniPlayer("Player"));
@@ -81,14 +82,18 @@ void SceneGame::Update(float dt)
 	}
 	if (shopOpened)
 	{
-		shopUi->Update(dt);
-
-		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+		if (shopUi->IsOpen())         
 		{
-			shopUi->Close();
-			shopOpened = false;
+			shopUi->Update(dt);
+
+			if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+				shopUi->Close();
+			return;                   
 		}
-		return;                 
+		else                            
+		{
+			shopOpened = false;         
+		}
 	}
 	Scene::Update(dt);
 	ani->Update(dt, true);
@@ -131,7 +136,7 @@ void SceneGame::Update(float dt)
 			shopUi->Open("poke_mart", playerGold);
 			shopOpened = true;
 			shopUi->SetActive(true);
-			ani->setIndex(0);
+			//ani->setIndex(0);
 			isShopEnter = true;
 		}
 
@@ -158,6 +163,6 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	Scene::Draw(window);
 	window.setView(window.getDefaultView());
 	if(isCenterEnter) window.draw(newScreen);
-	if (shopOpened) shopUi->Draw(window);
+	if(shopOpened) shopUi->Draw(window);
 	//window.draw(newScreen);
 }

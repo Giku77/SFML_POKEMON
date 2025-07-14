@@ -25,7 +25,7 @@ public:
         if (!in.is_open()) return false;
         nlohmann::json j; in >> j;
 
-        // ---- Items --------------------------------------------------------
+        
         const auto& jItems = j["items"];
         for (const auto& obj : jItems)
         {
@@ -38,7 +38,7 @@ public:
             items[d.id] = std::move(d);
         }
 
-        // ---- Shop listings ------------------------------------------------
+   
         const auto& jShops = j["shops"];
         for (auto it = jShops.begin(); it != jShops.end(); ++it)
         {
@@ -54,14 +54,14 @@ public:
         return true;
     }
 
-    // get const ptr – nullptr if not found
+ 
     const ItemData* GetItem(int id) const
     {
         auto f = items.find(id);
         return (f == items.end()) ? nullptr : &f->second;
     }
 
-    // shopTag == "poke_center" etc.
+ 
     const std::vector<const ItemData*>& GetShopItems(const std::string& shopTag) const
     {
         static const std::vector<const ItemData*> empty;
@@ -79,17 +79,14 @@ private:
     ItemDB& operator=(const ItemDB&) = delete;
 };
 
-//------------------------------------------------------
-// 3) ItemSlot : one line inside Shop (inherits Button)
-//------------------------------------------------------
 class ItemSlot : public Button
 {
 public:
     ItemSlot(const std::string& name = "ItemSlot")
-        : Button(name, true)  // true -> use RectangleShape background colour
+        : Button(name, true)  
     {
-        SetSize({ 180.f, 32.f });   // default size, tweak as needed
-        ButtonSetFillColor(sf::Color(0, 0, 0, 0));               // transparent bg
+        SetSize({ 180.f, 32.f });   
+        ButtonSetFillColor(sf::Color(0, 0, 0, 0));              
         SetOutlineColor(sf::Color::White);
         SetOutlineThickness(1.f);
     }
@@ -99,14 +96,12 @@ public:
         assert(data);
         item = data;
 
-        // icon (if you have TextureMgr with GetTexture)
         if (!data->iconTexId.empty()) {
             bg.setTexture(TEXTURE_MGR.Get(data->iconTexId));
             bg.setScale(0.75f, 0.75f);
             bg.setPosition(position + sf::Vector2f{ 2.f, 2.f });
         }
 
-        // text: name + price
         std::ostringstream oss;
         oss << data->name << "  $" << data->price;
         SetString(oss.str());
@@ -114,7 +109,6 @@ public:
         TextSetFillColor(sf::Color::White);
         TextSetPosition(position + sf::Vector2f{ 38.f, 4.f });
 
-        // when clicked, notify via onSelect callback (client sets it)
         SetOnClick([this]() {
             if (onSelect) onSelect(item);
             });
@@ -125,13 +119,11 @@ public:
         ButtonSetFillColor(sel ? sf::Color(80, 120, 255, 200)
             : sf::Color(30, 30, 30, 160));
     }
-    // onSelect 콜백 셋터
+
     void SetOnSelect(std::function<void()> fn) { SetOnClick(std::move(fn)); }
 
-    // external listener sets this (Shop panel)
     std::function<void(const ItemData*)> onSelect;
 
-    // override to move icon/text together when Slot moves
     void SetPosition(const sf::Vector2f& pos) override
     {
         Button::SetPosition(pos);

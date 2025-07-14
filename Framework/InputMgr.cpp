@@ -182,17 +182,17 @@ float InputMgr::GetAxis(Axis axis)
 
 bool InputMgr::GetMouseButtonDown(sf::Mouse::Button key)
 {
-	return Contains(downKeys, sf::Keyboard::KeyCount + key);;
+	return Contains(downKeys, sf::Keyboard::KeyCount + key);
 }
 
 bool InputMgr::GetMouseButtonUp(sf::Mouse::Button key)
 {
-	return Contains(upKeys, sf::Keyboard::KeyCount + key);;
+	return Contains(upKeys, sf::Keyboard::KeyCount + key);
 }
 
 bool InputMgr::GetMouseButton(sf::Mouse::Button key)
 {
-	return Contains(heldKeys, sf::Keyboard::KeyCount + key);;
+	return Contains(heldKeys, sf::Keyboard::KeyCount + key);
 }
 
 sf::Vector2i InputMgr::GetMousePosition()

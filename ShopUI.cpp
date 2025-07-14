@@ -21,40 +21,47 @@ ShopUI::~ShopUI()
 
 void ShopUI::Init()
 {
-    panelBg.setTexture(TEXTURE_MGR.Get("ui/shop_panel.png"));
-    panelBg.setPosition(PANEL_ORIGIN);
+    tex.loadFromFile("graphics/msgbox.png");
+    panelBg.setTexture(tex);
+    panelBg.setPosition(PANEL_ORIGIN - sf::Vector2f(50.f, 60.f));
+    panelBg.setScale(0.35f, 0.8f);
 
-    title.SetFontId("font/pokemon-dppt.ttf");
-    title.SetString("Poké Mart");
-    title.SetCharacterSize(26);
+
+
+    sf::Vector2f pos2 = { FRAMEWORK.GetWindowSize().x / 2.f, FRAMEWORK.GetWindowSize().y / 2.f };
+
+    //text->SetBackGround("graphics/inputbox.png", { 135, 60, 237, 45 }, 3.f, 4.f);
+
     title.SetFillColor(sf::Color::Yellow);
-    title.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 20.f, 10.f });
+    title.AddText("fonts/pokemon-dppt.otf", "Poké Mart", 26, (PANEL_ORIGIN + sf::Vector2f{ 20.f, 10.f }));
+    //title.GetText().setPosition({ text->GetPosition().x, text->GetPosition().y - 20.f });
+    UI_MGR.Add(&title);
 
-    goldText.SetFontId("fonts/pokemon-dppt.ttf");
-    goldText.SetCharacterSize(22);
     goldText.SetFillColor(sf::Color::White);
-    goldText.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 260.f, 10.f });
+    goldText.AddText("fonts/pokemon-dppt.otf", "", 22, (PANEL_ORIGIN + sf::Vector2f{ 260.f, 10.f }));
+    UI_MGR.Add(&goldText);
 
-    infoText.SetFontId("fonts/pokemon-dppt.ttf");
-    infoText.SetCharacterSize(18);
     infoText.SetFillColor(sf::Color(230, 230, 230));
-    infoText.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 20.f, 255.f });
-    infoText.SetString(" ");                // 초기 공백
+    infoText.AddText("fonts/pokemon-dppt.otf", " ", 18, (PANEL_ORIGIN + sf::Vector2f{ 20.f, 255.f }));
+    UI_MGR.Add(&infoText);
 
-    closeBtn.SetButton({ 60.f,28.f }, sf::Color(80, 80, 80, 200), "fonts/pokemon-dppt.ttf");
+    closeBtn.SetButton({ 60.f,28.f }, sf::Color(80, 80, 80, 200), "fonts/pokemon-dppt.otf");
     closeBtn.SetString("X");
     closeBtn.SetPosition(PANEL_ORIGIN + sf::Vector2f{ PANEL_WIDTH - 70.f, 5.f });
     closeBtn.SetOnClick([this]() { Close(); });
+    UI_MGR.Add(&closeBtn);
 
-    buyBtn.SetButton({ 90.f,32.f }, sf::Color(0, 120, 255, 200), "fonts/pokemon-dppt.ttf");
+    buyBtn.SetButton({ 90.f,32.f }, sf::Color(0, 120, 255, 200), "fonts/pokemon-dppt.otf");
     buyBtn.SetString("Buy");
     buyBtn.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 275.f, 210.f });
-    buyBtn.SetOnClick([this]() { OnBuyClicked(); });
+    //buyBtn.SetOnClick([this]() { OnBuyClicked(); });
+    UI_MGR.Add(&buyBtn);
 
-    sellBtn.SetButton({ 90.f,32.f }, sf::Color(0, 200, 100, 200), "fonts/pokemon-dppt.ttf");
+    sellBtn.SetButton({ 90.f,32.f }, sf::Color(0, 200, 100, 200), "fonts/pokemon-dppt.otf");
     sellBtn.SetString("Sell");
     sellBtn.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 275.f, 250.f });
-    sellBtn.SetOnClick([this]() { OnSellClicked(); });
+    //sellBtn.SetOnClick([this]() { OnSellClicked(); });
+    UI_MGR.Add(&sellBtn);
 
     const float rowHeight = 32.f;
     for (int r = 0; r < visibleRows; ++r)
@@ -78,13 +85,13 @@ void ShopUI::Reset()
     selectedIdx = -1;
     firstRow = 0;
     infoText.SetString(" ");
-    RefreshSlots();
+    //RefreshSlots();
 }
 
 
-void ShopUI::Open(const std::string& shopTag, int playerGold)
+void ShopUI::Open(const std::string& shopTag, int& playerGold)
 {
-    items = ItemDB::Instance().GetShopItems(shopTag);
+    //items = ItemDB::Instance().GetShopItems(shopTag);
     pPlayerGold = &playerGold;         
     RefreshGold();
     Reset();
@@ -101,18 +108,18 @@ void ShopUI::Update(float dt)
 {
     if (!active) return;
 
-    float wheel = InputMgr::GetMouseWheelDelta();
+   /* float wheel = InputMgr::GetMouseWheelDelta();
     if (wheel != 0.f && items.size() > visibleRows)
     {
         firstRow = Utils::Clamp(firstRow - wheel, 0,
             int(items.size() - visibleRows));
         RefreshSlots();
-    }
+    }*/
 
-    closeBtn.Update(dt);  
-    buyBtn.Update(dt);  
-    sellBtn.Update(dt);
-    for (auto* s : slots) s->Update(dt);
+    //closeBtn.Update(dt);  
+    //buyBtn.Update(dt);  
+    //sellBtn.Update(dt);
+    //for (auto* s : slots) s->Update(dt);
 }
 
 void ShopUI::Draw(sf::RenderWindow& window)
@@ -120,15 +127,16 @@ void ShopUI::Draw(sf::RenderWindow& window)
     if (!active) return;
 
     window.draw(panelBg);
-    title.Draw(window);
-    goldText.Draw(window);
-    infoText.Draw(window);
+    //title.Draw(window);
+    //goldText.Draw(window);
+    //infoText.Draw(window);
+    UI_MGR.Draw(window);
 
-    for (auto* s : slots) s->Draw(window);
+    //for (auto* s : slots) s->Draw(window);
 
-    buyBtn.Draw(window);
-    sellBtn.Draw(window);
-    closeBtn.Draw(window);
+    //buyBtn.Draw(window);
+    //sellBtn.Draw(window);
+    //closeBtn.Draw(window);
 }
 
 void ShopUI::RefreshGold()

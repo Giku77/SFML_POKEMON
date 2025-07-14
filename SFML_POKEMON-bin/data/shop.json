@@ -1,0 +1,7 @@
+{
+  "items": [
+    { "id": 1, "name": "Potion",        "price": 200, "desc": "Recovers 20 HP.",  "icon": "ball-.png",  "shops": ["poke_mart"] },
+    { "id": 2, "name": "Super Potion",  "price": 700, "desc": "Recovers 60 HP.",  "icon": "ball-.png",   "shops": ["poke_mart"] },
+    { "id": 3, "name": "Poké Ball",     "price": 200, "desc": "A device for catching wild Pokémon.", "icon": "ball-.png", "shops": ["poke_mart","ball_shop"] }
+  ]
+}
