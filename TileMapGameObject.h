@@ -25,5 +25,10 @@ public:
 	sf::Vector2f GetMapSize() const {
 		return tileMap.GetMapPixelSize();
 	}
+	bool isCollidable(int x, int y) const {
+		return tileMap.isCollidable(x, y);
+	}
+	int getTileW() const { return tileMap.getTileW(); }
+	int getTileH() const { return tileMap.getTileH(); }
 };
 

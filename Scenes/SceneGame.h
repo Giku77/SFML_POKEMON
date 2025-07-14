@@ -8,6 +8,8 @@ class SceneGame : public Scene
 protected:
 	TileMapGameObject* tileMapObj;
 	AniPlayer* player = nullptr;
+	float prevPostime = 0.f;
+	sf::Vector2f prevPos = { 0.f, 0.f };
 public:
 	SceneGame();
 	~SceneGame() = default;

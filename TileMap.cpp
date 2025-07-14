@@ -20,6 +20,14 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
         std::cerr << "[Tileset] image 필드가 없습니다 (Embed Tilesets 필요)\n";
         return false;
     }
+    if (tsJson.contains("tiles")) {
+        for (const auto& tile : tsJson["tiles"]) {
+            int localId = tile["id"];
+            if (tile.contains("objectgroup")) {
+                outTs.collidableLocalIds.insert(localId);
+            }
+        }
+    }
     std::string imgRel = tsJson["image"];                 
     std::string imgPath = baseDir.empty() ? imgRel        
         : (baseDir + "/" + imgRel);   
@@ -90,6 +98,7 @@ bool TileMap::load(const std::string& jsonPath)
             TileInfo& t = layer.tiles[idx];
             t.sprite.setTexture(ts->texture);
             t.sprite.setTextureRect({ col * tileW, row * tileH, tileW, tileH });
+            t.isCollidable = ts->collidableLocalIds.count(local) > 0;
 
             int x = idx % mapWidth;
             int y = idx / mapWidth;

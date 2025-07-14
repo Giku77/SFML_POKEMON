@@ -11,6 +11,7 @@ struct TilesetInfo {
     int firstgid = 0;
     int columns = 0;
     sf::Texture  texture;
+    std::unordered_set<int> collidableLocalIds;
 };
 
 class TileMap {
@@ -22,6 +23,8 @@ public:
     sf::Vector2f GetMapPixelSize() const {
         return sf::Vector2f(mapWidth * tileW, mapHeight * tileH);
     }
+    int getTileW() const { return tileW; }
+    int getTileH() const { return tileH; }
 
 private:
     const TilesetInfo* findTileset(int gid) const;
