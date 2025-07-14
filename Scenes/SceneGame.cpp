@@ -45,7 +45,6 @@ void SceneGame::Enter()
 
 void SceneGame::Update(float dt)
 {
-	prevPostime += dt;
 	Scene::Update(dt);
 	//player->SetScale({ 0.5f, 0.5f });
 	/*const float moveSpeed = 400.f;
@@ -63,11 +62,6 @@ void SceneGame::Update(float dt)
 	{
 		sf::Vector2f playerPos = player->GetPosition();
 
-		if (prevPostime > 0.1f) {
-			prevPos = player->GetPosition();
-			prevPostime = 0.f;
-		}
-
 		// 경계 제한
 		sf::Vector2f viewSize = worldView.getSize();
 		sf::Vector2f halfSize = viewSize * 0.5f;
@@ -81,7 +75,7 @@ void SceneGame::Update(float dt)
 
 		if (tileMapObj->isCollidable(tileX, tileY)) {
 			//std::cout << "충돌" << std::endl;
-			playerPos = prevPos;
+			playerPos = player->getPrevPos();
 		}
 		player->SetPosition(playerPos);
 

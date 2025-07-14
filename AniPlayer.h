@@ -9,6 +9,7 @@ protected:
 
 	sf::Vector2f gravity = { 0.f, 500.f };
 	sf::Vector2f velocity = { 0.f, 0.f };
+	sf::Vector2f prevPos = { 0.f, 0.f };
 	bool isGrounded = true;
 	float speed = 500.f;
 
@@ -22,6 +23,8 @@ public:
 
 	void SetOrigin(Origins preset) override;
 	void SetOrigin(const sf::Vector2f& newOrigin) override;
+
+	const sf::Vector2f& getPrevPos() const { return prevPos; }
 
 	void Init() override;
 	void Release() override;

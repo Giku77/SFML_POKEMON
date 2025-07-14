@@ -88,6 +88,7 @@ void AniPlayer::Update(float dt)
 	{
 		velocity += gravity * dt;
 	}
+	prevPos = position;
 	position += velocity * dt;
 	SetPosition(position);
 
