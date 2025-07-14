@@ -25,7 +25,8 @@ public:
     bool load(const std::string& jsonPath);
     void draw(sf::RenderWindow& window) const;
     bool isCollidable(int x, int y) const;
-    bool isEnterable(int x, int y) const;
+    bool isCenterEnterable(int x, int y) const;
+    bool isShopEnterable(int x, int y) const;
     sf::Vector2f GetMapPixelSize() const {
         return sf::Vector2f(mapWidth * tileW, mapHeight * tileH);
     }

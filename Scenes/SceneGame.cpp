@@ -3,6 +3,7 @@
 #include "AniPlayer.h"
 #include "TileMapGameObject.h"
 #include "SpriteAnimator.h"
+#include "ShopUI.h"
 
 
 SceneGame::SceneGame()
@@ -14,6 +15,12 @@ SceneGame::~SceneGame()
 {
 	delete ani;
 	ani = nullptr;
+	delete shopUi;
+	shopUi = nullptr;
+	delete tileMapObj;
+	tileMapObj = nullptr;
+	delete player;
+	player = nullptr;
 }
 
 void SceneGame::Init()
@@ -46,6 +53,10 @@ void SceneGame::Init()
 
 	ani = new SpriteAnimator(&newScreen, newTex, 540.f, 411.f, 0.03f);
 
+	shopUi = new ShopUI("MartPanel");
+	shopUi->Init();
+	shopUi->SetActive(false);
+
 	Scene::Init();
 }
 
@@ -67,6 +78,17 @@ void SceneGame::Update(float dt)
 	if (aniCenterTime > 4.f) {
 		aniCenterTime = 0.f;
 		isCenterEnter = false;
+	}
+	if (shopOpened)
+	{
+		shopUi->Update(dt);
+
+		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+		{
+			shopUi->Close();
+			shopOpened = false;
+		}
+		return;                 
 	}
 	Scene::Update(dt);
 	ani->Update(dt, true);
@@ -96,10 +118,21 @@ void SceneGame::Update(float dt)
 
 		int tileX = static_cast<int>(playerPos.x) / tileMapObj->getTileW();
 		int tileY = static_cast<int>(playerPos.y) / tileMapObj->getTileH();
-		if (tileMapObj->isEnterable(tileX, tileY)) {
+
+	
+		if (tileMapObj->isCenterEnterable(tileX, tileY)) {
 			std::cout << "입장" << std::endl;
 			ani->setIndex(0);
 			isCenterEnter = true;
+		}
+
+		if (tileMapObj->isShopEnterable(tileX, tileY)) {
+			std::cout << "입장" << std::endl;
+			shopUi->Open("poke_mart", playerGold);
+			shopOpened = true;
+			shopUi->SetActive(true);
+			ani->setIndex(0);
+			isShopEnter = true;
 		}
 
 		if (tileMapObj->isCollidable(tileX, tileY)) {
@@ -125,5 +158,6 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	Scene::Draw(window);
 	window.setView(window.getDefaultView());
 	if(isCenterEnter) window.draw(newScreen);
+	if (shopOpened) shopUi->Draw(window);
 	//window.draw(newScreen);
 }

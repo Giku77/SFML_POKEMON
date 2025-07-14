@@ -34,6 +34,12 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
                     {
                         outTs.enterCenterLocalIds.insert(localId);
                     }
+                    if (prop.contains("name") && prop["name"] == "isShopEnter" &&
+                        prop.contains("type") && prop["type"] == "bool" &&
+                        prop.contains("value") && prop["value"] == true)
+                    {
+                        outTs.enterShopLocalIds.insert(localId);
+                    }
                 }
             }
         }
@@ -110,11 +116,12 @@ bool TileMap::load(const std::string& jsonPath)
             t.isCollidable = ts->collidableLocalIds.count(local) > 0;
             //t.isEnterable = ts->enterLocalIds.count(local) > 0;
             t.isCenterEnter = ts->enterCenterLocalIds.count(local) > 0;
+            t.isShopEnter = ts->enterShopLocalIds.count(local) > 0;
 
-            for (int y = 0; y < mapHeight; ++y)
+           /* for (int y = 0; y < mapHeight; ++y)
                 for (int x = 0; x < mapWidth; ++x)
-                    if (isEnterable(x, y))
-                        std::cout << "isCenterEnter at (" << x << ", " << y << ")\n";
+                    if (isCenterEnterable(x, y))
+                        std::cout << "isCenterEnter at (" << x << ", " << y << ")\n";*/
 
             int x = idx % mapWidth;
             int y = idx / mapWidth;
@@ -153,13 +160,23 @@ bool TileMap::isCollidable(int x, int y) const
     return false;
 }
 
-bool TileMap::isEnterable(int x, int y) const
+bool TileMap::isCenterEnterable(int x, int y) const
 {
     if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return false;
     int idx = y * mapWidth + x;
     for (const auto& layer : layers)
         if (idx < layer.tiles.size() && layer.tiles[idx].isCenterEnter) {
-            std::cout << "저장됨" << std::endl;
+            return true;
+        }
+    return false;
+}
+
+bool TileMap::isShopEnterable(int x, int y) const
+{
+    if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return false;
+    int idx = y * mapWidth + x;
+    for (const auto& layer : layers)
+        if (idx < layer.tiles.size() && layer.tiles[idx].isShopEnter) {
             return true;
         }
     return false;

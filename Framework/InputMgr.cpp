@@ -5,6 +5,7 @@ std::list<int> InputMgr::downKeys;
 std::list<int> InputMgr::heldKeys;
 std::list<int> InputMgr::upKeys;
 
+float InputMgr::wheelDelta = 0.f;
 std::wstring InputMgr::inputBuffer;
 bool InputMgr::isInputBuffer = false;
 std::unordered_map<Axis, AxisInfo> InputMgr::axisInfoMap;
@@ -33,6 +34,7 @@ void InputMgr::Clear()
 {
 	downKeys.clear();
 	upKeys.clear();
+	wheelDelta = 0.f;
 }
 
 void InputMgr::UpdateEvent(const sf::Event& ev) 
@@ -40,6 +42,9 @@ void InputMgr::UpdateEvent(const sf::Event& ev)
 	if(isInputBuffer) HandleTextInput(ev);
 	switch (ev.type)
 	{
+	case sf::Event::MouseWheelScrolled:
+		wheelDelta += ev.mouseWheelScroll.delta;  
+		break;
 	case sf::Event::KeyPressed:
 		if (!Contains(heldKeys, ev.key.code))
 		{
@@ -193,5 +198,10 @@ bool InputMgr::GetMouseButton(sf::Mouse::Button key)
 sf::Vector2i InputMgr::GetMousePosition()
 {
 	return mousePosition; 
+}
+
+float InputMgr::GetMouseWheelDelta()
+{
+	return wheelDelta;
 }
 

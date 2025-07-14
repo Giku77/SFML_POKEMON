@@ -26,6 +26,7 @@ private:
 	static std::unordered_map<Axis, AxisInfo> axisInfoMap;
 	static sf::Vector2i mousePosition;
 	static std::wstring inputBuffer;
+	static float wheelDelta;
 
 public:
 	static bool isInputBuffer;
@@ -70,5 +71,6 @@ public:
 		}
 		return { 0.f, 0.f };  
 	}
+	static float GetMouseWheelDelta();
 };
 

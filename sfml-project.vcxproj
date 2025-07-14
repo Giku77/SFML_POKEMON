@@ -152,6 +152,7 @@
     <ClCompile Include="Framework\SpriteGo.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\tinyxml2.cpp" />
+    <ClCompile Include="ItemDB.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\MessageMgr.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Framework\SceneMgr.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
     <ClCompile Include="Framework\SpriteAnimator.cpp" />
+    <ClCompile Include="ShopUI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -199,6 +201,7 @@
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\tinyxml2.h" />
     <ClInclude Include="Framework\MessageMgr.h" />
+    <ClInclude Include="ItemDB.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Framework\PokemonManager.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
     <ClInclude Include="Framework\SpriteAnimator.h" />
+    <ClInclude Include="ShopUI.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />

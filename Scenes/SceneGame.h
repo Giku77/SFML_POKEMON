@@ -4,17 +4,25 @@
 class TileMapGameObject;
 class AniPlayer;
 class SpriteAnimator;
+class ShopUI;
+
 class SceneGame : public Scene
 {
 protected:
-	TileMapGameObject* tileMapObj;
+	TileMapGameObject* tileMapObj = nullptr;
 	AniPlayer* player = nullptr;
 	SpriteAnimator* ani = nullptr;
+	ShopUI* shopUi = nullptr;
+
+	int playerGold = 3000;
+
 
 	sf::Sprite newScreen;
 	sf::Texture newTex;
 
 	bool isCenterEnter = false;
+	bool isShopEnter = false;
+	bool shopOpened = false;
 	float aniCenterTime = 0.f;
 
 public:
