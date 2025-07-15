@@ -11,19 +11,24 @@ public:
     void Init(PlayerPokemon* player, EnemyPokemon* enemy);
     void Update(float dt);
     void UseMove(int moveIndex); // 플레이어가 기술 선택 시 호출
-    bool IsBattleOver() const;
+    bool BattleOver() const { return IsBattleOver; }
 
-    const Pokemon& GetPlayerPokemon() const;
-    const Pokemon& GetEnemyPokemon() const;
-    Turn GetCurrentTurn() const;
+    const Pokemon& GetPlayerPokemon() const { return *player; }
+    const Pokemon& GetEnemyPokemon() const { return *enemy; }
+    Turn GetCurrentTurn() const { return currentTurn; }
 
 private:
     PlayerPokemon* player;
     EnemyPokemon* enemy;
     Turn currentTurn = Turn::Player;
 
+    bool IsBattleOver = false;
     void PlayerAttack(int moveIndex);
     void EnemyAttack(); // 간단한 AI
     void CheckBattleEnd();
+    int CalcDamage(const Pokemon* atk, const Pokemon* def, const MoveData* m) const;
+    int ChooseEnemyMove() const;
+    void TakeDamage(int d);
+
 };
 

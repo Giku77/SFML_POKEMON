@@ -23,9 +23,11 @@ protected:
 	Button* mov3 = nullptr;
 	Button* mov4 = nullptr;
 
-	sf::Sprite* pokSprite1 = nullptr;
+	sf::Sprite pokSprite1;
+	sf::Texture pokTex1;
 	SpriteAnimator* poke1 = nullptr;
-	sf::Sprite* pokSprite2 = nullptr;
+	sf::Sprite pokSprite2;
+	sf::Texture pokTex2;
 	SpriteAnimator* poke2 = nullptr;
 
 public:

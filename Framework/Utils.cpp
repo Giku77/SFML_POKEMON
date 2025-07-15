@@ -3,6 +3,7 @@
 
 std::random_device Utils::rd;
 std::mt19937 Utils::gen;
+
 const float Utils::PI = acosf(-1.f);
 
 void Utils::Init()
@@ -70,28 +71,38 @@ sf::Vector2f Utils::RandomPointInRect(const sf::FloatRect& rect)
         RandomRange(rect.top, rect.top + rect.height));
 }
 
+bool Utils::isSameColor(const sf::Color& a, const sf::Color& b, int tolerance)
+{
+        return std::abs(a.r - b.r) <= tolerance &&
+            std::abs(a.g - b.g) <= tolerance &&
+            std::abs(a.b - b.b) <= tolerance;
+}
+
 sf::Texture Utils::loadWithColorKey(const std::string& path, const sf::Color& key)
 {
     sf::Image img;
     if (!img.loadFromFile(path))
         throw std::runtime_error("이미지 로드 실패");
 
-    const sf::Vector2u sz = img.getSize();
+    sf::Vector2u sz = img.getSize();
     for (unsigned y = 0; y < sz.y; ++y)
+    {
         for (unsigned x = 0; x < sz.x; ++x)
         {
-            if (img.getPixel(x, y) == key)
+            if (isSameColor(img.getPixel(x, y), key))
             {
                 sf::Color c = img.getPixel(x, y);
-                c.a = 0;                 // 완전 투명
+                c.a = 0;
                 img.setPixel(x, y, c);
             }
         }
+    }
 
     sf::Texture tex;
-    tex.loadFromImage(img);              // 알파 포함 텍스처 완성
-    tex.setSmooth(true);                 // 필요 시
-    return tex;
+    tex.loadFromImage(img);
+    tex.setSmooth(true);
+
+    return std::move(tex);  // 명시적으로 move
 }
 
 

@@ -5,6 +5,11 @@
 #include "UiMgr.h"
 #include "SpriteAnimator.h"
 #include "MoveDB.h"
+#include "BattleMgr.h"
+#include "BattlePokemon.h"
+
+
+BattleMgr bmgr;
 
 SceneBattle::SceneBattle()
 	: Scene(SceneIds::Battle)
@@ -66,6 +71,7 @@ void SceneBattle::Init()
 	mov1->SetOutlineColor(sf::Color::Black);
 	mov1->SetOutlineThickness(4.f);
 	mov1->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos1.x - 110.f, mpos1.y - 15.f)));
+	//mov1->SetOnClick([=]() {bmgr.UseMove(mo1Id); });
 	uiMgr->Add(mov1);
 
 	mov2 = new Button("mov2");
@@ -103,10 +109,38 @@ void SceneBattle::Init()
 	mov4->SetOutlineThickness(4.f);
 	mov4->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos4.x - 110.f, mpos4.y - 15.f)));
 	uiMgr->Add(mov4);
-
 	uiMgr->Init();
 
-	//poke1 = new SpriteAnimator(pokSprite1, Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236)), 540.f, 411.f, 0.03f);
+
+	sf::Vector2f pos22 = { FRAMEWORK.GetWindowSize().x / 2.f, FRAMEWORK.GetWindowSize().y / 2.f };
+
+
+	pokTex1.loadFromFile("graphics/ball-.png");
+	pokSprite1.setTexture(pokTex1);
+	pokSprite1.setPosition(ScreenToUi((sf::Vector2i)(pos22 - sf::Vector2f(500.f, 200.f))));
+	pokSprite1.setScale(1.f, 1.f);
+
+	std::vector<sf::IntRect> rects = {
+		{1, 36, 78, 70},
+		{82, 36, 78, 70}
+	};
+
+	pokTex1 = Utils::loadWithColorKey("graphics/starting.png", sf::Color(147, 187, 236, 255));
+	pokSprite1.setTexture(pokTex1);
+	pokSprite1.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(750.f, 130.f)));
+	pokSprite1.setScale(5.f, 5.f);
+	poke1 = new SpriteAnimator(&pokSprite1, rects, 0.35f);
+
+	pokTex2 = Utils::loadWithColorKey("graphics/starting.png", sf::Color(147, 187, 236, 255));
+	pokSprite2.setTexture(pokTex2);
+	pokSprite2.setTextureRect({ 164, 34, 77, 70 });
+	pokSprite2.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(150.f, 310.f)));
+	pokSprite2.setScale(5.f, 5.f);
+	
+	//PlayerPokemon p(Pokemon{ "Pikachu", 35, 55, 40, {...} });
+	//EnemyPokemon  e(Pokemon{ "Charmander", 34, 52, 43, {...} });
+
+	//bmgr.Init(&p, &e);
 }
 
 void SceneBattle::Enter()
@@ -118,6 +152,7 @@ void SceneBattle::Update(float dt)
 {
 	Scene::Update(dt);
 	uiMgr->Update(dt);
+	poke1->Update(dt, true);
 	if(InputMgr::GetKeyDown(sf::Keyboard::LShift)) {
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
@@ -127,5 +162,7 @@ void SceneBattle::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 	window.draw(sprite);
+	window.draw(pokSprite2);
 	uiMgr->Draw(window);
+	window.draw(pokSprite1);
 }

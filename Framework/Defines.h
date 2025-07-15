@@ -39,6 +39,7 @@ enum class Sides
 };
 
 struct Move {
+	int id;
 	std::wstring name;
 	int power;
 	int accuracy;
@@ -53,8 +54,13 @@ struct Pokemon {
 	int hp;
 	int attack;
 	int defense;
-	std::vector<Move> moves;
+	std::vector<Move*> moves;
+	int getMoveSize() const { return moves.size() - 1; }
 	bool IsDead() const { return hp <= 0; }
+	void TakeDamage(int d) { 
+		hp -= d; 
+		if (hp < 0) hp = 0;
+	}
 };
 
 enum class TileType {

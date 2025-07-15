@@ -20,7 +20,7 @@ public:
 	static sf::Color RandomColor(bool opaque = true);
 	static sf::Vector2f RandomPointInRect(const sf::FloatRect& rect);
 
-
+	static bool isSameColor(const sf::Color& a, const sf::Color& b, int tolerance = 10);
 	static sf::Texture loadWithColorKey(const std::string& path, const sf::Color& key);
 
 	// Origin
