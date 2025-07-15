@@ -70,7 +70,7 @@ public:
     }
 
 private:
-    std::unordered_map<int, ItemData>                       items;
+    std::unordered_map<int, ItemData> items;
     std::unordered_map<std::string, std::vector<const ItemData*>> shopTables;
 
     ItemDB() = default;

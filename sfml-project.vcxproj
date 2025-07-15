@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BattleMgr.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Framework\Button.cpp" />
     <ClCompile Include="Framework\AnimationClip.cpp" />
@@ -155,8 +156,10 @@
     <ClCompile Include="ItemDB.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\MessageMgr.cpp" />
+    <ClCompile Include="MoveDB.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Framework\PokemonManager.cpp" />
+    <ClCompile Include="BattlePokemon.cpp" />
     <ClCompile Include="Scenes\ScenePokeDev.cpp" />
     <ClCompile Include="Scenes\SceneEnd.cpp" />
     <ClCompile Include="Scenes\SceneBattle.cpp" />
@@ -183,6 +186,7 @@
     <ClCompile Include="Framework\UiMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BattleMgr.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="Framework\Button.h" />
     <ClInclude Include="Framework\AnimationClip.h" />
@@ -202,8 +206,10 @@
     <ClInclude Include="Framework\tinyxml2.h" />
     <ClInclude Include="Framework\MessageMgr.h" />
     <ClInclude Include="ItemDB.h" />
+    <ClInclude Include="MoveDB.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Framework\PokemonManager.h" />
+    <ClInclude Include="BattlePokemon.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
     <ClInclude Include="Scenes\SceneEnd.h" />
     <ClInclude Include="Scenes\SceneBattle.h" />

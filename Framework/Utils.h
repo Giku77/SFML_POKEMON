@@ -21,6 +21,8 @@ public:
 	static sf::Vector2f RandomPointInRect(const sf::FloatRect& rect);
 
 
+	static sf::Texture loadWithColorKey(const std::string& path, const sf::Color& key);
+
 	// Origin
 	static sf::Vector2f SetOrigin(sf::Transformable& obj, Origins preset, const sf::FloatRect bound);
 	static sf::Vector2f SetOrigin(sf::Shape& obj, Origins preset);

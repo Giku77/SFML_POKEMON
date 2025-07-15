@@ -15,7 +15,7 @@ void Framework::Init(int w, int h, const std::string& t)
 	InputMgr::Init();
     SOUND_MGR.Init();
 	SCENE_MGR.Init();
-    UI_MGR.Init();
+    //UI_MGR.Init();
 }
 
 void Framework::Do()
@@ -49,7 +49,7 @@ void Framework::Do()
         }
 #endif
 
-        UI_MGR.Update(deltaTime);
+        //UI_MGR.Update(deltaTime);
         SCENE_MGR.Update(deltaTime);
 
         // Draw

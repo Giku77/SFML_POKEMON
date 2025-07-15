@@ -15,12 +15,12 @@ SceneGame::~SceneGame()
 {
 	delete ani;
 	ani = nullptr;
-	/*delete shopUi;
+	delete shopUi;
 	shopUi = nullptr;
 	delete tileMapObj;
 	tileMapObj = nullptr;
 	delete player;
-	player = nullptr;*/
+	player = nullptr;
 }
 
 void SceneGame::Init()
@@ -138,6 +138,11 @@ void SceneGame::Update(float dt)
 			shopUi->SetActive(true);
 			//ani->setIndex(0);
 			isShopEnter = true;
+		}
+
+		if (tileMapObj->isBattleable(tileX, tileY)) {
+			std::cout << "น่ฦฒ" << std::endl;
+			SCENE_MGR.ChangeScene(SceneIds::Battle);
 		}
 
 		if (tileMapObj->isCollidable(tileX, tileY)) {

@@ -68,7 +68,7 @@ void AniPlayer::Reset()
 	sortingOrder = 0;
 
 	SetPosition({ 500.f, 1100.f });
-	SetScale({ 0.5f, 0.5f });
+	SetScale({ 0.3f, 0.3f });
 
 	animator.Play("animations/player_idle.csv");
 	SetOrigin(Origins::BC);
@@ -94,7 +94,7 @@ void AniPlayer::Update(float dt)
 
 	if (dir.x != 0.f)
 	{
-		SetScale({ 0.5f * (dir.x > 0.f ? 1.f : -1.f), 0.5f });
+		SetScale({ 0.3f * (dir.x > 0.f ? 1.f : -1.f), 0.3f });
 		if (dir.x > 0.f) isRight = true;
 		else isRight = false;
 	}

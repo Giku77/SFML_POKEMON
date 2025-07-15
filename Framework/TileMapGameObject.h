@@ -34,6 +34,9 @@ public:
 	bool isShopEnterable(int x, int y) const {
 		return tileMap.isShopEnterable(x, y);
 	}
+	bool isBattleable(int x, int y) const {
+		return tileMap.isNpcBattleable(x, y);
+	}
 	int getTileW() const { return tileMap.getTileW(); }
 	int getTileH() const { return tileMap.getTileH(); }
 };

@@ -22,6 +22,7 @@ protected:
 
 	bool isCenterEnter = false;
 	bool isShopEnter = false;
+	bool isBattle = false;
 	bool shopOpened = false;
 	float aniCenterTime = 0.f;
 

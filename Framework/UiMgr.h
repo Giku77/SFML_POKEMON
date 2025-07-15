@@ -2,18 +2,17 @@
 
 class UI;
 
-class UiMgr : public Singleton<UiMgr>
+class UiMgr
 {
-	friend class Singleton<UiMgr>;
+	//friend class Singleton<UiMgr>;
 
 protected:
-	UiMgr() = default;
-	~UiMgr() = default;
 
 	std::vector<UI*> uiele;
 
 public:
-
+	UiMgr() = default;
+	~UiMgr() = default;
 
 	void Add(UI* ui);
 	void Init();
@@ -21,7 +20,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 };
 
-#define UI_MGR (UiMgr::Instance())
+//#define UI_MGR (UiMgr::Instance())
 
 
 

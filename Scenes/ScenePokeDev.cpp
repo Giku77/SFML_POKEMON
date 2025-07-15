@@ -5,6 +5,7 @@
 #include "MessageMgr.h"
 #include "StoryPlayer.h"
 #include "SpriteAnimator.h"
+#include "UiMgr.h"
 
 MessageMgr msgMgr;
 StoryPlayer story;
@@ -64,6 +65,8 @@ void ScenePokeDev::Init()
 	texIds.push_back("graphics/inputbox.png");
 	fontIds.push_back("fonts/pokemon-dppt.otf");
 
+	Uimgr = new UiMgr();
+
 	button = new Button("TestButton", true);
 	button->SetBackGroud("graphics/18507.png", 4.f, 4.f);
 	sf::String s;
@@ -109,7 +112,7 @@ void ScenePokeDev::Init()
 	//sf::Vector2f pos = { 0.f, FRAMEWORK.GetWindowSize().y - 60.f };
 	button->SetPosition(ScreenToUi((sf::Vector2i)pos));
 	button->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(50.f, pos.y - 50.f)));
-	UI_MGR.Add(button);
+	Uimgr->Add(button);
 
 	text = new Text("Test");
 	sf::Vector2f pos2 = { FRAMEWORK.GetWindowSize().x / 2.f, FRAMEWORK.GetWindowSize().y / 2.f};
@@ -119,7 +122,7 @@ void ScenePokeDev::Init()
 	text->AddText("fonts/pokemon-dppt.otf", "", 50, ScreenToUi((sf::Vector2i)pos2));
 	text->GetText().setPosition({ text->GetPosition().x, text->GetPosition().y - 20.f });
 	text->SetActive(false);
-	UI_MGR.Add(text);
+	Uimgr->Add(text);
 
 	SetBackground("graphics/6960.png", { 10, 510, 240, 190 }, backGround, bGTex, Type::BG);
 	SetBackground("graphics/6960-.png", { 45, 80, 75, 130 }, backGround2, bGTex2, Type::CS, {3.f, 3.f});
@@ -140,6 +143,7 @@ void ScenePokeDev::Init()
 	backGround2.setPosition(ScreenToUi((sf::Vector2i) sf::Vector2f(pos2.x, 50.f)));
 
 	Scene::Init();
+	Uimgr->Init();
 }
 
 void ScenePokeDev::Enter()
@@ -150,7 +154,7 @@ void ScenePokeDev::Enter()
 void ScenePokeDev::Update(float dt)
 {
 	Scene::Update(dt);
-
+	Uimgr->Update(dt);
 	if (isNameInputActive) {
 		text->Reset();
 		text->SetActive(true);
@@ -212,5 +216,5 @@ void ScenePokeDev::Draw(sf::RenderWindow& window)
 	window.draw(backGround2);
 	if(isChoosePokemon) window.draw(balls);
 	Scene::Draw(window);
-	UI_MGR.Draw(window);
+	Uimgr->Draw(window);
 }

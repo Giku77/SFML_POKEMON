@@ -54,6 +54,7 @@ struct Pokemon {
 	int attack;
 	int defense;
 	std::vector<Move> moves;
+	bool IsDead() const { return hp <= 0; }
 };
 
 enum class TileType {

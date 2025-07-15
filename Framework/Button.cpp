@@ -41,7 +41,7 @@ void Button::SetButton(const sf::Vector2f& v, const sf::Color& c, const std::str
 
 void Button::AddButton(const sf::String& str, unsigned int size, const sf::Color& color)
 {
-	if (writer)
+	if (isWriter)
 	{
 		delete writer;
 		writer = nullptr;
@@ -75,7 +75,7 @@ void Button::TextSetPosition(const sf::Vector2f& pos)
 
 void Button::SetString(const sf::String& str)
 {
-	if (writer)
+	if (isWriter)
 	{
 		delete writer;
 		writer = nullptr;
@@ -110,8 +110,10 @@ void Button::Release()
 
 void Button::Reset()
 {
-	text.setFont(FONT_MGR.Get(fontId));
-	bg.setTexture(TEXTURE_MGR.Get(texId));
+	font.loadFromFile(fontId);
+	tex.loadFromFile(texId);
+	text.setFont(font);
+	bg.setTexture(tex);
 	Utils::SetOrigin(bg, Origins::MC);
 	Utils::SetOrigin(text, Origins::ML);
 	Utils::SetOrigin(box, Origins::MC);

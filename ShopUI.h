@@ -5,6 +5,7 @@
 #include "ItemDB.h"
 
 class ItemSlot;
+class UiMgr;
 
 class ShopUI : public UI
 {
@@ -32,6 +33,8 @@ private:
     Button closeBtn;
     Button buyBtn;
     Button sellBtn;
+
+    UiMgr* Uimgr = nullptr;
 
     std::vector<ItemSlot*> slots;          
     int  selectedIdx = -1;              

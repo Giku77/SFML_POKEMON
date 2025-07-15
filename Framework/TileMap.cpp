@@ -40,6 +40,12 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
                     {
                         outTs.enterShopLocalIds.insert(localId);
                     }
+                    if (prop.contains("name") && prop["name"] == "isBattle" &&
+                        prop.contains("type") && prop["type"] == "bool" &&
+                        prop.contains("value") && prop["value"] == true)
+                    {
+                        outTs.battleNpcLocalIds.insert(localId);
+                    }
                 }
             }
         }
@@ -117,6 +123,7 @@ bool TileMap::load(const std::string& jsonPath)
             //t.isEnterable = ts->enterLocalIds.count(local) > 0;
             t.isCenterEnter = ts->enterCenterLocalIds.count(local) > 0;
             t.isShopEnter = ts->enterShopLocalIds.count(local) > 0;
+            t.isBattle = ts->battleNpcLocalIds.count(local) > 0;
 
            /* for (int y = 0; y < mapHeight; ++y)
                 for (int x = 0; x < mapWidth; ++x)
@@ -177,6 +184,17 @@ bool TileMap::isShopEnterable(int x, int y) const
     int idx = y * mapWidth + x;
     for (const auto& layer : layers)
         if (idx < layer.tiles.size() && layer.tiles[idx].isShopEnter) {
+            return true;
+        }
+    return false;
+}
+
+bool TileMap::isNpcBattleable(int x, int y) const
+{
+    if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return false;
+    int idx = y * mapWidth + x;
+    for (const auto& layer : layers)
+        if (idx < layer.tiles.size() && layer.tiles[idx].isBattle) {
             return true;
         }
     return false;

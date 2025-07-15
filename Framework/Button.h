@@ -5,6 +5,8 @@ class TextWriter;
 class Button : public UI
 {
 protected:
+	sf::Font font;
+	sf::Texture tex;
 	sf::RectangleShape box;
 	sf::Sprite bg;
 	sf::Text text;
@@ -25,6 +27,7 @@ public:
 	Button(const std::string& name = "", bool b = false);
 	virtual ~Button() = default;
 
+	const sf::Vector2f getBoxPos() const { return box.getPosition(); }
 	void ButtonSetFillColor(const sf::Color& color);
 	void TextSetFillColor(const sf::Color& color);
 	void SetOutlineColor(sf::Color c);

@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 
+class UiMgr;
 class Background;
 class Button;
 class Text;
@@ -12,6 +13,7 @@ protected:
 		BG,
 		CS,
 	};
+	UiMgr* Uimgr = nullptr;
 	Button* button = nullptr;
 	Text* text = nullptr;
 	SpriteAnimator* anim = nullptr;

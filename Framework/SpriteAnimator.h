@@ -7,12 +7,13 @@ private:
     float timer = 0.f;
     size_t index = 0;
     bool playing = false;      
+    bool isRemoveBg = false;
 
 public:
     SpriteAnimator(sf::Sprite* spr,
         const std::vector<sf::IntRect>& rects,
-        float speed = 0.1f)
-        : target(spr), frames(rects), interval(speed) {
+        float speed = 0.1f, bool b = false)
+        : target(spr), frames(rects), interval(speed), isRemoveBg(b) {
         if (!frames.empty())
             target->setTextureRect(frames[0]);
     }
@@ -20,8 +21,8 @@ public:
         const sf::Texture& tex,
         int frameWidth,
         int frameHeight,
-        float speed = 0.1f)
-        : target(spr), interval(speed)
+        float speed = 0.1f, bool b = false)
+        : target(spr), interval(speed), isRemoveBg(b)
     {
         int texWidth = tex.getSize().x;
         int texHeight = tex.getSize().y;

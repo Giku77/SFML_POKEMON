@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "ShopUI.h"
-
+#include "UiMgr.h"
 
 constexpr float PANEL_WIDTH = 450.f;
 constexpr float PANEL_HEIGHT = 320.f;
@@ -21,6 +21,7 @@ ShopUI::~ShopUI()
 
 void ShopUI::Init()
 {
+    Uimgr = new UiMgr();
     tex.loadFromFile("graphics/msgbox.png");
     panelBg.setTexture(tex);
     panelBg.setPosition(PANEL_ORIGIN - sf::Vector2f(50.f, 60.f));
@@ -35,33 +36,34 @@ void ShopUI::Init()
     title.SetFillColor(sf::Color::Yellow);
     title.AddText("fonts/pokemon-dppt.otf", "Poké Mart", 26, (PANEL_ORIGIN + sf::Vector2f{ 20.f, 10.f }));
     //title.GetText().setPosition({ text->GetPosition().x, text->GetPosition().y - 20.f });
-    UI_MGR.Add(&title);
+    Uimgr->Add(&title);
 
     goldText.SetFillColor(sf::Color::White);
     goldText.AddText("fonts/pokemon-dppt.otf", "", 22, (PANEL_ORIGIN + sf::Vector2f{ 260.f, 10.f }));
-    UI_MGR.Add(&goldText);
+    Uimgr->Add(&goldText);
 
     infoText.SetFillColor(sf::Color(230, 230, 230));
     infoText.AddText("fonts/pokemon-dppt.otf", " ", 18, (PANEL_ORIGIN + sf::Vector2f{ 20.f, 255.f }));
-    UI_MGR.Add(&infoText);
+    Uimgr->Add(&infoText);
 
     closeBtn.SetButton({ 60.f,28.f }, sf::Color(80, 80, 80, 200), "fonts/pokemon-dppt.otf");
     closeBtn.SetString("X");
     closeBtn.SetPosition(PANEL_ORIGIN + sf::Vector2f{ PANEL_WIDTH - 70.f, 5.f });
     closeBtn.SetOnClick([this]() { Close(); });
-    UI_MGR.Add(&closeBtn);
+    Uimgr->Add(&closeBtn);
 
     buyBtn.SetButton({ 90.f,32.f }, sf::Color(0, 120, 255, 200), "fonts/pokemon-dppt.otf");
     buyBtn.SetString("Buy");
     buyBtn.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 275.f, 210.f });
     //buyBtn.SetOnClick([this]() { OnBuyClicked(); });
-    UI_MGR.Add(&buyBtn);
+    Uimgr->Add(&buyBtn);
 
     sellBtn.SetButton({ 90.f,32.f }, sf::Color(0, 200, 100, 200), "fonts/pokemon-dppt.otf");
     sellBtn.SetString("Sell");
     sellBtn.SetPosition(PANEL_ORIGIN + sf::Vector2f{ 275.f, 250.f });
     //sellBtn.SetOnClick([this]() { OnSellClicked(); });
-    UI_MGR.Add(&sellBtn);
+    Uimgr->Add(&sellBtn);
+    Uimgr->Init();
 
     const float rowHeight = 32.f;
     for (int r = 0; r < visibleRows; ++r)
@@ -107,6 +109,7 @@ void ShopUI::Close()
 void ShopUI::Update(float dt)
 {
     if (!active) return;
+    Uimgr->Update(dt);
 
    /* float wheel = InputMgr::GetMouseWheelDelta();
     if (wheel != 0.f && items.size() > visibleRows)
@@ -130,7 +133,7 @@ void ShopUI::Draw(sf::RenderWindow& window)
     //title.Draw(window);
     //goldText.Draw(window);
     //infoText.Draw(window);
-    UI_MGR.Draw(window);
+    Uimgr->Draw(window);
 
     //for (auto* s : slots) s->Draw(window);
 

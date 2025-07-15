@@ -22,6 +22,11 @@ void Text::SetFillColor(const sf::Color& color)
 	text.setFillColor(color);
 }
 
+void Text::SetOrigin(const Origins& o)
+{
+	Utils::SetOrigin(text, o);
+}
+
 std::string Text::GetString() const
 {
 	return text.getString();
@@ -70,8 +75,10 @@ void Text::Release()
 void Text::Reset()
 {
 	//isBg = false;
-	text.setFont(FONT_MGR.Get(fontId));
-	bg.setTexture(TEXTURE_MGR.Get(texId));
+	font.loadFromFile(fontId);
+	tex.loadFromFile(texId);
+	text.setFont(font);
+	bg.setTexture(tex);
 	if (intrt.width != 0 && intrt.height != 0) bg.setTextureRect(intrt);
 	Utils::SetOrigin(text, Origins::MC);
 	Utils::SetOrigin(bg, Origins::MC);

@@ -9,6 +9,9 @@ protected:
 	std::string texId;
 	std::string fontId;
 
+	sf::Font font;
+	sf::Texture tex;
+
 	bool isBg = false;
 
 public:
@@ -21,6 +24,7 @@ public:
 	void SetString(const sf::String& str);
 	void SetCharacterSize(unsigned int size);
 	void SetFillColor(const sf::Color& color);
+	void SetOrigin(const Origins& o);
 	std::string GetString() const;
 
 	sf::Text& GetText() { return text; }
