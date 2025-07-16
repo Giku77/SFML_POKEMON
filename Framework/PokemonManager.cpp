@@ -22,10 +22,10 @@ bool PokemonManager::SaveGame(const std::wstring& playerName,
 
         for (const auto& m : p.moves) {
             pj["moves"].push_back({
-                { "name",  conv.to_bytes(m->name)  },
-                { "power", m->power                },
-                { "accuracy", m->accuracy          },
-                { "type",  conv.to_bytes(m->type)  }
+                { "name",  conv.to_bytes(m.name)  },
+                { "power", m.power                },
+                { "accuracy", m.accuracy          },
+                { "type",  conv.to_bytes(m.type)  }
                 });
         }
         arr.push_back(pj);
@@ -67,7 +67,7 @@ bool PokemonManager::LoadGame(std::wstring& playerName,
             m.power = mj.at("power").get<int>();
             m.accuracy = mj.at("accuracy").get<int>();
             m.type = conv.from_bytes(mj.at("type").get<std::string>());
-            p.moves.push_back(&m);
+            p.moves.push_back(m);
         }
         pokemons.push_back(p);
     }

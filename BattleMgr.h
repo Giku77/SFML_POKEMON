@@ -24,6 +24,7 @@ private:
     EnemyPokemon* enemy;
     Text* text = nullptr;
     Turn currentTurn = Turn::Player;
+    float turnDelay = 0.f;
 
     bool IsBattleOver = false;
     void PlayerAttack(int moveIndex);

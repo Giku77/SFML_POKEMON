@@ -43,6 +43,7 @@ struct Move {
 	std::wstring name;
 	int power;
 	int accuracy;
+	int pp;
 	std::wstring type;
 };
 
@@ -54,12 +55,12 @@ struct Pokemon {
 	int hp;
 	int attack;
 	int defense;
-	std::vector<Move*> moves;
-	int getMoveSize() const { return moves.size() - 1; }
+	std::vector<Move> moves;
+	int getMoveSize() const { return moves.size(); }
 	bool IsDead() const { return hp <= 0; }
 	void TakeDamage(int d) { 
-		//hp -= d; 
-		//if (hp < 0) hp = 0;
+		hp -= d; 
+		if (hp < 0) hp = 0;
 	}
 };
 

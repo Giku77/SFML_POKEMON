@@ -29,8 +29,33 @@ void SceneBattle::CreateMoveAndPokemon()
 {
 	PokemonDB::Instance().LoadFromJson("data/_pokemon.json");
 	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
-	ePoke = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 100));
+	MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
+	ePoke = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 51));
 	mPoke = PokemonDB::Instance().GetMyPokemon();
+	if (!ePoke) {
+		std::cerr << "적 포켓몬이 없습니다!" << std::endl;
+		return;
+	}
+	if (!mPoke) {
+		std::cerr << "내 포켓몬이 없습니다!" << std::endl;
+		return;
+	}
+	eHp = ePoke->hp;
+	mHp = mPoke->hp;
+	for (int i = 0; i < 8; ++i) {
+		int moId = Utils::RandomRange(1, 100);
+		Move m;
+		const MoveData* db = MoveDB::Instance().GetMove(moId);
+		m.id = db->id;
+		m.name = db->kname;
+		m.power = db->power;
+		m.pp = db->pp;
+		m.accuracy = db->accuracy;
+		m.type = db->type;
+		if (i < 3) { 
+			ePoke->moves.push_back(m);
+		} else mPoke->moves.push_back(m);
+	}
 	bmgr.Init((PlayerPokemon*)mPoke, (EnemyPokemon*)ePoke);
 }
 
@@ -38,8 +63,7 @@ void SceneBattle::Init()
 {
 	Scene::Init();
 	uiMgr = new UiMgr();
-
-	MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
+	CreateMoveAndPokemon();
 	tex.loadFromFile("graphics/battelBackGround.png");
 	sprite.setTexture(tex);
 	sprite.setScale(4.3f, 7.f);
@@ -49,8 +73,8 @@ void SceneBattle::Init()
 
 	pokeName1->SetBackGround("graphics/battle_Sprite.png", { 0, 0, 112, 35 }, 5.f, 5.f);
 	pokeName1->SetFillColor(sf::Color::Black);
-	pokeName1->AddText("fonts/pokemon-dppt.otf", "Name1", 40, ScreenToUi((sf::Vector2i)pos1));
-	pokeName1->GetText().setPosition({ pokeName1->GetPosition().x - 200.f, pokeName1->GetPosition().y - 40.f });
+	pokeName1->AddText("fonts/pokemon-dppt.otf", ePoke->name, 40, ScreenToUi((sf::Vector2i)pos1));
+	pokeName1->GetText().setPosition({ pokeName1->GetPosition().x - 190.f, pokeName1->GetPosition().y - 40.f });
 	uiMgr->Add(pokeName1);
 
 	pokeLv1 = new Text("pokeLv1");
@@ -72,8 +96,8 @@ void SceneBattle::Init()
 
 	pokeName2->SetBackGround("graphics/battle_Sprite.png", { 0, 41, 112, 41 }, 5.f, 5.f);
 	pokeName2->SetFillColor(sf::Color::Black);
-	pokeName2->AddText("fonts/pokemon-dppt.otf", "Name2", 40, ScreenToUi((sf::Vector2i)pos2));
-	pokeName2->GetText().setPosition({ pokeName2->GetPosition().x - 160.f, pokeName2->GetPosition().y - 60.f });
+	pokeName2->AddText("fonts/pokemon-dppt.otf", mPoke->name, 40, ScreenToUi((sf::Vector2i)pos2));
+	pokeName2->GetText().setPosition({ pokeName2->GetPosition().x - 135.f, pokeName2->GetPosition().y - 60.f });
 	uiMgr->Add(pokeName2);
 
 	pokeLv2 = new Text("pokeLv2");
@@ -105,52 +129,52 @@ void SceneBattle::Init()
 	mov1->isMouseOverColor = true;
 	mov1->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo1Id = Utils::RandomRange(1, 100);
-	mov1->AddButton(MoveDB::Instance().GetMove(mo1Id)->kname + "\n" + std::to_string(MoveDB::Instance().GetMove(mo1Id)->pp), 40, sf::Color::Black);
+	mov1->AddButton(sf::String(mPoke->moves[0].name) + "\n" + std::to_string(mPoke->moves[0].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos1 = { FRAMEWORK.GetWindowSize().x / 2.f + 250.f, FRAMEWORK.GetWindowSize().y - 125.f };
 	mov1->SetPosition(ScreenToUi((sf::Vector2i)mpos1));
 	mov1->SetOutlineColor(sf::Color::Black);
 	mov1->SetOutlineThickness(4.f);
 	mov1->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos1.x - 110.f, mpos1.y - 15.f)));
-	mov1->SetOnClick([=]() {bmgr.UseMove(mo1Id); });
+	mov1->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[0].id); });
 	uiMgr->Add(mov1);
 
 	mov2 = new Button("mov2");
 	mov2->isMouseOverColor = true;
 	mov2->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo2Id = Utils::RandomRange(1, 100);
-	mov2->AddButton(MoveDB::Instance().GetMove(mo2Id)->kname + "\n" + std::to_string(MoveDB::Instance().GetMove(mo2Id)->pp), 40, sf::Color::Black);
+	mov2->AddButton(sf::String(mPoke->moves[1].name) + "\n" + std::to_string(mPoke->moves[1].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos2 = { FRAMEWORK.GetWindowSize().x / 2.f + 300.f + 210.f, FRAMEWORK.GetWindowSize().y - 125.f };
 	mov2->SetPosition(ScreenToUi((sf::Vector2i)mpos2));
 	mov2->SetOutlineColor(sf::Color::Black);
 	mov2->SetOutlineThickness(4.f);
 	mov2->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos2.x - 110.f, mpos2.y - 15.f)));
-	mov2->SetOnClick([=]() {bmgr.UseMove(mo2Id); });
+	mov2->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[1].id); });
 	uiMgr->Add(mov2);
 
 	mov3 = new Button("mov3");
 	mov3->isMouseOverColor = true;
 	mov3->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo3Id = Utils::RandomRange(1, 100);
-	mov3->AddButton(MoveDB::Instance().GetMove(mo3Id)->kname + "\n" + std::to_string(MoveDB::Instance().GetMove(mo3Id)->pp), 40, sf::Color::Black);
+	mov3->AddButton(sf::String(mPoke->moves[2].name) + "\n" + std::to_string(mPoke->moves[2].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos3 = { FRAMEWORK.GetWindowSize().x / 2.f + 250.f, FRAMEWORK.GetWindowSize().y - 50.f };
 	mov3->SetPosition(ScreenToUi((sf::Vector2i)mpos3));
 	mov3->SetOutlineColor(sf::Color::Black);
 	mov3->SetOutlineThickness(4.f);
 	mov3->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos3.x - 110.f, mpos3.y - 15.f)));
-	mov3->SetOnClick([=]() {bmgr.UseMove(mo3Id); });
+	mov3->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[2].id); });
 	uiMgr->Add(mov3);
 
 	mov4 = new Button("mov4");
 	mov4->isMouseOverColor = true;
 	mov4->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo4Id = Utils::RandomRange(1, 100);
-	mov4->AddButton(MoveDB::Instance().GetMove(mo4Id)->kname + "\n" + std::to_string(MoveDB::Instance().GetMove(mo4Id)->pp), 40, sf::Color::Black);
+	mov4->AddButton(sf::String(mPoke->moves[3].name) + "\n" + std::to_string(mPoke->moves[3].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos4 = { FRAMEWORK.GetWindowSize().x / 2.f + 300.f + 210.f, FRAMEWORK.GetWindowSize().y - 50.f };
 	mov4->SetPosition(ScreenToUi((sf::Vector2i)mpos4));
 	mov4->SetOutlineColor(sf::Color::Black);
 	mov4->SetOutlineThickness(4.f);
 	mov4->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos4.x - 110.f, mpos4.y - 15.f)));
-	mov4->SetOnClick([=]() {bmgr.UseMove(mo4Id); });
+	mov4->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[3].id); });
 	uiMgr->Add(mov4);
 	uiMgr->Init();
 
@@ -195,10 +219,27 @@ void SceneBattle::Update(float dt)
 {
 	Scene::Update(dt);
 	uiMgr->Update(dt);
+	bmgr.Update(dt);
 	poke1->Update(dt, true);
 	if(InputMgr::GetKeyDown(sf::Keyboard::LShift)) {
 		SCENE_MGR.ChangeScene(SceneIds::Game);
 	}
+	float maxHpWidth = 242.f;
+
+
+	int ecurrentHp = ePoke->hp;
+	int mcurrentHp = mPoke->hp;
+
+	float ehpRatio = static_cast<float>(ecurrentHp) / eHp;
+	if (ehpRatio < 0.f) ehpRatio = 0.f;
+	if (ehpRatio > 1.f) ehpRatio = 1.f;
+
+	float mhpRatio = static_cast<float>(mcurrentHp) / mHp;
+	if (mhpRatio < 0.f) mhpRatio = 0.f;
+	if (mhpRatio > 1.f) mhpRatio = 1.f;
+
+	pokeHp1.setSize({ maxHpWidth * ehpRatio, 20.f });
+	pokeHp2.setSize({ maxHpWidth * mhpRatio, 20.f });
 }
 
 void SceneBattle::Draw(sf::RenderWindow& window)

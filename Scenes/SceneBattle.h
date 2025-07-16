@@ -31,7 +31,9 @@ protected:
 	Button* mov4 = nullptr;
 
 	Pokemon* ePoke = nullptr;
+	int eHp = 0;
 	Pokemon* mPoke = nullptr;
+	int mHp = 0;
 
 	sf::Sprite pokSprite1;
 	sf::Texture pokTex1;

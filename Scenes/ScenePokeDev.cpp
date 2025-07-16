@@ -190,8 +190,8 @@ void ScenePokeDev::Update(float dt)
 		newPoke.attack = 52;
 		newPoke.defense = 43;
 
-		Move scratch = { 10, L"할퀴기", 40, 100, L"노말" };
-		newPoke.moves.push_back(&scratch);
+		//Move scratch = { 10, L"할퀴기", 40, 100, 0, L"노말" };
+		//newPoke.moves.push_back(scratch);
 
 		pm.AddPokemon(newPoke);
 		pm.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
