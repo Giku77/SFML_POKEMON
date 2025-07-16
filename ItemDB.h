@@ -83,7 +83,7 @@ class ItemSlot : public Button
 {
 public:
     ItemSlot(const std::string& name = "ItemSlot")
-        : Button(name, true)  
+        : Button(name, false)  
     {
         SetSize({ 180.f, 32.f });   
         ButtonSetFillColor(sf::Color(0, 0, 0, 0));              

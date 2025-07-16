@@ -87,13 +87,13 @@ void ShopUI::Reset()
     selectedIdx = -1;
     firstRow = 0;
     infoText.SetString(" ");
-    //RefreshSlots();
+    RefreshSlots();
 }
 
 
 void ShopUI::Open(const std::string& shopTag, int& playerGold)
 {
-    //items = ItemDB::Instance().GetShopItems(shopTag);
+    items = ItemDB::Instance().GetShopItems(shopTag);
     pPlayerGold = &playerGold;         
     RefreshGold();
     Reset();
@@ -111,18 +111,18 @@ void ShopUI::Update(float dt)
     if (!active) return;
     Uimgr->Update(dt);
 
-   /* float wheel = InputMgr::GetMouseWheelDelta();
+    float wheel = InputMgr::GetMouseWheelDelta();
     if (wheel != 0.f && items.size() > visibleRows)
     {
         firstRow = Utils::Clamp(firstRow - wheel, 0,
             int(items.size() - visibleRows));
         RefreshSlots();
-    }*/
+    }
 
     //closeBtn.Update(dt);  
     //buyBtn.Update(dt);  
     //sellBtn.Update(dt);
-    //for (auto* s : slots) s->Update(dt);
+    for (auto* s : slots) s->Update(dt);
 }
 
 void ShopUI::Draw(sf::RenderWindow& window)
@@ -135,7 +135,7 @@ void ShopUI::Draw(sf::RenderWindow& window)
     //infoText.Draw(window);
     Uimgr->Draw(window);
 
-    //for (auto* s : slots) s->Draw(window);
+    for (auto* s : slots) s->Draw(window);
 
     //buyBtn.Draw(window);
     //sellBtn.Draw(window);
