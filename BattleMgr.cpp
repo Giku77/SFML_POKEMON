@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "BattleMgr.h"
+#include "Text.h"
 
 void BattleMgr::Init(PlayerPokemon* player, EnemyPokemon* enemy)
 {
@@ -15,8 +16,8 @@ void BattleMgr::Update(float dt)
 	if (IsBattleOver) return;
 
 	// Enemy 턴이면 자동 행동
-	if (currentTurn == Turn::Enemy)
-		EnemyAttack();
+	//if (currentTurn == Turn::Enemy)
+		//EnemyAttack();
 }
 
 void BattleMgr::UseMove(int moveIndex)
@@ -27,13 +28,14 @@ void BattleMgr::UseMove(int moveIndex)
 
 void BattleMgr::PlayerAttack(int moveIndex)
 {
-	if (moveIndex < 0 || moveIndex >= player->getMoveSize()) return;  
+	//if (moveIndex < 0 || moveIndex >= player->getMoveSize()) return;  
 	const MoveData* move = MoveDB::Instance().GetMove(moveIndex);
 	int dmg = CalcDamage(player, enemy, move);
 	enemy->TakeDamage(dmg);
+	text->SetString(move->kname + "!!");
 
 	CheckBattleEnd();
-	if (!IsBattleOver) currentTurn = Turn::Enemy;
+	//if (!IsBattleOver) currentTurn = Turn::Enemy;
 }
 
 void BattleMgr::EnemyAttack()
@@ -42,6 +44,7 @@ void BattleMgr::EnemyAttack()
 	const MoveData* move = MoveDB::Instance().GetMove(idx);
 	int dmg = CalcDamage(enemy, player, move);
 	player->TakeDamage(dmg);
+	text->SetString(move->kname + "!!");
 
 	CheckBattleEnd();
 	if (!IsBattleOver) currentTurn = Turn::Player;
@@ -49,15 +52,18 @@ void BattleMgr::EnemyAttack()
 
 void BattleMgr::CheckBattleEnd()
 {
-	if (player->hp == 0 || enemy->hp == 0)
-		IsBattleOver = true;
+	//if (player->hp == 0 || enemy->hp == 0)
+		//IsBattleOver = true;
 }
 
 int BattleMgr::CalcDamage(const Pokemon* atk, const Pokemon* def, const MoveData* m) const
 {
-	const int level = atk->level;
-	const int attack = atk->attack;
-	const int defend = def->defense;
+	//const int level = atk->level;
+	//const int attack = atk->attack;
+	//const int defend = def->defense;
+    const int level = 5;
+	const int attack = 10;
+	const int defend = 30;
 	int dmg = (((2 * level / 5 + 2) * m->power * attack / std::max(1, defend)) / 50) + 2;
 	return std::max(1, dmg);
 }

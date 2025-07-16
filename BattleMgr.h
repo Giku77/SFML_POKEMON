@@ -1,5 +1,6 @@
 #pragma once
 #include "BattlePokemon.h"
+class Text;
 class BattleMgr
 {
 public:
@@ -9,6 +10,7 @@ public:
     };
 
     void Init(PlayerPokemon* player, EnemyPokemon* enemy);
+    void SetText(Text* t) { text = t; };
     void Update(float dt);
     void UseMove(int moveIndex); // 플레이어가 기술 선택 시 호출
     bool BattleOver() const { return IsBattleOver; }
@@ -20,6 +22,7 @@ public:
 private:
     PlayerPokemon* player;
     EnemyPokemon* enemy;
+    Text* text = nullptr;
     Turn currentTurn = Turn::Player;
 
     bool IsBattleOver = false;

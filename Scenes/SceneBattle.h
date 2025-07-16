@@ -15,6 +15,13 @@ protected:
 
 	Text* pokeName1 = nullptr;
 	Text* pokeName2 = nullptr;
+	Text* pokeLv1 = nullptr;
+	Text* pokeLv2 = nullptr;
+
+	sf::RectangleShape pokeHp1;
+	sf::RectangleShape pokeBackHp1;
+	sf::RectangleShape pokeHp2;
+	sf::RectangleShape pokeBackHp2;
 
 	Text* battleMsg = nullptr;
 
@@ -22,6 +29,9 @@ protected:
 	Button* mov2 = nullptr;
 	Button* mov3 = nullptr;
 	Button* mov4 = nullptr;
+
+	Pokemon* ePoke = nullptr;
+	Pokemon* mPoke = nullptr;
 
 	sf::Sprite pokSprite1;
 	sf::Texture pokTex1;
@@ -33,6 +43,8 @@ protected:
 public:
 	SceneBattle();
 	~SceneBattle() override;
+
+	void CreateMoveAndPokemon();
 
 	void Init() override;
 	void Enter() override;

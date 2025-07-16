@@ -58,8 +58,8 @@ struct Pokemon {
 	int getMoveSize() const { return moves.size() - 1; }
 	bool IsDead() const { return hp <= 0; }
 	void TakeDamage(int d) { 
-		hp -= d; 
-		if (hp < 0) hp = 0;
+		//hp -= d; 
+		//if (hp < 0) hp = 0;
 	}
 };
 

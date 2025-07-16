@@ -17,10 +17,12 @@ SceneGame::~SceneGame()
 	ani = nullptr;
 	delete shopUi;
 	shopUi = nullptr;
-	delete tileMapObj;
-	tileMapObj = nullptr;
-	delete player;
-	player = nullptr;
+	/*if (tileMapObj) {
+		delete tileMapObj;
+		tileMapObj = nullptr;
+	}*/
+	//delete player;
+	//player = nullptr;
 }
 
 void SceneGame::Init()

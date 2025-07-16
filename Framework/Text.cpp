@@ -1,13 +1,20 @@
 #include "stdafx.h"
 #include "Text.h"
+#include "TextWriter.h"
 
-Text::Text(const std::string& name)
-	: UI(name)
+Text::Text(const std::string& name, bool b)
+	: UI(name), isWriter(b)
 {
 }
 void Text::SetString(const sf::String& str)
 {
-	text.setString(str);
+	if (isWriter)
+	{
+		delete writer;
+		writer = nullptr;
+		writer = new TextWriter(&text, str);
+	}
+	else text.setString(str);
 	Utils::SetOrigin(text, Origins::MC);
 }
 
@@ -48,6 +55,12 @@ void Text::SetBackGround(const std::string& tx, const sf::IntRect& i, float w, f
 
 void Text::AddText(const std::string& fontId, const sf::String& text, unsigned int size, const sf::Vector2f& v)
 {
+	if (isWriter)
+	{
+		delete writer;
+		writer = nullptr;
+	}
+	writer = new TextWriter(&this->text, text);
 	this->fontId = fontId;
 	SetString(text);
 	SetCharacterSize(size);
@@ -86,6 +99,9 @@ void Text::Reset()
 
 void Text::Update(float dt)
 {
+	if (isWriter) {
+		writer->Update(dt);
+	}
 }
 
 void Text::Draw(sf::RenderWindow& window)

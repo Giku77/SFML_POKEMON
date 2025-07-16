@@ -132,6 +132,18 @@
     <ClCompile Include="ItemDB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="BattleMgr.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveDB.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BattlePokemon.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PokemonDB.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\InputMgr.h">
@@ -261,6 +273,18 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ItemDB.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleMgr.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveDB.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BattlePokemon.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PokemonDB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

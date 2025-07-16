@@ -1,5 +1,7 @@
 #pragma once
 #include "UI.h"
+
+class TextWriter;
 class Text : public UI
 {
 protected:
@@ -9,13 +11,15 @@ protected:
 	std::string texId;
 	std::string fontId;
 
+	TextWriter* writer = nullptr;
 	sf::Font font;
 	sf::Texture tex;
 
 	bool isBg = false;
+	bool isWriter = false;
 
 public:
-	Text(const std::string& name = "");
+	Text(const std::string& name = "", bool iswriter = false);
 	virtual ~Text() = default;
 
 	const std::string& GetFontId() const { return fontId; }

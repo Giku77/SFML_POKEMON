@@ -160,6 +160,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Framework\PokemonManager.cpp" />
     <ClCompile Include="BattlePokemon.cpp" />
+    <ClCompile Include="PokemonDB.cpp" />
     <ClCompile Include="Scenes\ScenePokeDev.cpp" />
     <ClCompile Include="Scenes\SceneEnd.cpp" />
     <ClCompile Include="Scenes\SceneBattle.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Framework\PokemonManager.h" />
     <ClInclude Include="BattlePokemon.h" />
+    <ClInclude Include="PokemonDB.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
     <ClInclude Include="Scenes\SceneEnd.h" />
     <ClInclude Include="Scenes\SceneBattle.h" />
