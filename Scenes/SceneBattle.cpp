@@ -221,9 +221,14 @@ void SceneBattle::Update(float dt)
 	uiMgr->Update(dt);
 	bmgr.Update(dt);
 	poke1->Update(dt, true);
-	if(InputMgr::GetKeyDown(sf::Keyboard::LShift)) {
-		SCENE_MGR.ChangeScene(SceneIds::Game);
+	if(bmgr.BattleOver()) {
+		overTime += dt;
+		if (overTime > 2.f) {
+			SCENE_MGR.ChangeScene(SceneIds::Game);
+			overTime = 0.f;
+		}
 	}
+
 	float maxHpWidth = 242.f;
 
 

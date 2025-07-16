@@ -37,7 +37,7 @@ void BattleMgr::PlayerAttack(int moveIndex)
 	const MoveData* move = MoveDB::Instance().GetMove(moveIndex);
 	int dmg = CalcDamage(player, enemy, move);
 	enemy->TakeDamage(dmg);
-	text->SetString(move->kname + "!!");
+	text->SetString(sf::String(player->name) + L"의 " + move->kname + "!!");
 	std::cout << "적 포켓몬 체력 : " << player->hp << std::endl;
 
 	CheckBattleEnd();
@@ -50,7 +50,7 @@ void BattleMgr::EnemyAttack()
 	const MoveData* move = MoveDB::Instance().GetMove(enemy->moves[idx].id);
 	int dmg = CalcDamage(enemy, player, move);
 	player->TakeDamage(dmg);
-	text->SetString(L"적 포켓몬의 " + move->kname + "!!");
+	text->SetString(sf::String(enemy->name) + L"의 " + move->kname + "!!");
 	std::cout << "플레이어 포켓몬 체력 : " << enemy->hp << std::endl;
 
 	CheckBattleEnd();
@@ -59,8 +59,11 @@ void BattleMgr::EnemyAttack()
 
 void BattleMgr::CheckBattleEnd()
 {
-	if (player->hp == 0 || enemy->hp == 0)
+	if (player->hp == 0 || enemy->hp == 0) {
+		if (player->hp == 0) text->SetString(sf::String(player->name) + L" 는 쓰러졌다.");
+		if (enemy->hp == 0) text->SetString(sf::String(enemy->name) + L" 는 쓰러졌다.");
 		IsBattleOver = true;
+	}
 }
 
 int BattleMgr::CalcDamage(const Pokemon* atk, const Pokemon* def, const MoveData* m) const

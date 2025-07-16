@@ -42,6 +42,8 @@ protected:
 	sf::Texture pokTex2;
 	SpriteAnimator* poke2 = nullptr;
 
+	float overTime = 0.f;
+
 public:
 	SceneBattle();
 	~SceneBattle() override;
