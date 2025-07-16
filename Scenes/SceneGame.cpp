@@ -5,6 +5,7 @@
 #include "SpriteAnimator.h"
 #include "ShopUI.h"
 #include "MyPokemonUI.h"
+#include "InventoryUI.h"
 
 
 SceneGame::SceneGame()
@@ -65,6 +66,10 @@ void SceneGame::Init()
 	mypokeUi->Init();
 	mypokeUi->SetActive(false);
 
+	invUI = new InventoryUI("Inv");
+	invUI->Init();
+	invUI->SetActive(false);
+
 	Scene::Init();
 }
 
@@ -106,6 +111,17 @@ void SceneGame::Update(float dt)
 		if(mypokeUi->GetActive()) mypokeUi->SetActive(false);
 		else mypokeUi->SetActive(true);
 	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::I))
+	{
+		if (invUI->GetActive()) invUI->Close();
+		else {
+			invUI->SetActive(true);
+			playerInv.LoadFromJson("data/player_inventory.json");
+			invUI->Open(playerInv);
+		}
+	}
+
+	invUI->Update(dt);
 	Scene::Update(dt);
 	ani->Update(dt, true);
 	//player->SetScale({ 0.5f, 0.5f });
@@ -144,7 +160,8 @@ void SceneGame::Update(float dt)
 
 		if (tileMapObj->isShopEnterable(tileX, tileY)) {
 			std::cout << "ÀÔÀå" << std::endl;
-			shopUi->Open("poke_mart", playerGold);
+			playerInv.LoadFromJson("data/player_inventory.json");
+			shopUi->Open("poke_mart", playerGold, playerInv);
 			shopOpened = true;
 			shopUi->SetActive(true);
 			//ani->setIndex(0);
@@ -181,5 +198,6 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	if(isCenterEnter) window.draw(newScreen);
 	if(shopOpened) shopUi->Draw(window);
 	mypokeUi->Draw(window);
+	invUI->Draw(window);
 	//window.draw(newScreen);
 }

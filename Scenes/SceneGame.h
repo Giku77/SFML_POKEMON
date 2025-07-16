@@ -1,15 +1,19 @@
 #pragma once
 #include "Scene.h"
+#include "Inventory.h"
 
 class TileMapGameObject;
 class AniPlayer;
 class SpriteAnimator;
 class ShopUI;
 class MyPokemonUI;
+class InventoryUI;
 
 class SceneGame : public Scene
 {
 protected:
+	Inventory playerInv;
+	InventoryUI* invUI = nullptr;
 	TileMapGameObject* tileMapObj = nullptr;
 	AniPlayer* player = nullptr;
 	SpriteAnimator* ani = nullptr;

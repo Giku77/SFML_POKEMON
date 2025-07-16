@@ -153,6 +153,8 @@
     <ClCompile Include="Framework\SpriteGo.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\tinyxml2.cpp" />
+    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryUI.cpp" />
     <ClCompile Include="ItemDB.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\MessageMgr.cpp" />
@@ -207,6 +209,8 @@
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\tinyxml2.h" />
     <ClInclude Include="Framework\MessageMgr.h" />
+    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="ItemDB.h" />
     <ClInclude Include="MoveDB.h" />
     <ClInclude Include="MyPokemonUI.h" />

@@ -6,6 +6,7 @@
 
 class ItemSlot;
 class UiMgr;
+class Inventory;
 
 class ShopUI : public UI
 {
@@ -19,11 +20,12 @@ public:
     void Update(float dt) override;
     void Draw(sf::RenderWindow& window) override;
 
-    void Open(const std::string& shopTag, int& playerGold);
+    void Open(const std::string& shopTag, int& playerGold, Inventory& inventory);
     void Close();
     bool IsOpen() const { return active; }
 
 private:
+    Inventory* inv = nullptr;
     sf::Sprite panelBg;               
     sf::Texture tex;
     Text title;

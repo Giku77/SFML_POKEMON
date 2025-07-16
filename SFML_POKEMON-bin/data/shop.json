@@ -1,7 +1,35 @@
 {
   "items": [
-    { "id": 1, "name": "Potion",        "price": 200, "desc": "Recovers 20 HP.",  "icon": "ball-.png",  "shops": ["poke_mart"] },
-    { "id": 2, "name": "Super Potion",  "price": 700, "desc": "Recovers 60 HP.",  "icon": "ball-.png",   "shops": ["poke_mart"] },
-    { "id": 3, "name": "Poké Ball",     "price": 200, "desc": "A device for catching wild Pokémon.", "icon": "ball-.png", "shops": ["poke_mart","ball_shop"] }
-  ]
+    {
+      "id": 1,
+      "name": "회복약",
+      "price": 200,
+      "desc": "포켓몬을 20 회복 시켜준다.",
+      "icon": "ball-.png"
+    },
+    {
+      "id": 2,
+      "name": "고급 회복약",
+      "price": 700,
+      "desc": "포켓몬을 60 회복 시켜준다.",
+      "icon": "ball-.png"
+    },
+    {
+      "id": 3,
+      "name": "몬스터볼",
+      "price": 200,
+      "desc": "포켓몬을 포획해주는 도구.",
+      "icon": "ball-.png"
+    }
+  ],
+  "shops": {
+    "poke_mart": [
+      1,
+      2,
+      3
+    ],
+    "ball_shop": [
+      3
+    ]
+  }
 }

@@ -4,9 +4,9 @@
 struct ItemData
 {
     int id = 0;
-    std::string name{};   
+    std::wstring name{};   
     int price = 0;  
-    std::string desc{};   
+    std::wstring desc{};
     std::string iconTexId{};   
 };
 
@@ -31,9 +31,12 @@ public:
         {
             ItemData d;
             d.id = obj["id"].get<int>();
-            d.name = obj["name"].get<std::string>();
+            std::string str = obj["name"].get<std::string>();
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+            d.name = conv.from_bytes(str);
             d.price = obj["price"].get<int>();
-            d.desc = obj.value("desc", "");
+            std::string str2 = obj["desc"].get<std::string>();
+            d.desc = conv.from_bytes(str2);
             d.iconTexId = obj.value("icon", "");
             items[d.id] = std::move(d);
         }
@@ -85,10 +88,15 @@ public:
     ItemSlot(const std::string& name = "ItemSlot")
         : Button(name, false)  
     {
-        SetSize({ 180.f, 32.f });   
+        SetButton({ 360.f, 50.f }, sf::Color(0, 0, 0, 0), "fonts/pokemon-dppt.otf");
         ButtonSetFillColor(sf::Color(0, 0, 0, 0));              
         SetOutlineColor(sf::Color::White);
         SetOutlineThickness(1.f);
+    }
+
+    void Init() override
+    {
+        Button::Reset(); 
     }
 
     void SetItem(const ItemData* data)
@@ -102,16 +110,29 @@ public:
             bg.setPosition(position + sf::Vector2f{ 2.f, 2.f });
         }
 
-        std::ostringstream oss;
-        oss << data->name << "  $" << data->price;
-        SetString(oss.str());
-        SetCharacterSize(14);
-        TextSetFillColor(sf::Color::White);
-        TextSetPosition(position + sf::Vector2f{ 38.f, 4.f });
+        AddButton(data->name + L" 가격 : " + std::to_wstring(data->price), 30, sf::Color::White);
+        TextSetPosition(position + sf::Vector2f{ -80.f, -15.f });
 
-        SetOnClick([this]() {
+        /*SetOnClick([this]() {
             if (onSelect) onSelect(item);
-            });
+            });*/
+    }
+
+    void SetInvItem(const ItemData* data, int count = 1) {
+        assert(data);
+        item = data;
+        this->count = count;
+
+        if (!data->iconTexId.empty()) {
+            bg.setTexture(TEXTURE_MGR.Get(data->iconTexId));
+            bg.setScale(0.75f, 0.75f);
+            bg.setPosition(position + sf::Vector2f{ 2.f, 2.f });
+        }
+
+        std::wstring msg = data->name + L" × " + std::to_wstring(count);
+        AddButton(msg, 26, sf::Color::White);
+        TextSetPosition(position + sf::Vector2f{ 8.f, 4.f });
+
     }
 
     void SetSelected(bool sel)
@@ -129,7 +150,7 @@ public:
         Button::SetPosition(pos);
         if (item && !item->iconTexId.empty())
             bg.setPosition(position + sf::Vector2f{ 2.f, 2.f });
-        TextSetPosition(position + sf::Vector2f{ 38.f, 4.f });
+        TextSetPosition(position + sf::Vector2f{ 8.f, 4.f });
     }
 
     void Draw(sf::RenderWindow& window) override
@@ -137,11 +158,12 @@ public:
         if (!active) return;
         if (!item)   return;
         if (isBg) window.draw(bg);
-        Button::Draw(window);              // draws rectangle + text
+        Button::Draw(window); 
     }
 
 private:
     const ItemData* item = nullptr;
+    int count = 0;
 };
 
 
