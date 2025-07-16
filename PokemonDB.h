@@ -81,6 +81,8 @@ public:
         return nullptr;
     }
 
+    std::unordered_map<int, Pokemon> GetMyPokemons() const { return Mypokemons; }
+
 private:
     std::unordered_map<int, Pokemon> pokemons;
     std::unordered_map<int, Pokemon> Mypokemons;

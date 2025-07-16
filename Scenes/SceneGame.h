@@ -5,6 +5,7 @@ class TileMapGameObject;
 class AniPlayer;
 class SpriteAnimator;
 class ShopUI;
+class MyPokemonUI;
 
 class SceneGame : public Scene
 {
@@ -13,6 +14,7 @@ protected:
 	AniPlayer* player = nullptr;
 	SpriteAnimator* ani = nullptr;
 	ShopUI* shopUi = nullptr;
+	MyPokemonUI* mypokeUi = nullptr;
 
 	int playerGold = 3000;
 

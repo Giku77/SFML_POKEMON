@@ -4,6 +4,7 @@
 #include "TileMapGameObject.h"
 #include "SpriteAnimator.h"
 #include "ShopUI.h"
+#include "MyPokemonUI.h"
 
 
 SceneGame::SceneGame()
@@ -60,6 +61,10 @@ void SceneGame::Init()
 	shopUi->Init();
 	shopUi->SetActive(false);
 
+	mypokeUi = new MyPokemonUI("MyPokemonList");
+	mypokeUi->Init();
+	mypokeUi->SetActive(false);
+
 	Scene::Init();
 }
 
@@ -96,6 +101,10 @@ void SceneGame::Update(float dt)
 		{
 			shopOpened = false;         
 		}
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::P)) {
+		if(mypokeUi->GetActive()) mypokeUi->SetActive(false);
+		else mypokeUi->SetActive(true);
 	}
 	Scene::Update(dt);
 	ani->Update(dt, true);
@@ -171,5 +180,6 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	window.setView(window.getDefaultView());
 	if(isCenterEnter) window.draw(newScreen);
 	if(shopOpened) shopUi->Draw(window);
+	mypokeUi->Draw(window);
 	//window.draw(newScreen);
 }

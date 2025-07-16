@@ -157,6 +157,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\MessageMgr.cpp" />
     <ClCompile Include="MoveDB.cpp" />
+    <ClCompile Include="MyPokemonUI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Framework\PokemonManager.cpp" />
     <ClCompile Include="BattlePokemon.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Framework\MessageMgr.h" />
     <ClInclude Include="ItemDB.h" />
     <ClInclude Include="MoveDB.h" />
+    <ClInclude Include="MyPokemonUI.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Framework\PokemonManager.h" />
     <ClInclude Include="BattlePokemon.h" />
