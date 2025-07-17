@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Utils.h"
+#include "PokemonDB.h"
 
 std::random_device Utils::rd;
 std::mt19937 Utils::gen;
@@ -161,6 +162,12 @@ sf::Vector2f Utils::SetOrigin(sf::Text& obj, Origins preset)
 sf::Vector2f Utils::SetOrigin(sf::Sprite& obj, Origins preset)
 {
     return SetOrigin(obj, preset, obj.getLocalBounds());
+}
+
+void Utils::ReloadData()
+{
+    PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
+    PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 }
 
 float Utils::Clamp(float value, float min, float max)

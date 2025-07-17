@@ -47,6 +47,7 @@ public:
         const auto& jPokemons = j["pokemons"];
         for (const auto& obj : jPokemons)
         {
+            //std::cout << "호출" << std::endl;
             Pokemon d;
             d.id = obj["id"].get<int>();
             std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
@@ -61,7 +62,44 @@ public:
             //d.moves.push_back(m);
             Mypokemons[d.id] = std::move(d);
         }
+        //std::cout << "호출 사이즈 : " << Mypokemons.size() << std::endl;
+        return true;
+    }
 
+    bool SaveGame(const std::wstring& playerName,
+        const std::string& filename) const
+    {
+        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
+
+        nlohmann::json root;
+        root["player"] = conv.to_bytes(playerName);
+
+        nlohmann::json arr;
+        for (const auto& p : pokemons) {
+            nlohmann::json pj;
+            pj["id"] = p.second.id;
+            pj["name"] = conv.to_bytes(p.second.name);
+            pj["level"] = p.second.level;
+            pj["experience"] = p.second.experience;
+            pj["hp"] = p.second.hp;
+            pj["attack"] = p.second.attack;
+            pj["defense"] = p.second.defense;
+
+            for (const auto& m : p.second.moves) {
+                pj["moves"].push_back({
+                    { "name",  conv.to_bytes(m.name)  },
+                    { "power", m.power                },
+                    { "accuracy", m.accuracy          },
+                    { "type",  conv.to_bytes(m.type)  }
+                    });
+            }
+            arr.push_back(pj);
+        }
+        root["pokemons"] = arr;
+
+        std::ofstream out(filename);
+        if (!out.is_open()) return false;
+        out << root.dump(4);
         return true;
     }
 
@@ -79,6 +117,10 @@ public:
             return &(it->second);
         }
         return nullptr;
+    }
+
+    void AddMyPokemon(const Pokemon& p) {
+        Mypokemons[p.id] = p;
     }
 
     std::unordered_map<int, Pokemon> GetMyPokemons() const { return Mypokemons; }

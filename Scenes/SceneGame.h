@@ -20,6 +20,8 @@ protected:
 	ShopUI* shopUi = nullptr;
 	MyPokemonUI* mypokeUi = nullptr;
 
+	std::unordered_map<int, Pokemon> MyPokemons;
+
 	int playerGold = 3000;
 
 
@@ -31,6 +33,7 @@ protected:
 	bool isBattle = false;
 	bool shopOpened = false;
 	float aniCenterTime = 0.f;
+	PokemonManager Pmgr;
 
 public:
 	SceneGame();

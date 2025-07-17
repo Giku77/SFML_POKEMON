@@ -12,15 +12,15 @@ bool PokemonManager::SaveGame(const std::wstring& playerName,
     nlohmann::json arr;                           
     for (const auto& p : pokemons) {
         nlohmann::json pj;
-        pj["id"] = p.id;
-        pj["name"] = conv.to_bytes(p.name);
-        pj["level"] = p.level;
-        pj["experience"] = p.experience;
-        pj["hp"] = p.hp;
-        pj["attack"] = p.attack;
-        pj["defense"] = p.defense;
+        pj["id"] = p.second.id;
+        pj["name"] = conv.to_bytes(p.second.name);
+        pj["level"] = p.second.level;
+        pj["experience"] = p.second.experience;
+        pj["hp"] = p.second.hp;
+        pj["attack"] = p.second.attack;
+        pj["defense"] = p.second.defense;
 
-        for (const auto& m : p.moves) {
+        for (const auto& m : p.second.moves) {
             pj["moves"].push_back({
                 { "name",  conv.to_bytes(m.name)  },
                 { "power", m.power                },
@@ -61,15 +61,15 @@ bool PokemonManager::LoadGame(std::wstring& playerName,
         p.attack = pj.at("attack").get<int>();
         p.defense = pj.at("defense").get<int>();
 
-        for (const auto& mj : pj.at("moves")) {
+        /*for (const auto& mj : pj.at("moves")) {
             Move m;
             m.name = conv.from_bytes(mj.at("name").get<std::string>());
             m.power = mj.at("power").get<int>();
             m.accuracy = mj.at("accuracy").get<int>();
             m.type = conv.from_bytes(mj.at("type").get<std::string>());
             p.moves.push_back(m);
-        }
-        pokemons.push_back(p);
+        }*/
+        pokemons[p.id] = p;
     }
     return true;
 }

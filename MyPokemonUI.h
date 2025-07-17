@@ -22,11 +22,18 @@ private:
 
 	std::vector<PokeListUi*> pok;
 
-	std::unordered_map<int, Pokemon> pokemons;
+	std::unordered_map<int, Pokemon> Mypokemons;
+
+	int index = 0;
+
+	UiMgr uiMgrMyPoke;
+
 
 public:
 	MyPokemonUI(const std::string& name = "MyPokemonUI");
 	~MyPokemonUI() override;
+
+	void DataReload();
 
 	void Init() override;
 	void Release() override;

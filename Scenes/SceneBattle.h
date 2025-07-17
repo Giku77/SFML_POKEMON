@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
+#include "BattleMgr.h"
 
-class UiMgr;
 class Text;
 class Button;
 class SpriteAnimator;
@@ -11,7 +11,6 @@ class SceneBattle : public Scene
 protected:
 	sf::Texture tex;
 	sf::Sprite sprite;
-	UiMgr* uiMgr = nullptr;
 
 	Text* pokeName1 = nullptr;
 	Text* pokeName2 = nullptr;
@@ -34,6 +33,9 @@ protected:
 	int eHp = 0;
 	Pokemon* mPoke = nullptr;
 	int mHp = 0;
+
+	Pokemon saveE;
+	Pokemon saveM;
 
 	sf::Sprite pokSprite1;
 	sf::Texture pokTex1;
@@ -124,6 +126,10 @@ protected:
 	3,        // 149 ¹ÂÃ÷
 	3         // 150 ¹Â
 	};
+	std::unordered_map<int, Pokemon> ar;
+	UiMgr uiMgrBattle;
+	PokemonManager pmgr;
+	BattleMgr bmgr;
 
 public:
 	SceneBattle();

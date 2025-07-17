@@ -30,6 +30,8 @@ public:
 	static sf::Vector2f SetOrigin(sf::Text& obj, Origins preset);
 	static sf::Vector2f SetOrigin(sf::Sprite& obj, Origins preset);
 
+	static void ReloadData();
+
 	// Math
 	static float Clamp(float value, float min, float max);
 	static float Clamp01(float value);

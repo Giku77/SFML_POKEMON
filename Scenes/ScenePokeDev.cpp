@@ -6,6 +6,7 @@
 #include "StoryPlayer.h"
 #include "SpriteAnimator.h"
 #include "UiMgr.h"
+#include "PokemonDB.h"
 
 MessageMgr msgMgr;
 StoryPlayer story;
@@ -176,26 +177,19 @@ void ScenePokeDev::Update(float dt)
 	if (isChoosePokemon && isMouseOver && InputMgr::GetMouseButtonDown(sf::Mouse::Left)) {
 		isChoosePokemon = false;
 		float r = Utils::RandomValue();
-		if (r < 0.33f) RandPokemon = L"ÆÄÀÌ¸®";
-		else if (r < 0.66f) RandPokemon = L"ÀÌ»óÇØ¾¾";
-		else if (r < 1.f) RandPokemon = L"²¿ºÎ±â";
+		if (r < 0.33f) RandPokemon = 1;
+		else if (r < 0.66f) RandPokemon = 4;
+		else if (r < 1.f) RandPokemon = 7;
 
 		PokemonManager pm;
-		Pokemon newPoke;
-		newPoke.id = 4;
-		newPoke.name = RandPokemon;
-		newPoke.level = 5;
-		newPoke.experience = 0;
-		newPoke.hp = 39;
-		newPoke.attack = 52;
-		newPoke.defense = 43;
+		PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 
 		//Move scratch = { 10, L"ÇÒÄû±â", 40, 100, 0, L"³ë¸»" };
 		//newPoke.moves.push_back(scratch);
 
-		pm.AddPokemon(newPoke);
+		pm.AddPokemon(*PokemonDB::Instance().GetPokemon(RandPokemon));
 		pm.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
-		button->SetString(RandPokemon + story.Next());
+		button->SetString(PokemonDB::Instance().GetPokemon(RandPokemon)->name + story.Next());
 	}
 
 	anim->Update(dt, true);

@@ -31,7 +31,7 @@ protected:
 	bool isNameInputActive = false;
 	bool isChoosePokemon = false;
 
-	sf::String RandPokemon;
+	int RandPokemon = 1;
 	float SceneAnimateTime = 0.f;
 public:
 	ScenePokeDev();

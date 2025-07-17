@@ -6,6 +6,7 @@
 #include "ShopUI.h"
 #include "MyPokemonUI.h"
 #include "InventoryUI.h"
+#include "PokemonDB.h"
 
 
 SceneGame::SceneGame()
@@ -19,6 +20,8 @@ SceneGame::~SceneGame()
 	ani = nullptr;
 	delete shopUi;
 	shopUi = nullptr;
+	delete mypokeUi;
+	mypokeUi = nullptr;
 	/*if (tileMapObj) {
 		delete tileMapObj;
 		tileMapObj = nullptr;
@@ -29,6 +32,7 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
+	PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 	ANI_CLIP_MGR.Load("animations/player_idle.csv");
 	ANI_CLIP_MGR.Load("animations/player_idle_Up.csv");
 	ANI_CLIP_MGR.Load("animations/player_idle_Right.csv");
@@ -87,9 +91,27 @@ void SceneGame::Enter()
 
 void SceneGame::Update(float dt)
 {
+	mypokeUi->Update(dt);
+	invUI->Update(dt);
+	Scene::Update(dt);
+	ani->Update(dt, true);
 	if (isCenterEnter) aniCenterTime += dt;
 	if (aniCenterTime > 4.f) {
 		aniCenterTime = 0.f;
+		//PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
+
+		Pmgr.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+
+		//MyPokemons = PokemonDB::Instance().GetMyPokemons();
+		MyPokemons = Pmgr.GetAll();
+		std::cout << "회복 사이즈 : " << MyPokemons.size() << std::endl;
+		for (auto& p : MyPokemons) {
+			p.second.hp = PokemonDB::Instance().GetPokemon(p.second.id)->hp;
+			Pmgr.AddPokemon(p.second);
+			//PokemonDB::Instance().AddMyPokemon(p.second);
+		}
+		Pmgr.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+		//PokemonDB::Instance().SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 		isCenterEnter = false;
 	}
 	if (shopOpened)
@@ -109,7 +131,11 @@ void SceneGame::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::P)) {
 		if(mypokeUi->GetActive()) mypokeUi->SetActive(false);
-		else mypokeUi->SetActive(true);
+		else {
+			mypokeUi->DataReload();
+			Utils::ReloadData();
+			mypokeUi->SetActive(true);
+		}
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::I))
 	{
@@ -121,9 +147,6 @@ void SceneGame::Update(float dt)
 		}
 	}
 
-	invUI->Update(dt);
-	Scene::Update(dt);
-	ani->Update(dt, true);
 	//player->SetScale({ 0.5f, 0.5f });
 	/*const float moveSpeed = 400.f;
 

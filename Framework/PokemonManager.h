@@ -1,14 +1,20 @@
 #pragma once
 class PokemonManager {
 private:
-    std::vector<Pokemon> pokemons;
+    std::unordered_map<int, Pokemon> pokemons;
 
 public:
     void AddPokemon(const Pokemon& p) {
-        pokemons.push_back(p);
+        pokemons[p.id] = p;
     }
 
-    const std::vector<Pokemon>& GetAll() const {
+    void SetPokemonAndSave(const Pokemon& p, std::wstring& playerName, const std::string& filename) {
+        LoadGame(playerName, filename);
+        pokemons[p.id] = p;
+        SaveGame(playerName, filename);
+    }
+
+    const std::unordered_map<int, Pokemon>& GetAll() const {
         return pokemons;
     }
 
