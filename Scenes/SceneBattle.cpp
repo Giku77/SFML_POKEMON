@@ -78,8 +78,6 @@ void SceneBattle::CreateMoveAndPokemon()
 	MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
 	ePoke = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 152));
 	mPoke = PokemonDB::Instance().GetMyPokemon();
-	saveE = *ePoke;
-	saveM = *mPoke;
 	if (!ePoke) {
 		std::cerr << "적 포켓몬이 없습니다!" << std::endl;
 		return;
@@ -259,8 +257,6 @@ void SceneBattle::Init()
 void SceneBattle::Enter()
 {
 	Scene::Enter();
-	ePoke = &saveE;
-	mPoke = &saveM;
 	//CreateMoveAndPokemon();
 }
 

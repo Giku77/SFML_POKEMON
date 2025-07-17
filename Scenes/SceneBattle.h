@@ -34,8 +34,6 @@ protected:
 	Pokemon* mPoke = nullptr;
 	int mHp = 0;
 
-	Pokemon saveE;
-	Pokemon saveM;
 
 	sf::Sprite pokSprite1;
 	sf::Texture pokTex1;
