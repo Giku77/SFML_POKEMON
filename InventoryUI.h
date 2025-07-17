@@ -15,6 +15,8 @@ private:
 
     UiMgr mgr;
 
+    int SelectIndex = -1;
+
     Inventory* inventory = nullptr;
 
     std::vector<ItemSlot*> slots;   // 화면용 슬롯 16개

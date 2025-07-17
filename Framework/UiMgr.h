@@ -18,6 +18,13 @@ public:
 	void Init();
 	void Update(float dt);
 	void Draw(sf::RenderWindow& window);
+
+	void Clear()
+	{
+		for (UI* ui : uiele)
+			delete ui;
+		uiele.clear();
+	}
 };
 
 //#define UI_MGR (UiMgr::Instance())

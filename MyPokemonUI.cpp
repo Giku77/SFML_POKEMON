@@ -14,9 +14,10 @@ MyPokemonUI::~MyPokemonUI()
 void MyPokemonUI::DataReload()
 {
 	index = 0;
+	//pok.clear();
 	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
-	PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
-	Mypokemons = PokemonDB::Instance().GetMyPokemons();
+	//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
+	Mypokemons = &PokemonDB::Instance().GetMyPokemonsRef();
 }
 
 void MyPokemonUI::Init()
@@ -24,8 +25,8 @@ void MyPokemonUI::Init()
 	DataReload();
 
 	int i = 0;
-	for (auto& p : Mypokemons) {
-		if (Mypokemons.size() - 1 < i) break;
+	for (auto& p : *Mypokemons) {
+		if (Mypokemons->size() - 1 < i) break;
 		PokeListUi* pokeUi = new PokeListUi();
 		pokeUi->pokBg = Utils::loadWithColorKey("graphics/MyPokemonList.png", sf::Color(255, 255, 255));
 		pokeUi->pokBgSpr.setTexture(pokeUi->pokBg);
@@ -75,19 +76,23 @@ void MyPokemonUI::Update(float dt)
 {
 	if (!GetActive()) return;
 	uiMgrMyPoke.Update(dt);
-	for (auto& p : Mypokemons) {
-		if (Mypokemons.size() - 1 < index) break;
-		std::cout << "사이즈 : " << Mypokemons.size() << std::endl;
-		int maxHp = PokemonDB::Instance().GetPokemon(p.second.id)->hp;
-		int currentHp = p.second.hp;
+	int idx = 0;
+	const auto& list = PokemonDB::Instance().GetMyPokemonsRef();  
 
-		float ehpRatio = static_cast<float>(currentHp) / maxHp;
-		if (ehpRatio < 0.f) ehpRatio = 0.f;
-		if (ehpRatio > 1.f) ehpRatio = 1.f;
+	for (const auto& kv : list) {    
+		int id = kv.first;    
+		const Pokemon& live = kv.second;   
 
-		pok[index]->nHp.setSize({ 98.f * ehpRatio, 9.f });
-		pok[index]->hp->SetString("HP   " + std::to_string(currentHp));
-		index++;
+		// 최대 HP는 종(도감) DB에서 얻음
+		int maxHp = PokemonDB::Instance().GetPokemon(id)->hp;
+
+		float ratio = Utils::Clamp(static_cast<float>(live.hp) / maxHp, 0.f, 1.f);
+
+		pok[idx]->nHp.setSize({ 98.f * ratio, 9.f });
+		pok[idx]->hp->SetString("HP   " + std::to_string(live.hp));
+
+		++idx;
+		if (idx >= pok.size()) break;     
 	}
 }
 

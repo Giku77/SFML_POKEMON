@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "InventoryUI.h"
+#include "PokemonManager.h"
+#include "PokemonDB.h"
 
 
 sf::Vector2f PANELINV_ORIGIN{ 400.f, 190.f };
@@ -56,6 +58,46 @@ void InventoryUI::Update(float dt)
     if (!active) return;
     //mgr.Update(dt);
     for (auto* s : slots) s->Update(dt);
+    if (SelectIndex != -1) {
+        if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+        {
+            const auto& invSlots = inventory->GetSlots();
+            const auto* data = invSlots[SelectIndex].item;
+            int count = invSlots[SelectIndex].count;
+            //std::cout << "아이템 선택" << std::endl;
+            if (inventory->RemoveItem(data->id, 1)) {
+                RefreshSlots();
+                PokemonManager mgr;
+                mgr.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+                std::unordered_map<int, Pokemon> MyPokemons = mgr.GetAll();
+                switch (data->id)
+                {
+                case 1:
+                    for (auto& p : MyPokemons) {
+                        p.second.hp += 20;
+                        if(p.second.hp > PokemonDB::Instance().GetPokemon(p.second.id)->hp)
+                            p.second.hp = PokemonDB::Instance().GetPokemon(p.second.id)->hp;
+                        mgr.AddPokemon(p.second);
+                        break;
+                    }
+                    break;
+                case 2:
+                    for (auto& p : MyPokemons) {
+                        p.second.hp += 60;
+                        if (p.second.hp > PokemonDB::Instance().GetPokemon(p.second.id)->hp)
+                            p.second.hp = PokemonDB::Instance().GetPokemon(p.second.id)->hp;
+                        mgr.AddPokemon(p.second);
+                        break;
+                    }
+                default:
+                    break;
+                }
+                mgr.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+                inventory->SaveToJson("data/player_inventory.json");
+            }
+            SelectIndex = -1;
+        }
+    }
 }
 
 void InventoryUI::Draw(sf::RenderWindow& window)
@@ -92,15 +134,12 @@ void InventoryUI::OnSlotClicked(int visualIdx)
     const auto& invSlots = inventory->GetSlots();
     if (visualIdx >= static_cast<int>(invSlots.size())) return;
 
+    SelectIndex = visualIdx;
+
     const auto* data = invSlots[visualIdx].item;
     int count = invSlots[visualIdx].count;
 
+    //std::cout << "아이템 선택" << std::endl;
     std::wcout << L"선택된 아이템 : " << data->name
         << L" (" << count << L"개)\n";
-
-    if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
-    {
-        if (inventory->RemoveItem(data->id, 1))
-            RefreshSlots();                  // 변화 반영
-    }
 }

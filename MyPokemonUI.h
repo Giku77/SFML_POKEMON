@@ -22,7 +22,7 @@ private:
 
 	std::vector<PokeListUi*> pok;
 
-	std::unordered_map<int, Pokemon> Mypokemons;
+	const std::unordered_map<int, Pokemon>* Mypokemons;
 
 	int index = 0;
 

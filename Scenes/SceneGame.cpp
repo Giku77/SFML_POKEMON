@@ -18,10 +18,10 @@ SceneGame::~SceneGame()
 {
 	delete ani;
 	ani = nullptr;
-	delete shopUi;
-	shopUi = nullptr;
-	delete mypokeUi;
-	mypokeUi = nullptr;
+	//delete shopUi;
+	//shopUi = nullptr;
+	//delete mypokeUi;
+	//mypokeUi = nullptr;
 	/*if (tileMapObj) {
 		delete tileMapObj;
 		tileMapObj = nullptr;
@@ -32,7 +32,7 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
-	PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
+	//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 	ANI_CLIP_MGR.Load("animations/player_idle.csv");
 	ANI_CLIP_MGR.Load("animations/player_idle_Up.csv");
 	ANI_CLIP_MGR.Load("animations/player_idle_Right.csv");
@@ -133,7 +133,6 @@ void SceneGame::Update(float dt)
 		if(mypokeUi->GetActive()) mypokeUi->SetActive(false);
 		else {
 			mypokeUi->DataReload();
-			Utils::ReloadData();
 			mypokeUi->SetActive(true);
 		}
 	}

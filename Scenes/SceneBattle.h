@@ -29,9 +29,9 @@ protected:
 	Button* mov3 = nullptr;
 	Button* mov4 = nullptr;
 
-	Pokemon* ePoke = nullptr;
+	Pokemon ePoke;
 	int eHp = 0;
-	Pokemon* mPoke = nullptr;
+	Pokemon mPoke;
 	int mHp = 0;
 
 
@@ -134,6 +134,10 @@ public:
 	~SceneBattle() override;
 
 	void CreateMoveAndPokemon();
+
+	void BuildUI();
+
+	void Exit() override;
 
 	void Init() override;
 	void Enter() override;

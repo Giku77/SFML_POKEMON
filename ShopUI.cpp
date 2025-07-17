@@ -105,7 +105,6 @@ void ShopUI::Reset()
 
 void ShopUI::Open(const std::string& shopTag, int& playerGold, Inventory& inventory)
 {
-    ItemDB::Instance().LoadFromJson("data/shop.json");
     items = ItemDB::Instance().GetShopItems(shopTag);
     std::cout << "아이템 사이즈 : " << items.size() << std::endl;
     pPlayerGold = &playerGold;  

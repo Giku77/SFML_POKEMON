@@ -1,5 +1,7 @@
 #pragma once
 
+using PokePtr = std::shared_ptr<Pokemon>;
+
 class PokemonDB
 {
 public:
@@ -125,9 +127,18 @@ public:
 
     std::unordered_map<int, Pokemon> GetMyPokemons() const { return Mypokemons; }
 
+    const std::unordered_map<int, Pokemon>& GetMyPokemonsRef() const {
+        return Mypokemons;
+    }
+
+    Pokemon& GetMyPokemonRef(int id) { return Mypokemons.at(id); }
+    const Pokemon& GetMyPokemonRef(int id) const { return Mypokemons.at(id); }
+    //const PokePtr& GetMyPokemonPtr(int id) { return Mpokemons.at(id); }
+
 private:
     std::unordered_map<int, Pokemon> pokemons;
     std::unordered_map<int, Pokemon> Mypokemons;
+    //std::unordered_map<int, PokePtr> Mpokemons;
 
     PokemonDB() = default;
     ~PokemonDB() = default;

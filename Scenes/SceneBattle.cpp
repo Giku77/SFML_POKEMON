@@ -18,6 +18,8 @@ SceneBattle::~SceneBattle()
 {
 	delete pokeName1;
 	pokeName1 = nullptr;
+	delete poke1;  
+	poke1 = nullptr;
 }
 
 std::vector<sf::IntRect> GetPokemonRects(int pokemonId, const std::vector<int>& frameCounts)
@@ -73,21 +75,23 @@ std::vector<sf::IntRect> GetPokemonRects(int pokemonId, const std::vector<int>& 
 
 void SceneBattle::CreateMoveAndPokemon()
 {
-	PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
-	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
-	MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
-	ePoke = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 152));
-	mPoke = PokemonDB::Instance().GetMyPokemon();
-	if (!ePoke) {
+	//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
+	//PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
+	//MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
+	Pokemon* ePtr = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 152));
+	Pokemon* mPtr = PokemonDB::Instance().GetMyPokemon();
+	if (!ePtr) {
 		std::cerr << "적 포켓몬이 없습니다!" << std::endl;
 		return;
 	}
-	if (!mPoke) {
+	if (!mPtr) {
 		std::cerr << "내 포켓몬이 없습니다!" << std::endl;
 		return;
 	}
-	eHp = ePoke->hp;
-	mHp = mPoke->hp;
+	ePoke = *ePtr;
+	mPoke = *mPtr;
+	eHp = ePoke.hp;
+	mHp = mPoke.hp;
 	for (int i = 0; i < 8; ++i) {
 		int moId = Utils::RandomRange(1, 100);
 		Move m;
@@ -99,27 +103,37 @@ void SceneBattle::CreateMoveAndPokemon()
 		m.accuracy = db->accuracy;
 		m.type = db->type;
 		if (i < 3) { 
-			ePoke->moves.push_back(m);
-		} else mPoke->moves.push_back(m);
+			ePoke.moves.push_back(m);
+		} else mPoke.moves.push_back(m);
 	}
-	bmgr.Init((PlayerPokemon*)mPoke, (EnemyPokemon*)ePoke);
+	bmgr.Init(reinterpret_cast<PlayerPokemon*>(&mPoke),
+		reinterpret_cast<EnemyPokemon*>(&ePoke));
 }
 
 
-void SceneBattle::Init()
+void SceneBattle::Exit()
 {
-	Scene::Init();
+	Scene::Exit();
+	uiMgrBattle.Clear();       
+
+	ePoke = {};
+	mPoke = {};
+	eHp = mHp = 0;
+}
+
+void SceneBattle::BuildUI()
+{
 	CreateMoveAndPokemon();
 	tex.loadFromFile("graphics/battelBackGround.png");
 	sprite.setTexture(tex);
 	sprite.setScale(4.3f, 7.f);
 
 	pokeName1 = new Text("pokename1");
-	sf::Vector2f pos1 = { 400.f, FRAMEWORK.GetWindowSize().y / 2.f - 250.f};
+	sf::Vector2f pos1 = { 400.f, FRAMEWORK.GetWindowSize().y / 2.f - 250.f };
 
 	pokeName1->SetBackGround("graphics/battle_Sprite.png", { 0, 0, 112, 35 }, 5.f, 5.f);
 	pokeName1->SetFillColor(sf::Color::Black);
-	pokeName1->AddText("fonts/pokemon-dppt.otf", ePoke->name, 40, ScreenToUi((sf::Vector2i)pos1));
+	pokeName1->AddText("fonts/pokemon-dppt.otf", ePoke.name, 40, ScreenToUi((sf::Vector2i)pos1));
 	pokeName1->GetText().setPosition({ pokeName1->GetPosition().x - 190.f, pokeName1->GetPosition().y - 40.f });
 	uiMgrBattle.Add(pokeName1);
 
@@ -142,7 +156,7 @@ void SceneBattle::Init()
 
 	pokeName2->SetBackGround("graphics/battle_Sprite.png", { 0, 41, 112, 41 }, 5.f, 5.f);
 	pokeName2->SetFillColor(sf::Color::Black);
-	pokeName2->AddText("fonts/pokemon-dppt.otf", mPoke->name, 40, ScreenToUi((sf::Vector2i)pos2));
+	pokeName2->AddText("fonts/pokemon-dppt.otf", mPoke.name, 40, ScreenToUi((sf::Vector2i)pos2));
 	pokeName2->GetText().setPosition({ pokeName2->GetPosition().x - 135.f, pokeName2->GetPosition().y - 60.f });
 	uiMgrBattle.Add(pokeName2);
 
@@ -175,59 +189,57 @@ void SceneBattle::Init()
 	mov1->isMouseOverColor = true;
 	mov1->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo1Id = Utils::RandomRange(1, 100);
-	mov1->AddButton(sf::String(mPoke->moves[0].name) + "\n" + std::to_string(mPoke->moves[0].pp), 40, sf::Color::Black);
+	mov1->AddButton(sf::String(mPoke.moves[0].name) + "\n" + std::to_string(mPoke.moves[0].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos1 = { FRAMEWORK.GetWindowSize().x / 2.f + 250.f, FRAMEWORK.GetWindowSize().y - 125.f };
 	mov1->SetPosition(ScreenToUi((sf::Vector2i)mpos1));
 	mov1->SetOutlineColor(sf::Color::Black);
 	mov1->SetOutlineThickness(4.f);
 	mov1->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos1.x - 110.f, mpos1.y - 15.f)));
-	mov1->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[0].id); });
+	mov1->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[0].id); });
 	uiMgrBattle.Add(mov1);
 
 	mov2 = new Button("mov2");
 	mov2->isMouseOverColor = true;
 	mov2->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo2Id = Utils::RandomRange(1, 100);
-	mov2->AddButton(sf::String(mPoke->moves[1].name) + "\n" + std::to_string(mPoke->moves[1].pp), 40, sf::Color::Black);
+	mov2->AddButton(sf::String(mPoke.moves[1].name) + "\n" + std::to_string(mPoke.moves[1].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos2 = { FRAMEWORK.GetWindowSize().x / 2.f + 300.f + 210.f, FRAMEWORK.GetWindowSize().y - 125.f };
 	mov2->SetPosition(ScreenToUi((sf::Vector2i)mpos2));
 	mov2->SetOutlineColor(sf::Color::Black);
 	mov2->SetOutlineThickness(4.f);
 	mov2->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos2.x - 110.f, mpos2.y - 15.f)));
-	mov2->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[1].id); });
+	mov2->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[1].id); });
 	uiMgrBattle.Add(mov2);
 
 	mov3 = new Button("mov3");
 	mov3->isMouseOverColor = true;
 	mov3->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo3Id = Utils::RandomRange(1, 100);
-	mov3->AddButton(sf::String(mPoke->moves[2].name) + "\n" + std::to_string(mPoke->moves[2].pp), 40, sf::Color::Black);
+	mov3->AddButton(sf::String(mPoke.moves[2].name) + "\n" + std::to_string(mPoke.moves[2].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos3 = { FRAMEWORK.GetWindowSize().x / 2.f + 250.f, FRAMEWORK.GetWindowSize().y - 50.f };
 	mov3->SetPosition(ScreenToUi((sf::Vector2i)mpos3));
 	mov3->SetOutlineColor(sf::Color::Black);
 	mov3->SetOutlineThickness(4.f);
 	mov3->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos3.x - 110.f, mpos3.y - 15.f)));
-	mov3->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[2].id); });
+	mov3->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[2].id); });
 	uiMgrBattle.Add(mov3);
 
 	mov4 = new Button("mov4");
 	mov4->isMouseOverColor = true;
 	mov4->SetButton({ 200.f, 100.f }, sf::Color::White, "fonts/pokemon-dppt.otf");
 	int mo4Id = Utils::RandomRange(1, 100);
-	mov4->AddButton(sf::String(mPoke->moves[3].name) + "\n" + std::to_string(mPoke->moves[3].pp), 40, sf::Color::Black);
+	mov4->AddButton(sf::String(mPoke.moves[3].name) + "\n" + std::to_string(mPoke.moves[3].pp), 40, sf::Color::Black);
 	sf::Vector2f mpos4 = { FRAMEWORK.GetWindowSize().x / 2.f + 300.f + 210.f, FRAMEWORK.GetWindowSize().y - 50.f };
 	mov4->SetPosition(ScreenToUi((sf::Vector2i)mpos4));
 	mov4->SetOutlineColor(sf::Color::Black);
 	mov4->SetOutlineThickness(4.f);
 	mov4->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos4.x - 110.f, mpos4.y - 15.f)));
-	mov4->SetOnClick([=]() {bmgr.UseMove(mPoke->moves[3].id); });
+	mov4->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[3].id); });
 	uiMgrBattle.Add(mov4);
 	uiMgrBattle.Init();
 
 
-	sf::Vector2f pos22 = { FRAMEWORK.GetWindowSize().x / 2.f, FRAMEWORK.GetWindowSize().y / 2.f };
-
-	int getI = ePoke->id;
+	int getI = ePoke.id;
 	std::cout << "번호 계산 : " << std::to_string(pokemonFrameCounts.size()) << std::endl;
 	std::vector<sf::IntRect> rects = {
 		/*{0, 35, 80, 80},
@@ -244,19 +256,22 @@ void SceneBattle::Init()
 
 	pokTex2 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236), sf::Color(50, 97, 168));
 	pokSprite2.setTexture(pokTex2);
-	pokSprite2.setTextureRect(GetPokemonRects(mPoke->id, pokemonFrameCounts)[2]);
+	pokSprite2.setTextureRect(GetPokemonRects(mPoke.id, pokemonFrameCounts)[2]);
 	pokSprite2.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(150.f, 310.f)));
 	pokSprite2.setScale(5.f, 5.f);
-	
-	//PlayerPokemon p(Pokemon{ "Pikachu", 35, 55, 40, {...} });
-	//EnemyPokemon  e(Pokemon{ "Charmander", 34, 52, 43, {...} });
+}
 
-	//bmgr.Init(&p, &e);
+void SceneBattle::Init()
+{
+	Scene::Init();
+	BuildUI();
 }
 
 void SceneBattle::Enter()
 {
 	Scene::Enter();
+	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
+	BuildUI();
 	//CreateMoveAndPokemon();
 }
 
@@ -269,11 +284,10 @@ void SceneBattle::Update(float dt)
 	if(bmgr.BattleOver()) {
 		overTime += dt;
 		if (overTime > 2.f) {
-			//PokemonDB::Instance().get
 			pmgr.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 			ar = pmgr.GetAll();
-			ar[mPoke->id].hp = mPoke->hp;
-			pmgr.AddPokemon(ar[mPoke->id]);
+			ar[mPoke.id].hp = mPoke.hp;
+			pmgr.AddPokemon(ar[mPoke.id]);
 			pmgr.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 
 			SCENE_MGR.ChangeScene(SceneIds::Game);
@@ -284,8 +298,8 @@ void SceneBattle::Update(float dt)
 	float maxHpWidth = 242.f;
 
 
-	int ecurrentHp = ePoke->hp;
-	int mcurrentHp = mPoke->hp;
+	int ecurrentHp = ePoke.hp;
+	int mcurrentHp = mPoke.hp;
 
 	float ehpRatio = static_cast<float>(ecurrentHp) / eHp;
 	if (ehpRatio < 0.f) ehpRatio = 0.f;

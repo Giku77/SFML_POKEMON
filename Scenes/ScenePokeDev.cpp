@@ -182,7 +182,7 @@ void ScenePokeDev::Update(float dt)
 		else if (r < 1.f) RandPokemon = 7;
 
 		PokemonManager pm;
-		PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
+		//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 
 		//Move scratch = { 10, L"ÇÒÄû±â", 40, 100, 0, L"³ë¸»" };
 		//newPoke.moves.push_back(scratch);
