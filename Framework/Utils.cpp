@@ -166,6 +166,52 @@ sf::Vector2f Utils::SetOrigin(sf::Sprite& obj, Origins preset)
     return SetOrigin(obj, preset, obj.getLocalBounds());
 }
 
+namespace {
+    // Tier 확률 분포 (누적 x, 그대로 사용)
+    const std::vector<double> kTierWeights = { 0.60, 0.35, 0.05 };
+
+    // Tier별 포켓몬 ID 목록
+    const std::vector<int> kLegend = { 144,145,146,150,151 }; // 프리져~뮤
+
+    const std::vector<int> kRare = {
+        3,   6,   9,  12,  15,  18,  20,  22,  24,  26,  28,
+        31,  34,  36,  38,  40,  45,  49,  55,  60,  62,  65,
+        68,  71,  73,  76,  78,  80,  83,  85,  87,  89,  91,
+        94,  95,  97,  99, 101, 103, 105, 106, 107, 108, 110,
+        112, 113, 114, 115, 117, 118, 119, 120, 121, 122, 123,
+        124, 125, 126, 127, 128, 130, 131, 132, 133, 134, 135,
+        136, 137, 139, 141, 142, 143                                       // 74마리
+    };
+
+    const std::vector<int> kCommon = [] {
+        std::vector<bool> isRareOrLegend(152, false);
+        for (int id : kLegend) isRareOrLegend[id] = true;
+        for (int id : kRare)   isRareOrLegend[id] = true;
+
+        std::vector<int> v;
+        for (int id = 1; id <= 151; ++id)
+            if (!isRareOrLegend[id]) v.push_back(id);
+        return v;                                                  // 72마리
+        }();
+}
+
+int Utils::RandomTier()
+{
+    static std::discrete_distribution<int> tierDist(
+        kTierWeights.begin(), kTierWeights.end());
+    return tierDist(gen);
+}
+
+int Utils::RandomWildPokemon()
+{
+    switch (RandomTier()) {
+    case 0: return kCommon[RandomRange(0, (int)kCommon.size())];
+    case 1: return kRare[RandomRange(0, (int)kRare.size())];
+    case 2: return kLegend[RandomRange(0, (int)kLegend.size())];
+    }
+    return 1; // fallback
+}
+
 void Utils::ReloadData()
 {
     PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");

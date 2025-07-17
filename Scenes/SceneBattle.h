@@ -23,6 +23,7 @@ protected:
 	sf::RectangleShape pokeBackHp2;
 
 	Text* battleMsg = nullptr;
+	Inventory playerInv;
 
 	Button* mov1 = nullptr;
 	Button* mov2 = nullptr;
@@ -43,6 +44,8 @@ protected:
 	SpriteAnimator* poke2 = nullptr;
 
 	float overTime = 0.f;
+
+	bool isGetPokemon = false;
 
 	std::vector<int> pokemonFrameCounts = {
 	3, 3, 6,  // 001~003 ¿ÃªÛ«ÿææ ~ ¿ÃªÛ«ÿ≤…

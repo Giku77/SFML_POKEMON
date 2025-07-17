@@ -46,6 +46,12 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
                     {
                         outTs.battleNpcLocalIds.insert(localId);
                     }
+                    if (prop.contains("name") && prop["name"] == "isRandBattle" &&
+                        prop.contains("type") && prop["type"] == "bool" &&
+                        prop.contains("value") && prop["value"] == true)
+                    {
+                        outTs.battlePosLocalIds.insert(localId);
+                    }
                 }
             }
         }
@@ -195,6 +201,17 @@ bool TileMap::isNpcBattleable(int x, int y) const
     int idx = y * mapWidth + x;
     for (const auto& layer : layers)
         if (idx < layer.tiles.size() && layer.tiles[idx].isBattle) {
+            return true;
+        }
+    return false;
+}
+
+bool TileMap::isPosBattleable(int x, int y) const
+{
+    if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return false;
+    int idx = y * mapWidth + x;
+    for (const auto& layer : layers)
+        if (idx < layer.tiles.size() && layer.tiles[idx].isPosBattle) {
             return true;
         }
     return false;

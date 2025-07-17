@@ -16,10 +16,10 @@ SceneBattle::SceneBattle()
 
 SceneBattle::~SceneBattle()
 {
-	delete pokeName1;
-	pokeName1 = nullptr;
-	delete poke1;  
-	poke1 = nullptr;
+	//delete pokeName1;
+	//pokeName1 = nullptr;
+	//delete poke1;  
+	//poke1 = nullptr;
 }
 
 std::vector<sf::IntRect> GetPokemonRects(int pokemonId, const std::vector<int>& frameCounts)
@@ -180,7 +180,7 @@ void SceneBattle::BuildUI()
 
 	battleMsg->SetBackGround("graphics/battle_Sprite.png", { 204, 53, 539, 53 }, 5.f, 5.f);
 	battleMsg->SetFillColor(sf::Color::Black);
-	battleMsg->AddText("fonts/pokemon-dppt.otf", L"무엇을 할까?", 40, ScreenToUi((sf::Vector2i)pos3));
+	battleMsg->AddText("fonts/pokemon-dppt.otf", L"무엇을 할까? [E : 몬스터볼]", 40, ScreenToUi((sf::Vector2i)pos3));
 	battleMsg->GetText().setPosition({ 10.f, battleMsg->GetPosition().y - 60.f });
 	uiMgrBattle.Add(battleMsg);
 
@@ -293,6 +293,10 @@ void SceneBattle::Update(float dt)
 			SCENE_MGR.ChangeScene(SceneIds::Game);
 			overTime = 0.f;
 		}
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::E)) {
+		bmgr.getAddPokemon(ePoke, playerInv);
 	}
 
 	float maxHpWidth = 242.f;

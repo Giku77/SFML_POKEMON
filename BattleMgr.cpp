@@ -23,6 +23,31 @@ void BattleMgr::Update(float dt)
 			turnDelay = 0.f;
 		}
 	}
+	if (isAddPoke) {
+		PokeTime += dt;
+		if (PokeTime > 2.f) {
+			if (isGetPoke) {
+				text->SetString(L"신난다! " + enemy->name + L" 을 잡았다!!");
+				isOver = true;
+				isGetPoke = false;
+				PokeTime = 0.f;
+				isAddPoke = false;
+			}
+			else { 
+				text->SetString(L"아쉽다..! 다 잡았는데.."); 
+				currentTurn = Turn::Enemy;
+				PokeTime = 0.f;
+				isAddPoke = false;
+			}
+		}
+	}
+	if (isOver) {
+		changeTime += dt;
+		if (changeTime > 2.f) {
+			isOver = false;
+			SCENE_MGR.ChangeScene(SceneIds::Game);
+		}
+	}
 }
 
 void BattleMgr::UseMove(int moveIndex)
@@ -92,5 +117,25 @@ int BattleMgr::ChooseEnemyMove() const
 	static std::mt19937 gen(rd());
 	std::uniform_int_distribution<int> dist(0, (int)usable.size() - 1);
 	return usable[dist(gen)];
+}
+
+void BattleMgr::getAddPokemon(const Pokemon& p, Inventory& u)
+{
+	u.LoadFromJson("data/player_inventory.json");
+	if (u.RemoveItem(3, 1)) {
+		text->SetString(L"가라!! 몬스터볼!");
+		if (Utils::RandomRange(0.f, 1.f) < 0.5f) {
+			isGetPoke = true;
+			PokemonManager pm;
+			pm.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+			for (auto& p : pm.GetAll()) {
+				pm.AddPokemon(p.second);
+			}
+			pm.AddPokemon(*enemy);
+			pm.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+		}
+		isAddPoke = true;
+	}
+	else text->SetString(L"몬스터볼이 없다!");
 }
 

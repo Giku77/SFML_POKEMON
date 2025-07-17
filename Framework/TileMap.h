@@ -7,6 +7,7 @@ struct TileInfo {
     bool isCenterEnter = false;
     bool isShopEnter = false;
     bool isBattle = false;
+    bool isPosBattle = false;
 };
 struct TileLayer {
     std::vector<TileInfo> tiles;   // width * height
@@ -19,6 +20,7 @@ struct TilesetInfo {
     std::unordered_set<int> enterCenterLocalIds;
     std::unordered_set<int> enterShopLocalIds;
     std::unordered_set<int> battleNpcLocalIds;
+    std::unordered_set<int> battlePosLocalIds;
 };
 
 class TileMap {
@@ -30,6 +32,7 @@ public:
     bool isCenterEnterable(int x, int y) const;
     bool isShopEnterable(int x, int y) const;
     bool isNpcBattleable(int x, int y) const;
+    bool isPosBattleable(int x, int y) const;
     sf::Vector2f GetMapPixelSize() const {
         return sf::Vector2f(mapWidth * tileW, mapHeight * tileH);
     }

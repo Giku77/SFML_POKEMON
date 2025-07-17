@@ -1,5 +1,7 @@
 #pragma once
 #include "BattlePokemon.h"
+#include "Inventory.h"
+
 class Text;
 class BattleMgr
 {
@@ -18,6 +20,7 @@ public:
     const Pokemon& GetPlayerPokemon() const { return *player; }
     const Pokemon& GetEnemyPokemon() const { return *enemy; }
     Turn GetCurrentTurn() const { return currentTurn; }
+    void getAddPokemon(const Pokemon& p, Inventory& u);
 
 private:
     PlayerPokemon* player;
@@ -32,7 +35,11 @@ private:
     void CheckBattleEnd();
     int CalcDamage(const Pokemon* atk, const Pokemon* def, const MoveData* m) const;
     int ChooseEnemyMove() const;
-    void TakeDamage(int d);
 
+    bool isAddPoke = false;
+    bool isGetPoke = false;
+    bool isOver = false;
+    float PokeTime = 0.f;
+    float changeTime = 0.f;
 };
 

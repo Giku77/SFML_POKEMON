@@ -195,6 +195,11 @@ void SceneGame::Update(float dt)
 			SCENE_MGR.ChangeScene(SceneIds::Battle);
 		}
 
+		if (tileMapObj->isPosBattleable(tileX, tileY)) {
+			std::cout << "배틀존" << std::endl;
+			//playerPos = player->getPrevPos();
+		}
+
 		if (tileMapObj->isCollidable(tileX, tileY)) {
 			//std::cout << "충돌" << std::endl;
 			playerPos = player->getPrevPos();

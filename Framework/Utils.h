@@ -8,6 +8,7 @@ private:
 	static std::mt19937 gen;
 	static const float PI;
 
+
 public:
 	static void Init();
 
@@ -29,6 +30,9 @@ public:
 	static sf::Vector2f SetOrigin(sf::Shape& obj, Origins preset);
 	static sf::Vector2f SetOrigin(sf::Text& obj, Origins preset);
 	static sf::Vector2f SetOrigin(sf::Sprite& obj, Origins preset);
+
+	static int RandomTier();
+	static int  RandomWildPokemon();
 
 	static void ReloadData();
 

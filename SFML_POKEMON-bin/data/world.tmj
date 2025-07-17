@@ -291,6 +291,15 @@
                     }
                 }, 
                 {
+                 "id":124,
+                 "properties":[
+                        {
+                         "name":"isRandBattle",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
                  "id":127,
                  "objectgroup":
                     {

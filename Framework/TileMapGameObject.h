@@ -37,6 +37,9 @@ public:
 	bool isBattleable(int x, int y) const {
 		return tileMap.isNpcBattleable(x, y);
 	}
+	bool isPosBattleable(int x, int y) const {
+		return tileMap.isPosBattleable(x, y);
+	}
 	int getTileW() const { return tileMap.getTileW(); }
 	int getTileH() const { return tileMap.getTileH(); }
 };

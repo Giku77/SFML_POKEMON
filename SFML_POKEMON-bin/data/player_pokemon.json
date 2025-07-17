@@ -2,13 +2,69 @@
     "player": "",
     "pokemons": [
         {
+            "attack": 55,
+            "defense": 25,
+            "experience": 0,
+            "hp": 10,
+            "id": 43,
+            "level": 5,
+            "name": "땅굴두더"
+        },
+        {
+            "attack": 105,
+            "defense": 60,
+            "experience": 0,
+            "hp": 65,
+            "id": 50,
+            "level": 5,
+            "name": "성원숭"
+        },
+        {
             "attack": 52,
             "defense": 43,
             "experience": 0,
             "hp": 39,
-            "id": 4,
+            "id": 1,
             "level": 5,
-            "name": "파이리"
+            "name": "이상해씨"
+        },
+        {
+            "attack": 80,
+            "defense": 35,
+            "experience": 0,
+            "hp": 40,
+            "id": 56,
+            "level": 5,
+            "name": "망키"
+        },
+        {
+            "attack": 45,
+            "defense": 35,
+            "experience": 0,
+            "hp": 38,
+            "id": 45,
+            "level": 5,
+            "moves": [
+                {
+                    "accuracy": 85,
+                    "name": "마구찌르기",
+                    "power": 15,
+                    "type": "Normal"
+                },
+                {
+                    "accuracy": 0,
+                    "name": "칼춤",
+                    "power": 0,
+                    "type": "Normal"
+                },
+                {
+                    "accuracy": 100,
+                    "name": "전광석화",
+                    "power": 40,
+                    "type": "Normal"
+                }
+            ],
+            "name": "나옹"
         }
     ]
 }
