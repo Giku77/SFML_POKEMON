@@ -25,12 +25,63 @@ SceneBattle::~SceneBattle()
 	pokeName1 = nullptr;
 }
 
+std::vector<sf::IntRect> GetPokemonRects(int pokemonId, const std::vector<int>& frameCounts)
+{
+	const int cellSize = 80;
+	const int topOffset = 34;
+	const int sheetCols = 30;  // 가로 셀 개수
+	const int framesPerRow = sheetCols; // 실제 한 줄의 칸 수
+
+	if (pokemonId < 1 || pokemonId >(int)frameCounts.size())
+		throw std::out_of_range("Invalid Pokemon ID");
+
+	int index = pokemonId - 1;
+
+	// 좌표 계산용 변수
+	int currentX = 0;  // 0~29
+	int currentY = 0;  // 줄 번호
+	int framesBefore = 0;
+
+	// ID 이전까지 프레임 누적하며 좌표 위치 찾기
+	for (int i = 0; i < index; ++i)
+	{
+		int frames = frameCounts[i];
+		if (currentX + frames > sheetCols) {
+			// 가로를 넘어가면 줄 바꿈
+			currentX = 0;
+			currentY += 2; // 세로는 항상 2줄 고정
+		}
+		currentX += frames;
+	}
+
+	// 현재 포켓몬 시작 좌표
+	if (currentX + frameCounts[index] > sheetCols) {
+		currentX = 0;
+		currentY += 2;
+	}
+	std::cout << "시작 Y : " << std::to_string(currentX) << std::endl;
+	int startX = (currentX * cellSize) + (currentX + 1);
+	//int startY = (currentY * cellSize) + ((currentY - 1 < 0 ? 1 : currentY - 1) * topOffset) + (currentY * 0.5);
+	int startY = (currentY * cellSize) + (((currentY * 0.5) + 1) * topOffset) + (currentY * 0.5);
+	//std::cout << "Y : " << std::to_string(startY) << std::endl;
+	// 프레임 Rects
+	std::vector<sf::IntRect> rects;
+	int frameCount = frameCounts[index];
+	for (int i = 0; i < frameCount; ++i) {
+		int localX = (currentX + i) % sheetCols;
+		int localRow = (i / sheetCols); // 필요없을 수도 있음
+		rects.emplace_back(startX + (i * cellSize), startY, cellSize, cellSize);
+	}
+
+	return rects;
+}
+
 void SceneBattle::CreateMoveAndPokemon()
 {
-	PokemonDB::Instance().LoadFromJson("data/_pokemon.json");
+	PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
 	MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
-	ePoke = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 51));
+	ePoke = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 152));
 	mPoke = PokemonDB::Instance().GetMyPokemon();
 	if (!ePoke) {
 		std::cerr << "적 포켓몬이 없습니다!" << std::endl;
@@ -181,21 +232,24 @@ void SceneBattle::Init()
 
 	sf::Vector2f pos22 = { FRAMEWORK.GetWindowSize().x / 2.f, FRAMEWORK.GetWindowSize().y / 2.f };
 
-
+	int getI = ePoke->id;
+	std::cout << "번호 계산 : " << std::to_string(pokemonFrameCounts.size()) << std::endl;
 	std::vector<sf::IntRect> rects = {
-		{1, 35, 78, 70},
-		{82, 36, 78, 70}
+		/*{0, 35, 80, 80},
+		{80, 35, 80, 80}*/
+		GetPokemonRects(getI, pokemonFrameCounts)[0],
+		GetPokemonRects(getI, pokemonFrameCounts)[1]
 	};
 
-	pokTex1 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236));
+	pokTex1 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236), sf::Color(50, 97, 168));
 	pokSprite1.setTexture(pokTex1);
 	pokSprite1.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(750.f, 130.f)));
 	pokSprite1.setScale(5.f, 5.f);
 	poke1 = new SpriteAnimator(&pokSprite1, rects, 0.35f);
 
-	pokTex2 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236));
+	pokTex2 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236), sf::Color(50, 97, 168));
 	pokSprite2.setTexture(pokTex2);
-	pokSprite2.setTextureRect({ 164, 34, 77, 70 });
+	pokSprite2.setTextureRect(GetPokemonRects(mPoke->id, pokemonFrameCounts)[2]);
 	pokSprite2.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(150.f, 310.f)));
 	pokSprite2.setScale(5.f, 5.f);
 	

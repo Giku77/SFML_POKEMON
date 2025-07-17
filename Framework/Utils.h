@@ -22,6 +22,7 @@ public:
 
 	static bool isSameColor(const sf::Color& a, const sf::Color& b, int tolerance = 10);
 	static sf::Texture loadWithColorKey(const std::string& path, const sf::Color& key);
+	static sf::Texture loadWithColorKey(const std::string& path, const sf::Color& key, const sf::Color& key2);
 
 	// Origin
 	static sf::Vector2f SetOrigin(sf::Transformable& obj, Origins preset, const sf::FloatRect bound);

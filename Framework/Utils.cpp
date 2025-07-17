@@ -105,6 +105,39 @@ sf::Texture Utils::loadWithColorKey(const std::string& path, const sf::Color& ke
     return std::move(tex);  // 명시적으로 move
 }
 
+sf::Texture Utils::loadWithColorKey(const std::string& path, const sf::Color& key, const sf::Color& key2)
+{
+    sf::Image img;
+    if (!img.loadFromFile(path))
+        throw std::runtime_error("이미지 로드 실패");
+
+    sf::Vector2u sz = img.getSize();
+    for (unsigned y = 0; y < sz.y; ++y)
+    {
+        for (unsigned x = 0; x < sz.x; ++x)
+        {
+            if (isSameColor(img.getPixel(x, y), key))
+            {
+                sf::Color c = img.getPixel(x, y);
+                c.a = 0;
+                img.setPixel(x, y, c);
+            }
+            if (isSameColor(img.getPixel(x, y), key2))
+            {
+                sf::Color c = img.getPixel(x, y);
+                c.a = 0;
+                img.setPixel(x, y, c);
+            }
+        }
+    }
+
+    sf::Texture tex;
+    tex.loadFromImage(img);
+    tex.setSmooth(true);
+
+    return std::move(tex);  // 명시적으로 move
+}
+
 
 sf::Vector2f Utils::SetOrigin(sf::Transformable& obj, Origins preset, const sf::FloatRect rect)
 {
