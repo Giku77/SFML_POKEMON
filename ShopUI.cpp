@@ -3,8 +3,6 @@
 #include "UiMgr.h"
 #include "Inventory.h"
 
-constexpr float PANEL_WIDTH = 450.f;
-constexpr float PANEL_HEIGHT = 320.f;
 sf::Vector2f PANEL_ORIGIN{ 400.f, 200.f };  
 
 

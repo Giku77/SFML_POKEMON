@@ -10,6 +10,9 @@ private:
     static constexpr float cellW = 180.f;
     static constexpr float cellH = 50.f;
 
+    sf::Sprite panelBackground;
+    sf::Texture panelTex;
+
     UiMgr mgr;
 
     Inventory* inventory = nullptr;

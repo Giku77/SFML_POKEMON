@@ -129,9 +129,10 @@ public:
             bg.setPosition(position + sf::Vector2f{ 2.f, 2.f });
         }
 
+        SetSize({ 385.f, 50.f });
         std::wstring msg = data->name + L" × " + std::to_wstring(count);
         AddButton(msg, 26, sf::Color::White);
-        TextSetPosition(position + sf::Vector2f{ 8.f, 4.f });
+        TextSetPosition(position + sf::Vector2f{ -130.f, -12.5f });
 
     }
 

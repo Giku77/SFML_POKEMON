@@ -182,23 +182,18 @@ void SceneBattle::Init()
 	sf::Vector2f pos22 = { FRAMEWORK.GetWindowSize().x / 2.f, FRAMEWORK.GetWindowSize().y / 2.f };
 
 
-	pokTex1.loadFromFile("graphics/ball-.png");
-	pokSprite1.setTexture(pokTex1);
-	pokSprite1.setPosition(ScreenToUi((sf::Vector2i)(pos22 - sf::Vector2f(500.f, 200.f))));
-	pokSprite1.setScale(1.f, 1.f);
-
 	std::vector<sf::IntRect> rects = {
-		{1, 36, 78, 70},
+		{1, 35, 78, 70},
 		{82, 36, 78, 70}
 	};
 
-	pokTex1 = Utils::loadWithColorKey("graphics/starting.png", sf::Color(147, 187, 236, 255));
+	pokTex1 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236));
 	pokSprite1.setTexture(pokTex1);
 	pokSprite1.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(750.f, 130.f)));
 	pokSprite1.setScale(5.f, 5.f);
 	poke1 = new SpriteAnimator(&pokSprite1, rects, 0.35f);
 
-	pokTex2 = Utils::loadWithColorKey("graphics/starting.png", sf::Color(147, 187, 236, 255));
+	pokTex2 = Utils::loadWithColorKey("graphics/pokemon_list.png", sf::Color(147, 187, 236));
 	pokSprite2.setTexture(pokTex2);
 	pokSprite2.setTextureRect({ 164, 34, 77, 70 });
 	pokSprite2.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(150.f, 310.f)));
