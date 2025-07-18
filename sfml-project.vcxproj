@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BattleMgr.cpp" />
+    <ClCompile Include="BattleTransition.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Framework\Button.cpp" />
     <ClCompile Include="Framework\AnimationClip.cpp" />

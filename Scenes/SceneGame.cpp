@@ -7,6 +7,7 @@
 #include "MyPokemonUI.h"
 #include "InventoryUI.h"
 #include "PokemonDB.h"
+#include "SceneBattle.h"
 
 
 SceneGame::SceneGame()
@@ -16,8 +17,8 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
-	delete ani;
-	ani = nullptr;
+	//delete ani;
+	//ani = nullptr;
 	//delete shopUi;
 	//shopUi = nullptr;
 	//delete mypokeUi;
@@ -48,6 +49,7 @@ void SceneGame::Init()
 	tileMapObj = (TileMapGameObject*)AddGameObject(new TileMapGameObject("TileMap"));
 
 	player = (AniPlayer*)AddGameObject(new AniPlayer("Player"));
+
 	/*if (!tileMap.load("data/world.tmj"))
 		std::cerr << "맵 로드 실패!\n";*/
 	
@@ -74,27 +76,78 @@ void SceneGame::Init()
 	invUI->Init();
 	invUI->SetActive(false);
 
+	MsgMgr.Load("data/messages.json");
+
+	button = new Button("MsgButton", true);
+	button->SetBackGroud("graphics/18507.png", 4.f, 4.f);
+	button->SetOnClick([=]() mutable {
+		std::wstring next = storyGame.Next();
+		if (next.empty()) {
+			isMsgbox = false;
+			if (isBattle) {
+				isBattle = false;
+
+				if (!wipe) wipe.reset(new SlashWipe(FRAMEWORK.GetWindowSize(), uiView));
+				//SCENE_MGR.ChangeScene(SceneIds::Battle);
+			}
+			return;
+		}
+		//std::cout << "클릭 인덱스 : " << storyGame.getIndex() << std::endl;
+		button->SetString(next);
+	});
+	button->SetButton({ FRAMEWORK.GetWindowSize().x / 2.f + 200.f, 300.f }, sf::Color::Black, "fonts/pokemon-dppt.otf");
+	button->AddButton("", 40, sf::Color::Black);
+	sf::Vector2f Msgpos = { 825.f, 430.f };
+	button->SetPosition(ScreenToUi((sf::Vector2i)Msgpos));
+	button->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(250.f, Msgpos.y - 50.f)));
+	uMgr.Add(button);
+	uMgr.Init();
+
 	Scene::Init();
 }
 
 void SceneGame::Enter()
 {
+	std::cout << "게임씬 입장 : " << lastPlayerPos.x << std::endl;
 	auto size = FRAMEWORK.GetWindowSizeF();
 	sf::Vector2f center{ size.x * 0.5f, size.y * 0.5f };
 	uiView.setSize(size);
 	uiView.setCenter(center);
 	worldView.setSize(size);
-	player->SetPosition({ 500.f, 1100.f });
-	worldView.setCenter(500.f, 1200.f);
+	player->SetPosition(lastPlayerPos);
+	worldView.setCenter({ lastPlayerPos.x, lastPlayerPos.y + 100.f });
+	player->setPrevPos(lastPlayerPos);
+	wipe.reset();
 	Scene::Enter();
+}
+
+void SceneGame::Exit()
+{
+	if (player) {
+		std::cout << "게임씬 이탈" << std::endl;
+		lastPlayerPos = player->GetPosition();
+	}
+
+	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
+
+	if (wipe)
+	{
+		if (wipe->update(dt)) {
+			SCENE_MGR.ChangeScene(SceneIds::Battle);
+			return;
+		}
+	}
+	//std::cout << "애니메이션 :" << player->getAnimator().GetCurrentClipId() << std::endl;
 	mypokeUi->Update(dt);
 	invUI->Update(dt);
 	Scene::Update(dt);
 	ani->Update(dt, true);
+	uMgr.Update(dt);
+
 	if (isCenterEnter) aniCenterTime += dt;
 	if (aniCenterTime > 4.f) {
 		aniCenterTime = 0.f;
@@ -146,6 +199,7 @@ void SceneGame::Update(float dt)
 		}
 	}
 
+
 	//player->SetScale({ 0.5f, 0.5f });
 	/*const float moveSpeed = 400.f;
 
@@ -175,13 +229,13 @@ void SceneGame::Update(float dt)
 
 	
 		if (tileMapObj->isCenterEnterable(tileX, tileY)) {
-			std::cout << "입장" << std::endl;
+			//std::cout << "입장" << std::endl;
 			ani->setIndex(0);
 			isCenterEnter = true;
 		}
 
 		if (tileMapObj->isShopEnterable(tileX, tileY)) {
-			std::cout << "입장" << std::endl;
+			//std::cout << "입장" << std::endl;
 			playerInv.LoadFromJson("data/player_inventory.json");
 			shopUi->Open("poke_mart", playerGold, playerInv);
 			shopOpened = true;
@@ -191,30 +245,67 @@ void SceneGame::Update(float dt)
 		}
 
 		if (tileMapObj->isBattleable(tileX, tileY)) {
-			std::cout << "배틀" << std::endl;
-			SCENE_MGR.ChangeScene(SceneIds::Battle);
+			//std::cout << "배틀" << std::endl;
+			isBattle = true;
+			auto* battle = dynamic_cast<SceneBattle*>(
+				SCENE_MGR.Get(SceneIds::Battle));
+			if (battle) battle->SetisBattleNpcOrPos(true);
 		}
 
-		if (tileMapObj->isPosBattleable(tileX, tileY)) {
-			std::cout << "배틀존" << std::endl;
-			//playerPos = player->getPrevPos();
+		//battlePosTime += dt;
+		bool stepped = (tileX != lastStepX || tileY != lastStepY);
+		if (stepped)
+		{
+			lastStepX = tileX;
+			lastStepY = tileY;
+
+			if (tileMapObj->isPosBattleable(tileX, tileY))
+			{
+				
+				const float baseRate = 0.041667f;         
+				float rate = baseRate;                    
+
+				if (Utils::RandomRange(0.f, 1.f) < rate)   
+				{
+					isBattle = true;
+					isMsgbox = true;
+					auto* battle = dynamic_cast<SceneBattle*>(
+						SCENE_MGR.Get(SceneIds::Battle));
+					if (battle) battle->SetisBattleNpcOrPos(false);
+					storyGame.Load("battleZ", MsgMgr);
+					button->SetString(storyGame.GetCurrent());
+					storyGame.Next();
+				}
+			}
+		}
+
+		std::string id = tileMapObj->getNpcId(tileX, tileY);
+		if (!id.empty() && InputMgr::GetKeyDown(sf::Keyboard::LShift)) {
+			std::cout << "NPC 대화 여부" << std::endl;
+			isMsgbox = true;
+			storyGame.Load(id, MsgMgr);
+			button->SetString(storyGame.GetCurrent());
+			storyGame.Next();
 		}
 
 		if (tileMapObj->isCollidable(tileX, tileY)) {
 			//std::cout << "충돌" << std::endl;
 			playerPos = player->getPrevPos();
+			//player->SetPosition(playerPos);
 		}
 
 		//tileX = static_cast<int>(playerPos.x) / tileMapObj->getTileW();
 		//tileY = static_cast<int>(playerPos.y) / tileMapObj->getTileH();
 		//std::cout << "x : " << tileX << "y : " << tileY << std::endl;
+
+		playerPos.x = Utils::Clamp(playerPos.x, 0.f, mapSize.x);
+		playerPos.y = Utils::Clamp(playerPos.y, 0.f, mapSize.y);
 		player->SetPosition(playerPos);
 
-		playerPos.x = Utils::Clamp(playerPos.x, halfSize.x, mapSize.x - halfSize.x);
-		playerPos.y = Utils::Clamp(playerPos.y, halfSize.y, mapSize.y - halfSize.y);
-
-
-		worldView.setCenter(playerPos);
+		sf::Vector2f camCenter = playerPos;
+		camCenter.x = Utils::Clamp(camCenter.x, halfSize.x, mapSize.x - halfSize.x);
+		camCenter.y = Utils::Clamp(camCenter.y, halfSize.y, mapSize.y - halfSize.y);
+		worldView.setCenter(camCenter);
 	}
 }
 
@@ -226,5 +317,9 @@ void SceneGame::Draw(sf::RenderWindow& window)
 	if(shopOpened) shopUi->Draw(window);
 	mypokeUi->Draw(window);
 	invUI->Draw(window);
+	if(isMsgbox) uMgr.Draw(window);
+	if(trans) trans->draw(window);
+	if(cover) cover->draw(window);
+	if(wipe) wipe->draw(window);
 	//window.draw(newScreen);
 }

@@ -40,6 +40,9 @@ public:
 	bool isPosBattleable(int x, int y) const {
 		return tileMap.isPosBattleable(x, y);
 	}
+	std::string getNpcId(int x, int y) const {
+		return tileMap.getNpcId(x, y);
+	}
 	int getTileW() const { return tileMap.getTileW(); }
 	int getTileH() const { return tileMap.getTileH(); }
 };

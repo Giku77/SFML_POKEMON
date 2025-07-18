@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
 #include "Inventory.h"
+#include "StoryPlayer.h"
+#include "BattleTransition.cpp"
 
 class TileMapGameObject;
 class AniPlayer;
@@ -14,6 +16,7 @@ class SceneGame : public Scene
 protected:
 	Inventory playerInv;
 	InventoryUI* invUI = nullptr;
+	Button* button = nullptr;
 	TileMapGameObject* tileMapObj = nullptr;
 	AniPlayer* player = nullptr;
 	SpriteAnimator* ani = nullptr;
@@ -23,6 +26,11 @@ protected:
 	std::unordered_map<int, Pokemon> MyPokemons;
 
 	int playerGold = 3000;
+	int lastStepX = -1, lastStepY = -1;
+
+	std::unique_ptr<BattleTransition> trans;
+	std::unique_ptr<SpinCover> cover;
+	std::unique_ptr<SlashWipe > wipe;
 
 
 	sf::Sprite newScreen;
@@ -33,7 +41,15 @@ protected:
 	bool isBattle = false;
 	bool shopOpened = false;
 	float aniCenterTime = 0.f;
+	float battlePosTime = 0.f;
 	PokemonManager Pmgr;
+	MessageMgr MsgMgr;
+	StoryPlayer storyGame;
+	UiMgr uMgr;
+
+	sf::Vector2f lastPlayerPos = { 500.f, 1100.f };
+
+	bool isMsgbox = false;
 
 public:
 	SceneGame();
@@ -41,6 +57,8 @@ public:
 
 	void Init() override;
 	void Enter() override;
+
+	void Exit() override;
 
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;

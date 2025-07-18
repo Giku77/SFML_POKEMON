@@ -52,6 +52,14 @@ static bool loadTilesetEmbedded(const std::string& baseDir,
                     {
                         outTs.battlePosLocalIds.insert(localId);
                     }
+                    if (prop.contains("name") && prop["name"] == "NPC" &&
+                        prop.contains("type") && prop["type"] == "string" &&
+                        prop.contains("value"))
+                    {
+                        std::string npcId = prop["value"];
+                        outTs.npcLocalIdMap[localId] = npcId;   
+                    }
+
                 }
             }
         }
@@ -130,6 +138,11 @@ bool TileMap::load(const std::string& jsonPath)
             t.isCenterEnter = ts->enterCenterLocalIds.count(local) > 0;
             t.isShopEnter = ts->enterShopLocalIds.count(local) > 0;
             t.isBattle = ts->battleNpcLocalIds.count(local) > 0;
+            t.isPosBattle = ts->battlePosLocalIds.count(local) > 0;
+
+            auto itNpc = ts->npcLocalIdMap.find(local);
+            if (itNpc != ts->npcLocalIdMap.end())
+                t.npcId = itNpc->second;
 
            /* for (int y = 0; y < mapHeight; ++y)
                 for (int x = 0; x < mapWidth; ++x)
@@ -215,5 +228,19 @@ bool TileMap::isPosBattleable(int x, int y) const
             return true;
         }
     return false;
+}
+
+std::string TileMap::getNpcId(int x, int y) const
+{
+    if (x < 0 || y < 0 || x >= mapWidth || y >= mapHeight) return "";
+    int idx = y * mapWidth + x;
+
+    for (const auto& layer : layers)
+        if (idx < layer.tiles.size()) {
+            const auto& t = layer.tiles[idx];
+            if (!t.npcId.empty())         
+                return t.npcId;
+        }
+    return "";
 }
 

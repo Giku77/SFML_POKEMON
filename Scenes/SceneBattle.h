@@ -46,6 +46,7 @@ protected:
 	float overTime = 0.f;
 
 	bool isGetPokemon = false;
+	bool isBattleNpcOrPos = false;
 
 	std::vector<int> pokemonFrameCounts = {
 	3, 3, 6,  // 001~003 ¿ÃªÛ«ÿææ ~ ¿ÃªÛ«ÿ≤…
@@ -139,6 +140,8 @@ public:
 	void CreateMoveAndPokemon();
 
 	void BuildUI();
+
+	void SetisBattleNpcOrPos(bool b) { isBattleNpcOrPos = b; }
 
 	void Exit() override;
 

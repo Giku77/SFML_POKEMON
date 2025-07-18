@@ -127,10 +127,10 @@ void BattleMgr::getAddPokemon(const Pokemon& p, Inventory& u)
 		if (Utils::RandomRange(0.f, 1.f) < 0.5f) {
 			isGetPoke = true;
 			PokemonManager pm;
-			pm.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
-			for (auto& p : pm.GetAll()) {
+			//pm.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
+			/*for (auto& p : pm.GetAll()) {
 				pm.AddPokemon(p.second);
-			}
+			}*/
 			pm.AddPokemon(*enemy);
 			pm.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 		}

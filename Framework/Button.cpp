@@ -47,7 +47,7 @@ void Button::AddButton(const sf::String& str, unsigned int size, const sf::Color
 		writer = nullptr;
 	}
 	writer = new TextWriter(&text, str);
-	SetString(str);
+	if(str != "") SetString(str);
 	SetCharacterSize(size);
 	TextSetFillColor(color);
 }
@@ -142,6 +142,11 @@ void Button::Update(float dt)
 		}
 	}
 	else ButtonSetFillColor(buttonColor);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Space)) {
+		std::cout << "버튼 스페이스 : " << GetName() << std::endl;
+		onClick();
+	}
 
 	if (isWriter) {
 		writer->Update(dt);

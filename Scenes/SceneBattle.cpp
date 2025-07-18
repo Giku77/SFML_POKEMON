@@ -180,7 +180,9 @@ void SceneBattle::BuildUI()
 
 	battleMsg->SetBackGround("graphics/battle_Sprite.png", { 204, 53, 539, 53 }, 5.f, 5.f);
 	battleMsg->SetFillColor(sf::Color::Black);
-	battleMsg->AddText("fonts/pokemon-dppt.otf", L"무엇을 할까? [E : 몬스터볼]", 40, ScreenToUi((sf::Vector2i)pos3));
+	std::wstring ts = L"무엇을 할까?";
+	if (!isBattleNpcOrPos) ts += L" [E : 몬스터볼]";
+	battleMsg->AddText("fonts/pokemon-dppt.otf", ts, 40, ScreenToUi((sf::Vector2i)pos3));
 	battleMsg->GetText().setPosition({ 10.f, battleMsg->GetPosition().y - 60.f });
 	uiMgrBattle.Add(battleMsg);
 
@@ -295,7 +297,7 @@ void SceneBattle::Update(float dt)
 		}
 	}
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::E)) {
+	if (InputMgr::GetKeyDown(sf::Keyboard::E) && !isBattleNpcOrPos) {
 		bmgr.getAddPokemon(ePoke, playerInv);
 	}
 

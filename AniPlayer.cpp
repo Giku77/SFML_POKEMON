@@ -67,10 +67,10 @@ void AniPlayer::Reset()
 	sortingLayer = SortingLayers::Foreground;
 	sortingOrder = 0;
 
-	SetPosition({ 500.f, 1100.f });
+	//SetPosition({ 500.f, 1100.f });
 	SetScale({ 0.3f, 0.3f });
+	animator.Play(currentClip);
 
-	animator.Play("animations/player_idle.csv");
 	SetOrigin(Origins::BC);
 }
 
@@ -115,9 +115,19 @@ void AniPlayer::Update(float dt)
 	else if (dir == sf::Vector2f(0.f, 0.f) &&
 		(current == "Run" || current == "Up" || current == "Down"))
 	{
-		if (current == "Down") animator.Play("animations/player_idle.csv");
-		if (current == "Up") animator.Play("animations/player_idle_Up.csv");
-		if (current == "Run") animator.Play("animations/player_idle_Right.csv");
+		if (current == "Down") {
+			currentClip = "animations/player_idle.csv";
+			animator.Play("animations/player_idle.csv");
+		}
+		if (current == "Up") {
+			currentClip = "animations/player_idle_Up.csv";
+			animator.Play("animations/player_idle_Up.csv");
+		}
+		if (current == "Run") {
+			currentClip = "animations/player_idle_Right.csv";
+			if(GetScale().x < 0.f) currentClip = "animations/player_idle_Left.csv";
+			animator.Play("animations/player_idle_Right.csv");
+		}
 	}
 }
 

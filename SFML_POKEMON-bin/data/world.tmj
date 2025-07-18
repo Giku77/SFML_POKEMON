@@ -1904,7 +1904,13 @@
                      "visible":true,
                      "x":0,
                      "y":0
-                    }
+                    },
+                 "properties":[
+                        {
+                         "name":"NPC",
+                         "type":"string",
+                         "value":"NPC1"
+                        }]
                 }, 
                 {
                  "id":48,
@@ -1929,7 +1935,13 @@
                      "visible":true,
                      "x":0,
                      "y":0
-                    }
+                    },
+                 "properties":[
+                        {
+                         "name":"NPC",
+                         "type":"string",
+                         "value":"NPC2"
+                        }]
                 }, 
                 {
                  "id":49,
@@ -1954,7 +1966,13 @@
                      "visible":true,
                      "x":0,
                      "y":0
-                    }
+                    },
+                 "properties":[
+                        {
+                         "name":"NPC",
+                         "type":"string",
+                         "value":"NPC2"
+                        }]
                 }, 
                 {
                  "id":57,
@@ -1981,6 +1999,11 @@
                      "y":0
                     },
                  "properties":[
+                        {
+                         "name":"NPC",
+                         "type":"string",
+                         "value":"BNPC"
+                        }, 
                         {
                          "name":"isBattle",
                          "type":"bool",
