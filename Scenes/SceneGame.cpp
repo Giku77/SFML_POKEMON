@@ -87,7 +87,8 @@ void SceneGame::Init()
 			if (isBattle) {
 				isBattle = false;
 
-				if (!wipe) wipe.reset(new SlashWipe(FRAMEWORK.GetWindowSize(), uiView));
+				if (!wipe && !isRed) wipe.reset(new SlashWipe(FRAMEWORK.GetWindowSize(), uiView));
+				if (!trans && isRed) trans.reset(new BattleTransition(FRAMEWORK.GetWindowSize(), 0, uiView));
 				//SCENE_MGR.ChangeScene(SceneIds::Battle);
 			}
 			return;
@@ -117,7 +118,7 @@ void SceneGame::Enter()
 	player->SetPosition(lastPlayerPos);
 	worldView.setCenter({ lastPlayerPos.x, lastPlayerPos.y + 100.f });
 	player->setPrevPos(lastPlayerPos);
-	wipe.reset();
+	//wipe.reset();
 	Scene::Enter();
 }
 
@@ -127,20 +128,32 @@ void SceneGame::Exit()
 		std::cout << "게임씬 이탈" << std::endl;
 		lastPlayerPos = player->GetPosition();
 	}
-
+	isRed = false;
+	uMgr.Clear();
+	wipe.reset();
 	Scene::Exit();
 }
 
 void SceneGame::Update(float dt)
 {
 
-	if (wipe)
+	if (wipe && !isRed)
 	{
 		if (wipe->update(dt)) {
 			SCENE_MGR.ChangeScene(SceneIds::Battle);
 			return;
 		}
 	}
+
+	if (trans && isRed)
+	{
+		if (trans->update(dt)) {
+			trans.reset();
+			SCENE_MGR.ChangeScene(SceneIds::Battle);
+			return;
+		}
+	}
+
 	//std::cout << "애니메이션 :" << player->getAnimator().GetCurrentClipId() << std::endl;
 	mypokeUi->Update(dt);
 	invUI->Update(dt);
@@ -282,6 +295,12 @@ void SceneGame::Update(float dt)
 		std::string id = tileMapObj->getNpcId(tileX, tileY);
 		if (!id.empty() && InputMgr::GetKeyDown(sf::Keyboard::LShift)) {
 			std::cout << "NPC 대화 여부" << std::endl;
+			if (id == "RED") {
+				auto* battle = dynamic_cast<SceneBattle*>(
+					SCENE_MGR.Get(SceneIds::Battle));
+				battle->SetisRed(true);
+				isRed = true;
+			}
 			isMsgbox = true;
 			storyGame.Load(id, MsgMgr);
 			button->SetString(storyGame.GetCurrent());

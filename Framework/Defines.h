@@ -62,6 +62,21 @@ struct Pokemon {
 		hp -= d; 
 		if (hp < 0) hp = 0;
 	}
+	void ApplyLevelScaling(int baseLevel = 5)
+	{
+		if (level <= baseLevel) {
+			return;
+		}
+
+		const int  dLvl = level - baseLevel;
+		constexpr float HP_RATE = 0.05f;  // 레벨당 +5 %
+		constexpr float ATK_RATE = 0.03f;  // 레벨당 +3 %
+		constexpr float DEF_RATE = 0.025f; // 레벨당 +2.5 %
+
+		hp *= static_cast<int>(1.f + dLvl * HP_RATE);
+		attack *= static_cast<int>(1.f + dLvl * ATK_RATE);
+		defense *= static_cast<int>(1.f + dLvl * DEF_RATE);
+	}
 };
 
 enum class TileType {

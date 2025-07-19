@@ -50,6 +50,7 @@ protected:
 	sf::Vector2f lastPlayerPos = { 500.f, 1100.f };
 
 	bool isMsgbox = false;
+	bool isRed = false;
 
 public:
 	SceneGame();

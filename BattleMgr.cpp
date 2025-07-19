@@ -86,7 +86,17 @@ void BattleMgr::CheckBattleEnd()
 {
 	if (player->hp == 0 || enemy->hp == 0) {
 		if (player->hp == 0) text->SetString(sf::String(player->name) + L" 는 쓰러졌다.");
-		if (enemy->hp == 0) text->SetString(sf::String(enemy->name) + L" 는 쓰러졌다.");
+		if (enemy->hp == 0) {
+			int rExp = Utils::RandomRange(10, 50);
+			player->experience += rExp;
+			if (player->experience >= 100) {
+				int xExp = player->experience - 100;
+				player->level++;
+				player->experience = xExp;
+			}
+
+			text->SetString(sf::String(enemy->name) + L" 는 쓰러졌다.\n" + std::to_wstring(rExp) + L"의 경험치를 얻었다.");
+		}
 		IsBattleOver = true;
 	}
 }
@@ -135,6 +145,7 @@ void BattleMgr::getAddPokemon(const Pokemon& p, Inventory& u)
 			pm.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 		}
 		isAddPoke = true;
+		u.SaveToJson("data/player_inventory.json");
 	}
 	else text->SetString(L"몬스터볼이 없다!");
 }

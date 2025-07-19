@@ -68,6 +68,35 @@ public:
         return true;
     }
 
+    bool LoadFromRedJson(const std::string& jsonPath)
+    {
+        std::ifstream in(jsonPath);
+        if (!in.is_open()) return false;
+        nlohmann::json j; in >> j;
+
+
+        const auto& jPokemons = j["pokemons"];
+        for (const auto& obj : jPokemons)
+        {
+            //std::cout << "호출" << std::endl;
+            Pokemon d;
+            d.id = obj["id"].get<int>();
+            std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+            std::string nameStr = obj["name"].get<std::string>();
+            d.name = conv.from_bytes(nameStr);
+            d.level = obj["level"].get<int>();
+            d.experience = obj["experience"].get<int>();
+            d.hp = obj["hp"].get<int>();
+            d.attack = obj["attack"].get<int>();
+            d.defense = obj["defense"].get<int>();
+            //Move m = { 10, L"할퀴기", 40, 100, 0, L"노말" };
+            //d.moves.push_back(m);
+            Redpokemons[d.id] = std::move(d);
+        }
+        //std::cout << "호출 사이즈 : " << Mypokemons.size() << std::endl;
+        return true;
+    }
+
     bool SaveGame(const std::wstring& playerName,
         const std::string& filename) const
     {
@@ -121,6 +150,15 @@ public:
         return nullptr;
     }
 
+    Pokemon* GetRedPokemon()
+    {
+        if (!Redpokemons.empty()) {
+            auto it = Redpokemons.begin();
+            return &(it->second);
+        }
+        return nullptr;
+    }
+
     void AddMyPokemon(const Pokemon& p) {
         Mypokemons[p.id] = p;
     }
@@ -138,6 +176,7 @@ public:
 private:
     std::unordered_map<int, Pokemon> pokemons;
     std::unordered_map<int, Pokemon> Mypokemons;
+    std::unordered_map<int, Pokemon> Redpokemons;
     //std::unordered_map<int, PokePtr> Mpokemons;
 
     PokemonDB() = default;

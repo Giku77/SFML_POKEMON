@@ -216,6 +216,7 @@ void Utils::ReloadData()
 {
     PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
     PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
+    PokemonDB::Instance().LoadFromRedJson("data/red_pokemon.json");
     MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
     ItemDB::Instance().LoadFromJson("data/shop.json");
 }

@@ -1,0 +1,14 @@
+{
+    "player": "RED",
+    "pokemons": [
+        {
+            "attack": 120,
+            "defense": 100,
+            "experience": 0,
+            "hp": 100,
+            "id": 25,
+            "level": 50,
+            "name": "피카츄"
+        }
+    ]
+}

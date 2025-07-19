@@ -21,6 +21,7 @@ protected:
 	sf::RectangleShape pokeBackHp1;
 	sf::RectangleShape pokeHp2;
 	sf::RectangleShape pokeBackHp2;
+	sf::RectangleShape ExpBar;
 
 	Text* battleMsg = nullptr;
 	Inventory playerInv;
@@ -47,6 +48,7 @@ protected:
 
 	bool isGetPokemon = false;
 	bool isBattleNpcOrPos = false;
+	bool isRed = false;
 
 	std::vector<int> pokemonFrameCounts = {
 	3, 3, 6,  // 001~003 ¿ÃªÛ«ÿææ ~ ¿ÃªÛ«ÿ≤…
@@ -141,7 +143,10 @@ public:
 
 	void BuildUI();
 
+	void UseMoveNum(int n, Button* b);
+
 	void SetisBattleNpcOrPos(bool b) { isBattleNpcOrPos = b; }
+	void SetisRed(bool b) { isRed = b; }
 
 	void Exit() override;
 

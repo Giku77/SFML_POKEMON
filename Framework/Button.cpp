@@ -143,7 +143,7 @@ void Button::Update(float dt)
 	}
 	else ButtonSetFillColor(buttonColor);
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::Space)) {
+	if (InputMgr::GetKeyDown(sf::Keyboard::Space) && texId == "graphics/18507.png") {
 		std::cout << "버튼 스페이스 : " << GetName() << std::endl;
 		onClick();
 	}

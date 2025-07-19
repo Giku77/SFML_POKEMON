@@ -79,6 +79,7 @@ void SceneBattle::CreateMoveAndPokemon()
 	//PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
 	//MoveDB::Instance().LoadFromJson("data/moves_korean_kr_full.json");
 	Pokemon* ePtr = PokemonDB::Instance().GetPokemon(Utils::RandomRange(1, 152));
+	if(isRed) ePtr = PokemonDB::Instance().GetRedPokemon();
 	Pokemon* mPtr = PokemonDB::Instance().GetMyPokemon();
 	if (!ePtr) {
 		std::cerr << "적 포켓몬이 없습니다!" << std::endl;
@@ -90,8 +91,12 @@ void SceneBattle::CreateMoveAndPokemon()
 	}
 	ePoke = *ePtr;
 	mPoke = *mPtr;
+	if (!isRed) ePoke.level = mPoke.level;
+	ePoke.ApplyLevelScaling();
+	mPoke.ApplyLevelScaling();
 	eHp = ePoke.hp;
 	mHp = mPoke.hp;
+
 	for (int i = 0; i < 8; ++i) {
 		int moId = Utils::RandomRange(1, 100);
 		Move m;
@@ -119,6 +124,7 @@ void SceneBattle::Exit()
 	ePoke = {};
 	mPoke = {};
 	eHp = mHp = 0;
+	isRed = false;
 }
 
 void SceneBattle::BuildUI()
@@ -139,7 +145,7 @@ void SceneBattle::BuildUI()
 
 	pokeLv1 = new Text("pokeLv1");
 	pokeLv1->SetFillColor(sf::Color::Black);
-	pokeLv1->AddText("fonts/pokemon-dppt.otf", "5", 50, ScreenToUi((sf::Vector2i)(pos1 + sf::Vector2f(455.f, -7.f))));
+	pokeLv1->AddText("fonts/pokemon-dppt.otf", std::to_string(ePoke.level), 50, ScreenToUi((sf::Vector2i)(pos1 + sf::Vector2f(455.f, -7.f))));
 	pokeLv1->GetText().setPosition({ pokeLv1->GetPosition().x - 200.f, pokeLv1->GetPosition().y - 40.f });
 	uiMgrBattle.Add(pokeLv1);
 
@@ -162,9 +168,13 @@ void SceneBattle::BuildUI()
 
 	pokeLv2 = new Text("pokeLv2");
 	pokeLv2->SetFillColor(sf::Color::Black);
-	pokeLv2->AddText("fonts/pokemon-dppt.otf", "5", 50, ScreenToUi((sf::Vector2i)(pos2 + sf::Vector2f(515.f, -17.f))));
+	pokeLv2->AddText("fonts/pokemon-dppt.otf", std::to_string(mPoke.level), 50, ScreenToUi((sf::Vector2i)(pos2 + sf::Vector2f(515.f, -17.f))));
 	pokeLv2->GetText().setPosition({ pokeLv2->GetPosition().x - 200.f, pokeLv2->GetPosition().y - 40.f });
 	uiMgrBattle.Add(pokeLv2);
+
+	ExpBar.setSize({ 320.f, 10.f });
+	ExpBar.setFillColor(sf::Color(148, 248, 148));
+	ExpBar.setPosition(ScreenToUi((sf::Vector2i)(pos2 + sf::Vector2f(-134.f, 56.f))));
 
 	pokeBackHp2.setSize({ 242.f, 20.f });
 	pokeBackHp2.setFillColor(sf::Color(248, 248, 248));
@@ -197,7 +207,7 @@ void SceneBattle::BuildUI()
 	mov1->SetOutlineColor(sf::Color::Black);
 	mov1->SetOutlineThickness(4.f);
 	mov1->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos1.x - 110.f, mpos1.y - 15.f)));
-	mov1->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[0].id); });
+	mov1->SetOnClick([=]() { UseMoveNum(0, mov1); });
 	uiMgrBattle.Add(mov1);
 
 	mov2 = new Button("mov2");
@@ -210,7 +220,7 @@ void SceneBattle::BuildUI()
 	mov2->SetOutlineColor(sf::Color::Black);
 	mov2->SetOutlineThickness(4.f);
 	mov2->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos2.x - 110.f, mpos2.y - 15.f)));
-	mov2->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[1].id); });
+	mov2->SetOnClick([=]() { UseMoveNum(1, mov2); });
 	uiMgrBattle.Add(mov2);
 
 	mov3 = new Button("mov3");
@@ -223,7 +233,7 @@ void SceneBattle::BuildUI()
 	mov3->SetOutlineColor(sf::Color::Black);
 	mov3->SetOutlineThickness(4.f);
 	mov3->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos3.x - 110.f, mpos3.y - 15.f)));
-	mov3->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[2].id); });
+	mov3->SetOnClick([=]() { UseMoveNum(2, mov3); });
 	uiMgrBattle.Add(mov3);
 
 	mov4 = new Button("mov4");
@@ -236,7 +246,7 @@ void SceneBattle::BuildUI()
 	mov4->SetOutlineColor(sf::Color::Black);
 	mov4->SetOutlineThickness(4.f);
 	mov4->TextSetPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(mpos4.x - 110.f, mpos4.y - 15.f)));
-	mov4->SetOnClick([=]() {bmgr.UseMove(mPoke.moves[3].id); });
+	mov4->SetOnClick([=]() { UseMoveNum(3, mov4); });
 	uiMgrBattle.Add(mov4);
 	uiMgrBattle.Init();
 
@@ -263,10 +273,20 @@ void SceneBattle::BuildUI()
 	pokSprite2.setScale(5.f, 5.f);
 }
 
+void SceneBattle::UseMoveNum(int n, Button* b)
+{
+	if (static_cast<int>(bmgr.GetCurrentTurn()) != 0) return;
+	mPoke.moves[n].pp--;
+	if (mPoke.moves[n].pp < 0) mPoke.moves[n].pp = 0;
+	if (mPoke.moves[n].pp > 0) bmgr.UseMove(mPoke.moves[n].id);
+	else battleMsg->SetString(L"해당 기술은 더이상 PP가 없다!");
+	b->SetString(sf::String(mPoke.moves[n].name) + "\n" + std::to_string(mPoke.moves[n].pp));
+}
+
 void SceneBattle::Init()
 {
 	Scene::Init();
-	BuildUI();
+	//BuildUI();
 }
 
 void SceneBattle::Enter()
@@ -289,6 +309,8 @@ void SceneBattle::Update(float dt)
 			pmgr.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 			ar = pmgr.GetAll();
 			ar[mPoke.id].hp = mPoke.hp;
+			ar[mPoke.id].level = mPoke.level;
+			ar[mPoke.id].experience = mPoke.experience;
 			pmgr.AddPokemon(ar[mPoke.id]);
 			pmgr.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 
@@ -302,10 +324,13 @@ void SceneBattle::Update(float dt)
 	}
 
 	float maxHpWidth = 242.f;
+	float maxExpBar = 320.f;
 
 
 	int ecurrentHp = ePoke.hp;
 	int mcurrentHp = mPoke.hp;
+
+	int mcurrentExp = mPoke.experience;
 
 	float ehpRatio = static_cast<float>(ecurrentHp) / eHp;
 	if (ehpRatio < 0.f) ehpRatio = 0.f;
@@ -315,8 +340,14 @@ void SceneBattle::Update(float dt)
 	if (mhpRatio < 0.f) mhpRatio = 0.f;
 	if (mhpRatio > 1.f) mhpRatio = 1.f;
 
+	float mExpRatio = static_cast<float>(mcurrentExp) / 100.f;
+	if (mExpRatio < 0.f) mExpRatio = 0.f;
+	if (mExpRatio > 1.f) mExpRatio = 1.f;
+
 	pokeHp1.setSize({ maxHpWidth * ehpRatio, 20.f });
 	pokeHp2.setSize({ maxHpWidth * mhpRatio, 20.f });
+	ExpBar.setSize({ maxExpBar * mExpRatio, 10.f });
+	pokeLv2->SetString(std::to_string(mPoke.level));
 }
 
 void SceneBattle::Draw(sf::RenderWindow& window)
@@ -330,4 +361,5 @@ void SceneBattle::Draw(sf::RenderWindow& window)
 	window.draw(pokeHp1);
 	window.draw(pokeBackHp2);
 	window.draw(pokeHp2);
+	window.draw(ExpBar);
 }

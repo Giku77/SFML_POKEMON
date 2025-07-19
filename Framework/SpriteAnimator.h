@@ -44,6 +44,7 @@ public:
     const bool& getPlaying() const { return playing; }
 
     void setIndex(int i) { index = i; }
+    const size_t getIndex() const { return index; }
 
     void Update(float dt, bool hover) {
         if (!hover) {       

@@ -91,6 +91,8 @@ void MyPokemonUI::Update(float dt)
 		pok[idx]->nHp.setSize({ 98.f * ratio, 9.f });
 		pok[idx]->hp->SetString("HP   " + std::to_string(live.hp));
 
+		pok[idx]->level->SetString(std::to_string(live.level));
+
 		pok[idx]->name->SetString(PokemonDB::Instance().GetPokemon(id)->name);
 
 		++idx;
