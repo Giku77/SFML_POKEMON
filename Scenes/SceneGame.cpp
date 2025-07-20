@@ -23,6 +23,7 @@ SceneGame::~SceneGame()
 	shopUi = nullptr;
 	delete mypokeUi;
 	mypokeUi = nullptr;
+	uMgr.Clear();
 }
 
 void SceneGame::Init()
@@ -123,7 +124,7 @@ void SceneGame::Exit()
 		lastPlayerPos = player->GetPosition();
 	}
 	isRed = false;
-	uMgr.Clear();
+	//uMgr.Clear();
 	wipe.reset();
 	Scene::Exit();
 }

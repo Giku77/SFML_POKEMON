@@ -10,7 +10,10 @@ SceneEnd::SceneEnd()
 
 SceneEnd::~SceneEnd()
 {
-	//delete end;
+	delete end;
+	end = nullptr;
+	delete endText;
+	endText = nullptr;
 }
 
 void SceneEnd::Init()
