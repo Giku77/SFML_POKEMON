@@ -43,6 +43,7 @@ protected:
 	sf::Sprite pokSprite2;
 	sf::Texture pokTex2;
 	SpriteAnimator* poke2 = nullptr;
+	sf::Music* bgmMusic = nullptr;;
 
 	float overTime = 0.f;
 
@@ -141,6 +142,8 @@ public:
 	~SceneBattle() override;
 
 	void CreateMoveAndPokemon();
+
+	void setMusic(sf::Music* m) { bgmMusic = m; }
 
 	void BuildUI();
 

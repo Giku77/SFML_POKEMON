@@ -159,6 +159,10 @@ public:
         return nullptr;
     }
 
+    void MyPokeClear() {
+        Mypokemons.clear();
+    }
+
     void AddMyPokemon(const Pokemon& p) {
         Mypokemons[p.id] = p;
     }

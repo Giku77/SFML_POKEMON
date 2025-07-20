@@ -9,12 +9,13 @@ MyPokemonUI::MyPokemonUI(const std::string& name)
 
 MyPokemonUI::~MyPokemonUI()
 {
+	
 }
 
 void MyPokemonUI::DataReload()
 {
 	index = 0;
-	//pok.clear();
+	PokemonDB::Instance().MyPokeClear();
 	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
 	//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 	Mypokemons = &PokemonDB::Instance().GetMyPokemonsRef();
@@ -78,7 +79,6 @@ void MyPokemonUI::Update(float dt)
 	uiMgrMyPoke.Update(dt);
 	int idx = 0;
 	const auto& list = PokemonDB::Instance().GetMyPokemonsRef();  
-
 	for (const auto& kv : list) {    
 		int id = kv.first;    
 		const Pokemon& live = kv.second;   

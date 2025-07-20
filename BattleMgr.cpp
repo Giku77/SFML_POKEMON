@@ -48,6 +48,26 @@ void BattleMgr::Update(float dt)
 			SCENE_MGR.ChangeScene(SceneIds::Game);
 		}
 	}
+	//if (isEffect) {
+	//	effectTIme += dt;
+	//	isEffect = false;
+	//	if (currentTurn == Turn::Player) {
+	//		sf::Color oColor = p1->getColor();
+	//		p1->setColor(sf::Color::White);
+	//		if (effectTIme > 2.f) {
+	//			p1->setColor(oColor);
+	//			effectTIme = 0.f;
+	//		}
+	//	}
+	//	if (currentTurn == Turn::Enemy) {
+	//		sf::Color oColor = p2->getColor();
+	//		p2->setColor(sf::Color::White);
+	//		if (effectTIme > 2.f) {
+	//			p2->setColor(oColor);
+	//			effectTIme = 0.f;
+	//		}
+	//	}
+	//}
 }
 
 void BattleMgr::UseMove(int moveIndex)
@@ -59,6 +79,7 @@ void BattleMgr::UseMove(int moveIndex)
 void BattleMgr::PlayerAttack(int moveIndex)
 {
 	if (moveIndex < 0) return;  
+	//isEffect = true;
 	const MoveData* move = MoveDB::Instance().GetMove(moveIndex);
 	int dmg = CalcDamage(player, enemy, move);
 	enemy->TakeDamage(dmg);
@@ -72,6 +93,7 @@ void BattleMgr::PlayerAttack(int moveIndex)
 void BattleMgr::EnemyAttack()
 {
 	int idx = ChooseEnemyMove();
+	//isEffect = true;
 	const MoveData* move = MoveDB::Instance().GetMove(enemy->moves[idx].id);
 	int dmg = CalcDamage(enemy, player, move);
 	player->TakeDamage(dmg);

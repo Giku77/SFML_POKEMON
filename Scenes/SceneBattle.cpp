@@ -269,6 +269,7 @@ void SceneBattle::BuildUI()
 	pokSprite2.setTextureRect(GetPokemonRects(mPoke.id, pokemonFrameCounts)[2]);
 	pokSprite2.setPosition(ScreenToUi((sf::Vector2i)sf::Vector2f(150.f, 310.f)));
 	pokSprite2.setScale(5.f, 5.f);
+	//bmgr.SetSprite(&pokSprite1, &pokSprite2);
 }
 
 void SceneBattle::UseMoveNum(int n, Button* b)
@@ -290,6 +291,7 @@ void SceneBattle::Init()
 void SceneBattle::Enter()
 {
 	Scene::Enter();
+	PokemonDB::Instance().MyPokeClear();
 	PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
 	BuildUI();
 	//CreateMoveAndPokemon();
@@ -327,6 +329,11 @@ void SceneBattle::Update(float dt)
 	if (isEnding) {
 		overTime += dt;
 		if (overTime > 2.f) {
+			if (!bgmMusic->openFromFile("sounds/Ending.wav")) // 음악 파일 경로
+			{
+				std::cout << "음악 파일 열기 실패!" << std::endl;
+			}
+			bgmMusic->play();
 			SCENE_MGR.ChangeScene(SceneIds::End);
 			isEnding = false;
 			overTime = 0.f;

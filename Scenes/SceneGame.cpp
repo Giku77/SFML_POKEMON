@@ -29,6 +29,8 @@ SceneGame::~SceneGame()
 void SceneGame::Init()
 {
 	soundIds.push_back("sounds/UiSound.wav");
+	soundIds.push_back("sounds/button.wav");
+	soundIds.push_back("sounds/recovery.wav");
 	//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 	ANI_CLIP_MGR.Load("animations/player_idle.csv");
 	ANI_CLIP_MGR.Load("animations/player_idle_Up.csv");
@@ -77,6 +79,7 @@ void SceneGame::Init()
 	button = new Button("MsgButton", true);
 	button->SetBackGroud("graphics/18507.png", 4.f, 4.f);
 	button->SetOnClick([=]() mutable {
+		SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/button.wav"), false);
 		std::wstring next = storyGame.Next();
 		if (next.empty()) {
 			isMsgbox = false;
@@ -120,7 +123,7 @@ void SceneGame::Enter()
 	}
 
 	mainBgm.setLoop(true);   // 루프 재생 여부 (배경음이라면 보통 true)
-	mainBgm.setVolume(100.f); // 볼륨 (0~100)
+	mainBgm.setVolume(30.f); // 볼륨 (0~100)
 	mainBgm.play();
 	//wipe.reset();
 	Scene::Enter();
@@ -135,7 +138,7 @@ void SceneGame::Exit()
 	isRed = false;
 	//uMgr.Clear();
 	wipe.reset();
-	mainBgm.stop();
+	//mainBgm.stop();
 	Scene::Exit();
 }
 
@@ -145,6 +148,19 @@ void SceneGame::Update(float dt)
 	if (wipe && !isRed)
 	{
 		if (wipe->update(dt)) {
+			if (isBattleOrNpc) {
+				if (!mainBgm.openFromFile("sounds/Battle(VSTrainer).wav")) // 음악 파일 경로
+				{
+					std::cout << "음악 파일 열기 실패!" << std::endl;
+				}
+			}
+			else {
+				if (!mainBgm.openFromFile("sounds/Battle(VSWildPokemon).wav")) // 음악 파일 경로
+				{
+					std::cout << "음악 파일 열기 실패!" << std::endl;
+				}
+			}
+			mainBgm.play();
 			SCENE_MGR.ChangeScene(SceneIds::Battle);
 			return;
 		}
@@ -153,6 +169,14 @@ void SceneGame::Update(float dt)
 	if (trans && isRed)
 	{
 		if (trans->update(dt)) {
+			if (!mainBgm.openFromFile("sounds/LastBattle(VSRival).wav")) // 음악 파일 경로
+			{
+				std::cout << "음악 파일 열기 실패!" << std::endl;
+			}
+			mainBgm.play();
+			auto* battle = dynamic_cast<SceneBattle*>(
+				SCENE_MGR.Get(SceneIds::Battle));
+			if (battle) battle->setMusic(&mainBgm);
 			trans.reset();
 			SCENE_MGR.ChangeScene(SceneIds::Battle);
 			return;
@@ -169,8 +193,8 @@ void SceneGame::Update(float dt)
 	if (isCenterEnter) aniCenterTime += dt;
 	if (aniCenterTime > 4.f) {
 		aniCenterTime = 0.f;
+		SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/recovery.wav"), false);
 		//PokemonDB::Instance().LoadFromPlayerJson("data/player_pokemon.json");
-
 		Pmgr.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 
 		//MyPokemons = PokemonDB::Instance().GetMyPokemons();
@@ -267,6 +291,7 @@ void SceneGame::Update(float dt)
 		if (tileMapObj->isBattleable(tileX, tileY)) {
 			//std::cout << "배틀" << std::endl;
 			isBattle = true;
+			isBattleOrNpc = true;
 			auto* battle = dynamic_cast<SceneBattle*>(
 				SCENE_MGR.Get(SceneIds::Battle));
 			if (battle) battle->SetisBattleNpcOrPos(true);
@@ -289,6 +314,7 @@ void SceneGame::Update(float dt)
 				{
 					isBattle = true;
 					isMsgbox = true;
+					isBattleOrNpc = false;
 					auto* battle = dynamic_cast<SceneBattle*>(
 						SCENE_MGR.Get(SceneIds::Battle));
 					if (battle) battle->SetisBattleNpcOrPos(false);

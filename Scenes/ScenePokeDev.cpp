@@ -157,7 +157,7 @@ void ScenePokeDev::Enter()
 	}
 
 	bgm.setLoop(true);   // 루프 재생 여부 (배경음이라면 보통 true)
-	bgm.setVolume(100.f); // 볼륨 (0~100)
+	bgm.setVolume(30.f); // 볼륨 (0~100)
 	bgm.play();
 	//SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/Oak.wav"), true);
 }

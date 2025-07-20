@@ -14,9 +14,9 @@ struct BattleTransition {
         flash.setFillColor(sf::Color::White);
 
         // 2) 원 : 초기 반지름 0, 색 흰색
-        circle.setRadius(120.f);
+        circle.setRadius(0.f);
         circle.setFillColor(sf::Color::Black);
-        circle.setOrigin(120.f, 120.f);               // 이후 scale 로 키움
+        circle.setOrigin(0.f, 0.f);               // 이후 scale 로 키움
         sf::Vector2i centerPx{ int(winSize.x / 2), int(winSize.y / 2) };
         sf::Vector2f centerUi =
             FRAMEWORK.GetWindow().mapPixelToCoords(centerPx, uiView);

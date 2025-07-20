@@ -1,13 +1,13 @@
 {
-    "player": "",
+    "player": "sff ",
     "pokemons": [
         {
             "attack": 100,
             "defense": 100,
-            "experience": 80,
-            "hp": 7080,
+            "experience": 5,
+            "hp": 28148,
             "id": 151,
-            "level": 82,
+            "level": 83,
             "name": "뮤"
         }
     ]

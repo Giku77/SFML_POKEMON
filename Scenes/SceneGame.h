@@ -51,6 +51,7 @@ protected:
 
 	bool isMsgbox = false;
 	bool isRed = false;
+	bool isBattleOrNpc = false;
 	sf::Music mainBgm;
 
 public:
