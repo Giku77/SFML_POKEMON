@@ -51,6 +51,7 @@ protected:
 
 	bool isMsgbox = false;
 	bool isRed = false;
+	sf::Music mainBgm;
 
 public:
 	SceneGame();

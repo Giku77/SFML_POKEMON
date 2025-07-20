@@ -33,6 +33,7 @@ protected:
 
 	int RandPokemon = 1;
 	float SceneAnimateTime = 0.f;
+	sf::Music bgm;
 public:
 	ScenePokeDev();
 	~ScenePokeDev() override;

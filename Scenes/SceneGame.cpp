@@ -28,6 +28,7 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
+	soundIds.push_back("sounds/UiSound.wav");
 	//PokemonDB::Instance().LoadFromJson("data/_pokemon_001-151.json");
 	ANI_CLIP_MGR.Load("animations/player_idle.csv");
 	ANI_CLIP_MGR.Load("animations/player_idle_Up.csv");
@@ -113,6 +114,14 @@ void SceneGame::Enter()
 	player->SetPosition(lastPlayerPos);
 	worldView.setCenter({ lastPlayerPos.x, lastPlayerPos.y + 100.f });
 	player->setPrevPos(lastPlayerPos);
+	if (!mainBgm.openFromFile("sounds/mainGame.wav")) // 음악 파일 경로
+	{
+		std::cout << "음악 파일 열기 실패!" << std::endl;
+	}
+
+	mainBgm.setLoop(true);   // 루프 재생 여부 (배경음이라면 보통 true)
+	mainBgm.setVolume(100.f); // 볼륨 (0~100)
+	mainBgm.play();
 	//wipe.reset();
 	Scene::Enter();
 }
@@ -126,6 +135,7 @@ void SceneGame::Exit()
 	isRed = false;
 	//uMgr.Clear();
 	wipe.reset();
+	mainBgm.stop();
 	Scene::Exit();
 }
 
@@ -191,6 +201,7 @@ void SceneGame::Update(float dt)
 		}
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::P)) {
+		SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/UiSound.wav"),false);
 		if(mypokeUi->GetActive()) mypokeUi->SetActive(false);
 		else {
 			mypokeUi->DataReload();
@@ -199,6 +210,7 @@ void SceneGame::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::I))
 	{
+		SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/UiSound.wav"),false);
 		if (invUI->GetActive()) invUI->Close();
 		else {
 			invUI->SetActive(true);

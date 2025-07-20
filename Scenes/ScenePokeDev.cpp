@@ -56,6 +56,9 @@ void ScenePokeDev::SetBackground(const std::string& path, const sf::IntRect& rec
 
 void ScenePokeDev::Init()
 {
+	//soundIds.push_back("sounds/Oak.wav");
+	soundIds.push_back("sounds/button.wav");
+
 	msgMgr.Load("data/messages.json");
 	story.Load("intro", msgMgr);
 	texIds.push_back("graphics/18507.png");
@@ -69,6 +72,8 @@ void ScenePokeDev::Init()
 	sf::String s;
 	sf::String ss;
 	button->SetOnClick([=]() mutable {
+		//SoundMgr::Instance().PlayBgm(SOUNDBUFFER_MGR.Get("sounds/button.wav"), false);
+		SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/button.wav"), false);
 		if (!story.IsFinished()) {
 			switch (story.getIndex())
 			{
@@ -146,12 +151,22 @@ void ScenePokeDev::Init()
 void ScenePokeDev::Enter()
 {
 	Scene::Enter();
+	if (!bgm.openFromFile("sounds/Oak.wav")) // 음악 파일 경로
+	{
+		std::cout << "음악 파일 열기 실패!" << std::endl;
+	}
+
+	bgm.setLoop(true);   // 루프 재생 여부 (배경음이라면 보통 true)
+	bgm.setVolume(100.f); // 볼륨 (0~100)
+	bgm.play();
+	//SOUND_MGR.PlayBgm(SOUNDBUFFER_MGR.Get("sounds/Oak.wav"), true);
 }
 
 void ScenePokeDev::Exit()
 {
 	Scene::Exit();
 	Uimgr->Clear();
+	bgm.stop();
 }
 
 void ScenePokeDev::Update(float dt)
