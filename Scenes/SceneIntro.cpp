@@ -2,6 +2,7 @@
 #include "SceneIntro.h"
 #include "Text.h"
 #include "BattleTransition.cpp"
+#include "SpriteAnimator.h"
 
 
 SceneIntro::SceneIntro()
@@ -13,6 +14,8 @@ SceneIntro::~SceneIntro()
 {
 	delete StartText;
 	StartText = nullptr;
+	delete intro;
+	intro = nullptr;
 }
 
 void SceneIntro::Init()
@@ -20,12 +23,23 @@ void SceneIntro::Init()
 	//std::cout << "init ÀÔÀå" << std::endl;
 	soundIds.push_back("sounds/Red_T.wav");
 	soundIds.push_back("sounds/TitleClick.wav");
-	//SOUNDBUFFER_MGR.Load()
-	newTex.loadFromFile("graphics/Title.png");
+	//newTex.loadFromFile("graphics/Title.png");
+	//newScreen.setTexture(newTex);
+	//sf::Vector2f pos = { 0.f,  0.f };
+	//newScreen.setPosition(ScreenToUi((sf::Vector2i)pos));
+	//newScreen.setScale(1.3f, 0.7f);
+	newTex.loadFromFile("graphics/Tit.png");
 	newScreen.setTexture(newTex);
 	sf::Vector2f pos = { 0.f,  0.f };
 	newScreen.setPosition(ScreenToUi((sf::Vector2i)pos));
-	newScreen.setScale(1.3f, 0.7f);
+	newScreen.setScale(2.6f, 1.65f);
+	intro = new SpriteAnimator(&newScreen, newTex, 500.f, 448.f, 0.06f);
+
+	titleTex.loadFromFile("graphics/pn.png");
+	titleScreen.setTexture(titleTex);
+	sf::Vector2f tpos = { 470.f,  10.f };
+	titleScreen.setPosition(ScreenToUi((sf::Vector2i)tpos));
+	titleScreen.setScale(0.28f, 0.2f);
 
 	StartText = new Text();
 	StartText->SetFillColor(sf::Color::Black);
@@ -75,6 +89,10 @@ void SceneIntro::Update(float dt)
 			SCENE_MGR.ChangeScene(SceneIds::Dev3);
 		}
 	}
+	if (intro->getIndex() == 58) {
+		intro->setIndex(0);
+	}
+	intro->Update(dt, true);
 	
 }
 
@@ -83,6 +101,7 @@ void SceneIntro::Draw(sf::RenderWindow& window)
 	Scene::Draw(window);
 	window.setView(window.getDefaultView());
 	if(isBgDraw) window.draw(newScreen);
+	if (isBgDraw) window.draw(titleScreen);
 	if(isTextDraw) StartText->Draw(window);
 	//window.setView(uiView);
 	//if(transs) transs->draw(window);

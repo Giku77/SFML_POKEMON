@@ -90,7 +90,7 @@
     <ClCompile Include="Framework\Text.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Building.cpp">
+    <ClCompile Include="Framework\Building.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -126,34 +126,34 @@
     <ClCompile Include="Framework\UiMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ShopUI.cpp">
+    <ClCompile Include="Framework\ShopUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ItemDB.cpp">
+    <ClCompile Include="Framework\ItemDB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BattleMgr.cpp">
+    <ClCompile Include="Framework\BattleMgr.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MoveDB.cpp">
+    <ClCompile Include="Framework\MoveDB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BattlePokemon.cpp">
+    <ClCompile Include="Framework\BattlePokemon.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="PokemonDB.cpp">
+    <ClCompile Include="Framework\PokemonDB.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="MyPokemonUI.cpp">
+    <ClCompile Include="Framework\MyPokemonUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp">
+    <ClCompile Include="Framework\Inventory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="InventoryUI.cpp">
+    <ClCompile Include="Framework\InventoryUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="BattleTransition.cpp">
+    <ClCompile Include="Framework\BattleTransition.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,7 +245,7 @@
     <ClInclude Include="Framework\json.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Building.h">
+    <ClInclude Include="Framework\Building.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
@@ -281,31 +281,31 @@
     <ClInclude Include="Framework\UiMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ShopUI.h">
+    <ClInclude Include="Framework\ShopUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ItemDB.h">
+    <ClInclude Include="Framework\ItemDB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="BattleMgr.h">
+    <ClInclude Include="Framework\BattleMgr.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MoveDB.h">
+    <ClInclude Include="Framework\MoveDB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="BattlePokemon.h">
+    <ClInclude Include="Framework\BattlePokemon.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PokemonDB.h">
+    <ClInclude Include="Framework\PokemonDB.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MyPokemonUI.h">
+    <ClInclude Include="Framework\MyPokemonUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h">
+    <ClInclude Include="Framework\Inventory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InventoryUI.h">
+    <ClInclude Include="Framework\InventoryUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -140,9 +140,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BattleMgr.cpp" />
-    <ClCompile Include="BattleTransition.cpp" />
-    <ClCompile Include="Building.cpp" />
+    <ClCompile Include="Framework\BattleMgr.cpp" />
+    <ClCompile Include="Framework\BattleTransition.cpp" />
+    <ClCompile Include="Framework\Building.cpp" />
     <ClCompile Include="Framework\Button.cpp" />
     <ClCompile Include="Framework\AnimationClip.cpp" />
     <ClCompile Include="Framework\Animator.cpp" />
@@ -154,17 +154,17 @@
     <ClCompile Include="Framework\SpriteGo.cpp" />
     <ClCompile Include="Framework\Scene.cpp" />
     <ClCompile Include="Framework\tinyxml2.cpp" />
-    <ClCompile Include="Inventory.cpp" />
-    <ClCompile Include="InventoryUI.cpp" />
-    <ClCompile Include="ItemDB.cpp" />
+    <ClCompile Include="Framework\Inventory.cpp" />
+    <ClCompile Include="Framework\InventoryUI.cpp" />
+    <ClCompile Include="Framework\ItemDB.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Framework\MessageMgr.cpp" />
-    <ClCompile Include="MoveDB.cpp" />
-    <ClCompile Include="MyPokemonUI.cpp" />
+    <ClCompile Include="Framework\MoveDB.cpp" />
+    <ClCompile Include="Framework\MyPokemonUI.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Framework\PokemonManager.cpp" />
-    <ClCompile Include="BattlePokemon.cpp" />
-    <ClCompile Include="PokemonDB.cpp" />
+    <ClCompile Include="Framework\BattlePokemon.cpp" />
+    <ClCompile Include="Framework\PokemonDB.cpp" />
     <ClCompile Include="Scenes\ScenePokeDev.cpp" />
     <ClCompile Include="Scenes\SceneEnd.cpp" />
     <ClCompile Include="Scenes\SceneBattle.cpp" />
@@ -175,7 +175,7 @@
     <ClCompile Include="Framework\SceneMgr.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
     <ClCompile Include="Framework\SpriteAnimator.cpp" />
-    <ClCompile Include="ShopUI.cpp" />
+    <ClCompile Include="Framework\ShopUI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -191,8 +191,8 @@
     <ClCompile Include="Framework\UiMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BattleMgr.h" />
-    <ClInclude Include="Building.h" />
+    <ClInclude Include="Framework\BattleMgr.h" />
+    <ClInclude Include="Framework\Building.h" />
     <ClInclude Include="Framework\Button.h" />
     <ClInclude Include="Framework\AnimationClip.h" />
     <ClInclude Include="Framework\Animator.h" />
@@ -210,15 +210,15 @@
     <ClInclude Include="Framework\Scene.h" />
     <ClInclude Include="Framework\tinyxml2.h" />
     <ClInclude Include="Framework\MessageMgr.h" />
-    <ClInclude Include="Inventory.h" />
-    <ClInclude Include="InventoryUI.h" />
-    <ClInclude Include="ItemDB.h" />
-    <ClInclude Include="MoveDB.h" />
-    <ClInclude Include="MyPokemonUI.h" />
+    <ClInclude Include="Framework\Inventory.h" />
+    <ClInclude Include="Framework\InventoryUI.h" />
+    <ClInclude Include="Framework\ItemDB.h" />
+    <ClInclude Include="Framework\MoveDB.h" />
+    <ClInclude Include="Framework\MyPokemonUI.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Framework\PokemonManager.h" />
-    <ClInclude Include="BattlePokemon.h" />
-    <ClInclude Include="PokemonDB.h" />
+    <ClInclude Include="Framework\BattlePokemon.h" />
+    <ClInclude Include="Framework\PokemonDB.h" />
     <ClInclude Include="Scenes\ScenePokeDev.h" />
     <ClInclude Include="Scenes\SceneEnd.h" />
     <ClInclude Include="Scenes\SceneBattle.h" />
@@ -229,7 +229,7 @@
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
     <ClInclude Include="Framework\SpriteAnimator.h" />
-    <ClInclude Include="ShopUI.h" />
+    <ClInclude Include="Framework\ShopUI.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Framework\TextGo.h" />
     <ClInclude Include="Framework\Utils.h" />
