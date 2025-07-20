@@ -17,18 +17,12 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
-	//delete ani;
-	//ani = nullptr;
-	//delete shopUi;
-	//shopUi = nullptr;
-	//delete mypokeUi;
-	//mypokeUi = nullptr;
-	/*if (tileMapObj) {
-		delete tileMapObj;
-		tileMapObj = nullptr;
-	}*/
-	//delete player;
-	//player = nullptr;
+	delete ani;
+	ani = nullptr;
+	delete shopUi;
+	shopUi = nullptr;
+	delete mypokeUi;
+	mypokeUi = nullptr;
 }
 
 void SceneGame::Init()
@@ -296,6 +290,7 @@ void SceneGame::Update(float dt)
 		if (!id.empty() && InputMgr::GetKeyDown(sf::Keyboard::LShift)) {
 			std::cout << "NPC 대화 여부" << std::endl;
 			if (id == "RED") {
+				//std::cout << "NPC 대화 레드" << std::endl;
 				auto* battle = dynamic_cast<SceneBattle*>(
 					SCENE_MGR.Get(SceneIds::Battle));
 				battle->SetisRed(true);

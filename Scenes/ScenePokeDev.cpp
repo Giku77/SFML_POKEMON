@@ -18,10 +18,6 @@ ScenePokeDev::ScenePokeDev()
 
 ScenePokeDev::~ScenePokeDev()
 {
-	delete button;
-	button = nullptr;
-	delete text;
-	text = nullptr;
 	delete anim;
 	anim = nullptr;
 }
@@ -150,6 +146,12 @@ void ScenePokeDev::Init()
 void ScenePokeDev::Enter()
 {
 	Scene::Enter();
+}
+
+void ScenePokeDev::Exit()
+{
+	Scene::Exit();
+	Uimgr->Clear();
 }
 
 void ScenePokeDev::Update(float dt)

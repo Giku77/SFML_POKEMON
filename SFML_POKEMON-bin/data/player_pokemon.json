@@ -4,10 +4,10 @@
         {
             "attack": 100,
             "defense": 100,
-            "experience": 56,
-            "hp": 91,
+            "experience": 58,
+            "hp": 1792,
             "id": 151,
-            "level": 11,
+            "level": 82,
             "name": "뮤"
         }
     ]

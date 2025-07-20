@@ -49,6 +49,7 @@ protected:
 	bool isGetPokemon = false;
 	bool isBattleNpcOrPos = false;
 	bool isRed = false;
+	bool isEnding = false;
 
 	std::vector<int> pokemonFrameCounts = {
 	3, 3, 6,  // 001~003 ¿ÃªÛ«ÿææ ~ ¿ÃªÛ«ÿ≤…

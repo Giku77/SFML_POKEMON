@@ -41,6 +41,7 @@ public:
 	void SetBackground(const std::string& path, const sf::IntRect& rect, sf::Sprite& s, sf::Texture& t, const Type& type, const sf::Vector2f& v = {1.f, 1.f});
 	void Init() override;
 	void Enter() override;
+	void Exit() override;
 
 	void Update(float dt) override;
 

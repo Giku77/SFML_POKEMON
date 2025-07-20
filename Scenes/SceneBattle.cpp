@@ -16,10 +16,8 @@ SceneBattle::SceneBattle()
 
 SceneBattle::~SceneBattle()
 {
-	//delete pokeName1;
-	//pokeName1 = nullptr;
-	//delete poke1;  
-	//poke1 = nullptr;
+	delete poke1; 
+	poke1 = nullptr;
 }
 
 std::vector<sf::IntRect> GetPokemonRects(int pokemonId, const std::vector<int>& frameCounts)
@@ -303,7 +301,7 @@ void SceneBattle::Update(float dt)
 	uiMgrBattle.Update(dt);
 	bmgr.Update(dt);
 	poke1->Update(dt, true);
-	if(bmgr.BattleOver()) {
+	if(bmgr.BattleOver() && !isEnding) {
 		overTime += dt;
 		if (overTime > 2.f) {
 			pmgr.LoadGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
@@ -314,7 +312,23 @@ void SceneBattle::Update(float dt)
 			pmgr.AddPokemon(ar[mPoke.id]);
 			pmgr.SaveGame(InputMgr::GetinputBuffer(), "data/player_pokemon.json");
 
-			SCENE_MGR.ChangeScene(SceneIds::Game);
+			if (isRed) {
+				battleMsg->SetString(L"...... 그런가.. \n너가 이제 챔피언이군.");
+				overTime = 0.f;
+				isEnding = true;
+			}
+			else {
+				SCENE_MGR.ChangeScene(SceneIds::Game);
+				overTime = 0.f;
+			}
+		}
+	}
+
+	if (isEnding) {
+		overTime += dt;
+		if (overTime > 2.f) {
+			SCENE_MGR.ChangeScene(SceneIds::End);
+			isEnding = false;
 			overTime = 0.f;
 		}
 	}
